@@ -1,4 +1,4 @@
-namespace Sudoku
+namespace Soduku
 {
     partial class BrettControl
     {

@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 
-namespace Sudoku
+namespace Soduku
 {
     public class Brett
     {

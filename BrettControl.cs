@@ -7,7 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Configuration;
 
-namespace Sudoku
+namespace Soduku
 {
     public partial class BrettControl : UserControl
     {

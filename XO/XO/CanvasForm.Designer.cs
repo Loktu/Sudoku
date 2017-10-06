@@ -1,4 +1,4 @@
-namespace Soduku
+namespace XO
 {
     partial class canvasForm
     {
@@ -29,35 +29,25 @@ namespace Soduku
         private void InitializeComponent()
         {
             this.menuStrip = new System.Windows.Forms.MenuStrip();
-            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.loadToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-            this.skrivFilToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.skrivSomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.clearMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.normalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.irregulærToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.size10ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.setupMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.diagonalToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.hintSingelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.autoSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.autoSingelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.auto1ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.auto2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.auto3ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.stepToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.brettControl = new Soduku.BrettControl();
+            this.brettControl = new XO.BrettControl();
             this.menuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // menuStrip
             // 
             this.menuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.fileToolStripMenuItem,
             this.clearMenuItem,
             this.setupMenuItem,
             this.optionsToolStripMenuItem,
@@ -69,41 +59,11 @@ namespace Soduku
             this.menuStrip.TabIndex = 0;
             this.menuStrip.Text = "menuStrip1";
             // 
-            // fileToolStripMenuItem
-            // 
-            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.loadToolStripMenuItem1,
-            this.skrivFilToolStripMenuItem,
-            this.skrivSomToolStripMenuItem});
-            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
-            this.fileToolStripMenuItem.Text = "File";
-            // 
-            // loadToolStripMenuItem1
-            // 
-            this.loadToolStripMenuItem1.Name = "loadToolStripMenuItem1";
-            this.loadToolStripMenuItem1.Size = new System.Drawing.Size(125, 22);
-            this.loadToolStripMenuItem1.Text = "Les fil";
-            this.loadToolStripMenuItem1.Click += new System.EventHandler(this.loadToolStripMenuItem1_Click);
-            // 
-            // skrivFilToolStripMenuItem
-            // 
-            this.skrivFilToolStripMenuItem.Name = "skrivFilToolStripMenuItem";
-            this.skrivFilToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
-            this.skrivFilToolStripMenuItem.Text = "Skriv fil";
-            this.skrivFilToolStripMenuItem.Click += new System.EventHandler(this.skrivFilToolStripMenuItem_Click);
-            // 
-            // skrivSomToolStripMenuItem
-            // 
-            this.skrivSomToolStripMenuItem.Name = "skrivSomToolStripMenuItem";
-            this.skrivSomToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
-            this.skrivSomToolStripMenuItem.Text = "Skriv som";
-            // 
             // clearMenuItem
             // 
             this.clearMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.normalToolStripMenuItem,
-            this.irregulærToolStripMenuItem});
+            this.size10ToolStripMenuItem});
             this.clearMenuItem.Name = "clearMenuItem";
             this.clearMenuItem.Size = new System.Drawing.Size(46, 20);
             this.clearMenuItem.Text = "Clear";
@@ -111,16 +71,16 @@ namespace Soduku
             // normalToolStripMenuItem
             // 
             this.normalToolStripMenuItem.Name = "normalToolStripMenuItem";
-            this.normalToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
-            this.normalToolStripMenuItem.Text = "Normal";
-            this.normalToolStripMenuItem.Click += new System.EventHandler(this.normalToolStripMenuItem_Click);
+            this.normalToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.normalToolStripMenuItem.Text = "Size 14";
+            this.normalToolStripMenuItem.Click += new System.EventHandler(this.clear14ToolStripMenuItem_Click);
             // 
-            // irregulærToolStripMenuItem
+            // size10ToolStripMenuItem
             // 
-            this.irregulærToolStripMenuItem.Name = "irregulærToolStripMenuItem";
-            this.irregulærToolStripMenuItem.Size = new System.Drawing.Size(122, 22);
-            this.irregulærToolStripMenuItem.Text = "Irregulær";
-            this.irregulærToolStripMenuItem.Click += new System.EventHandler(this.irregulærToolStripMenuItem_Click);
+            this.size10ToolStripMenuItem.Name = "size10ToolStripMenuItem";
+            this.size10ToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.size10ToolStripMenuItem.Text = "Size 10";
+            this.size10ToolStripMenuItem.Click += new System.EventHandler(this.clear10ToolStripMenuItem_Click);
             // 
             // setupMenuItem
             // 
@@ -130,21 +90,11 @@ namespace Soduku
             // optionsToolStripMenuItem
             // 
             this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.diagonalToolStripMenuItem1,
             this.hintSingelToolStripMenuItem,
-            this.autoSettingsToolStripMenuItem,
-            this.autoSingelToolStripMenuItem});
+            this.autoSettingsToolStripMenuItem});
             this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
             this.optionsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
             this.optionsToolStripMenuItem.Text = "Options";
-            // 
-            // diagonalToolStripMenuItem1
-            // 
-            this.diagonalToolStripMenuItem1.CheckOnClick = true;
-            this.diagonalToolStripMenuItem1.Name = "diagonalToolStripMenuItem1";
-            this.diagonalToolStripMenuItem1.Size = new System.Drawing.Size(145, 22);
-            this.diagonalToolStripMenuItem1.Text = "Diagonal";
-            this.diagonalToolStripMenuItem1.Click += new System.EventHandler(this.OnDiagonal);
             // 
             // hintSingelToolStripMenuItem
             // 
@@ -152,7 +102,7 @@ namespace Soduku
             this.hintSingelToolStripMenuItem.CheckOnClick = true;
             this.hintSingelToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.hintSingelToolStripMenuItem.Name = "hintSingelToolStripMenuItem";
-            this.hintSingelToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.hintSingelToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.hintSingelToolStripMenuItem.Text = "Hint";
             this.hintSingelToolStripMenuItem.Click += new System.EventHandler(this.OnHint);
             // 
@@ -160,49 +110,9 @@ namespace Soduku
             // 
             this.autoSettingsToolStripMenuItem.CheckOnClick = true;
             this.autoSettingsToolStripMenuItem.Name = "autoSettingsToolStripMenuItem";
-            this.autoSettingsToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
+            this.autoSettingsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.autoSettingsToolStripMenuItem.Text = "Auto";
             this.autoSettingsToolStripMenuItem.Click += new System.EventHandler(this.OnAuto);
-            // 
-            // autoSingelToolStripMenuItem
-            // 
-            this.autoSingelToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.auto1ToolStripMenuItem,
-            this.auto2ToolStripMenuItem,
-            this.auto3ToolStripMenuItem});
-            this.autoSingelToolStripMenuItem.Name = "autoSingelToolStripMenuItem";
-            this.autoSingelToolStripMenuItem.Size = new System.Drawing.Size(145, 22);
-            this.autoSingelToolStripMenuItem.Text = "Auto Settings";
-            // 
-            // auto1ToolStripMenuItem
-            // 
-            this.auto1ToolStripMenuItem.Checked = true;
-            this.auto1ToolStripMenuItem.CheckOnClick = true;
-            this.auto1ToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.auto1ToolStripMenuItem.Name = "auto1ToolStripMenuItem";
-            this.auto1ToolStripMenuItem.Size = new System.Drawing.Size(106, 22);
-            this.auto1ToolStripMenuItem.Text = "Auto1";
-            this.auto1ToolStripMenuItem.Click += new System.EventHandler(this.auto1ToolStripMenuItem_Click);
-            // 
-            // auto2ToolStripMenuItem
-            // 
-            this.auto2ToolStripMenuItem.Checked = true;
-            this.auto2ToolStripMenuItem.CheckOnClick = true;
-            this.auto2ToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.auto2ToolStripMenuItem.Name = "auto2ToolStripMenuItem";
-            this.auto2ToolStripMenuItem.Size = new System.Drawing.Size(106, 22);
-            this.auto2ToolStripMenuItem.Text = "Auto2";
-            this.auto2ToolStripMenuItem.Click += new System.EventHandler(this.auto2ToolStripMenuItem_Click);
-            // 
-            // auto3ToolStripMenuItem
-            // 
-            this.auto3ToolStripMenuItem.Checked = true;
-            this.auto3ToolStripMenuItem.CheckOnClick = true;
-            this.auto3ToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-            this.auto3ToolStripMenuItem.Name = "auto3ToolStripMenuItem";
-            this.auto3ToolStripMenuItem.Size = new System.Drawing.Size(106, 22);
-            this.auto3ToolStripMenuItem.Text = "Auto3";
-            this.auto3ToolStripMenuItem.Click += new System.EventHandler(this.auto3ToolStripMenuItem_Click);
             // 
             // aboutToolStripMenuItem
             // 
@@ -243,9 +153,6 @@ namespace Soduku
             // 
             this.brettControl.AccessibleName = "";
             this.brettControl.Auto = true;
-            this.brettControl.Auto1 = true;
-            this.brettControl.Auto2 = true;
-            this.brettControl.Auto3 = true;
             this.brettControl.BackColor = System.Drawing.Color.White;
             this.brettControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.brettControl.Hint = true;
@@ -282,23 +189,13 @@ namespace Soduku
         private System.Windows.Forms.ToolStripMenuItem saveToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem saveAsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem clearMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem skrivFilToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem skrivSomToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem diagonalToolStripMenuItem1;
-        private System.Windows.Forms.ToolStripMenuItem autoSingelToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem hintSingelToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem auto1ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem auto2ToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem auto3ToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem autoSettingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem normalToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem irregulærToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem stepToolStripMenuItem;
-
+        private System.Windows.Forms.ToolStripMenuItem size10ToolStripMenuItem;
     }
 }
 
