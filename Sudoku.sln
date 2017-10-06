@@ -7,6 +7,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sudoku", "Sudoku.csproj", "
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XO", "XO\XO\XO.csproj", "{5EFDB564-68EF-49A1-A1EA-0580EDF5D859}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bilde", "Bilde\Bilde.csproj", "{6D3D3B00-3401-44E4-8435-12A44B2557E1}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -21,6 +23,10 @@ Global
 		{5EFDB564-68EF-49A1-A1EA-0580EDF5D859}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5EFDB564-68EF-49A1-A1EA-0580EDF5D859}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5EFDB564-68EF-49A1-A1EA-0580EDF5D859}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6D3D3B00-3401-44E4-8435-12A44B2557E1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6D3D3B00-3401-44E4-8435-12A44B2557E1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6D3D3B00-3401-44E4-8435-12A44B2557E1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6D3D3B00-3401-44E4-8435-12A44B2557E1}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
