@@ -1,3 +1,5 @@
+using System;
+
 namespace Bilde
 {
     partial class BrettControl
@@ -47,6 +49,6 @@ namespace Bilde
 
         }
 
-        #endregion
-    }
+      #endregion
+   }
 }

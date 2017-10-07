@@ -1,5 +1,6 @@
 using System;
 using System.Collections.Generic;
+using System.Xml.Serialization;
 
 namespace Bilde
 {
@@ -29,8 +30,29 @@ namespace Bilde
          }
       }
 
+      public int size { get; set; }
+      [XmlIgnore]
       public Plass[,] brett;
-      public int size { get; private set; }
+      public List<Plass> plassListe;
+
+      public void ListeFromArray()
+      {
+         plassListe = new List<Plass>();
+         foreach (var plass in brett)
+            plassListe.Add(plass);
+      }
+      public void ArrayFromListe()
+      {
+         brett = new Plass[size, size];
+         int n = 0;
+         for (int x = 0; x < size; ++x)
+         {
+            for (int y = 0; y < size; ++y)
+            {
+               brett[x, y] = plassListe[n++];
+            }
+         }
+      }
 
       public Plass this[int x, int y]
       {
@@ -40,6 +62,11 @@ namespace Bilde
             if (y < 0 || y >= size) return null;
             return brett[x, y];
          }
+      }
+
+
+      public Brett()
+      {
       }
 
       public Brett(int brettSize=14)

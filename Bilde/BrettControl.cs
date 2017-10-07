@@ -6,6 +6,8 @@ using System.Data;
 using System.Text;
 using System.Windows.Forms;
 using System.Configuration;
+using System.IO;
+using System.Xml.Serialization;
 
 namespace Bilde
 {
@@ -34,7 +36,7 @@ namespace Bilde
          Hint = true;
 
          InitializeComponent();
-         brett = new Brett();
+         brett = new Brett(14);
          timer.Tick += new EventHandler(timer_Tick);
          timer.Interval = 10;
       }
@@ -195,6 +197,43 @@ namespace Bilde
       {
          mouseX = e.X;
          mouseY = e.Y;
+      }
+
+      public void Save(string fileName)
+      {
+         using (var streamWriter = new StreamWriter(fileName))
+         {
+            try
+            {
+               brett.ListeFromArray();
+               XmlSerializer serializer = new XmlSerializer(typeof(Brett));
+               serializer.Serialize(streamWriter, brett);
+            }
+            catch (Exception ex)
+            {
+               MessageBox.Show("Error: Could not write file to disk. Original error: " + ex.Message);
+            }
+            streamWriter.Close();
+         }
+      }
+
+
+      public void Read(string fileName)
+      {
+         using (var reader = new StreamReader(fileName))
+         {
+            try
+            {
+               XmlSerializer serializer = new XmlSerializer(typeof(Brett));
+               brett = (Brett)serializer.Deserialize(reader);
+               brett.ArrayFromListe();
+               Invalidate();
+            }
+            catch (Exception ex)
+            {
+               MessageBox.Show("Error: Could not read file from disk. Original error: " + ex.Message);
+            }
+         }
       }
 
    }
