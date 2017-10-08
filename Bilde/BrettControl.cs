@@ -19,8 +19,10 @@ namespace Bilde
       private Color tryColor = Color.Blue;
 
       int size = 10;
-      int xMin = 0;
-      int yMin = 0;
+      int x0 = 0;
+      int y0 = 0;
+      int xMin = 10;
+      int yMin = 10;
       int xMax = 300;
       int yMax = 300;
 
@@ -36,7 +38,7 @@ namespace Bilde
          Hint = true;
 
          InitializeComponent();
-         brett = new Brett(14);
+         brett = new Brett(15,10);
          timer.Tick += new EventHandler(timer_Tick);
          timer.Interval = 10;
       }
@@ -59,9 +61,9 @@ namespace Bilde
          Invalidate();
       }
 
-      public void Clear(int n)
+      public void Clear(int n, int m)
       {
-         brett.Clear(n);
+         brett.Clear(n,m);
          Invalidate();
       }
       public void SnuHint()
@@ -80,53 +82,73 @@ namespace Bilde
          int sizeX = r.Width;
          int sizeY = r.Height;
 
-         int N = brett.size;
+         int nl = brett.nLines;
+         int nc = brett.nColumns;
 
-         xMin = 1;
-         yMin = 1;
+         int ngk = brett.GruppeBredde();
+         int ngl = brett.GruppeHoyde();
 
-         if (sizeX > sizeY)
-            xMin = (sizeX - sizeY) / 2;
-         else if (sizeY > sizeX)
-            yMin = (sizeY - sizeX) / 2;
+         int numberOfPositionsL = nl + ngl;
+         int numberOfPositionsK = nc + ngk;
 
+         int sizel = sizeY / numberOfPositionsL;
+         int sizek = sizeX / numberOfPositionsK;
 
-         size = Math.Min(sizeX / N, sizeY / N);
+         size = Math.Min(sizel, sizek);
 
-         xMax = xMin + N * size;
-         yMax = yMin + N * size;
+         xMin = 0; //sizeX - (sizek * numberOfPositionsK) / 2;
+         yMin = 0; //sizeY - (sizel * numberOfPositionsL) / 2;
 
-         for (int row = 0; row < N; ++row)
+         xMax = xMin + numberOfPositionsK * size;
+         yMax = yMin + numberOfPositionsL * size;
+
+         x0 = xMin + ngk * size;
+         y0 = yMin + ngl * size;
+
+         for (int row = 0; row < nl; ++row)
          {
-            int y = yMin + size * row;
-            for (int col = 0; col < N; ++col)
+            int y = y0 + size * row;
+            for (int col = 0; col < nc; ++col)
             {
-               int x = xMin + size * col;
-               DrawValue(g, x, y, size, brett[col, row]);
+               int x1 = x0 + size * col;
+               DrawValue(g, x1, y, size, brett[row, col]);
+            }
+            int x = xMin;
+            foreach (var gruppe in brett.grupperPrLinje[row])
+            {
+               DrawString(g, x, y, size, gruppe.ToString());
+               x += size;
+            }
+         }
+         for (int col = 0; col < nc; ++col)
+         {
+            int x = x0 + size * col;
+            int y = yMin;
+            foreach (var gruppe in brett.grupperPrKolonne[col])
+            {
+               DrawString(g, x, y, size, gruppe.ToString());
+               y += size;
             }
          }
 
-         for (int row = 0; row <= N; ++row)
+         for (int row = 0; row <= nl; ++row)
          {
-            int y = yMin + size * row;
+            int y = y0 + size * row;
             g.DrawLine(brettPen, xMin, y, xMax, y);
          }
-         for (int col = 0; col <= N; ++col)
+         for (int col = 0; col <= nc; ++col)
          {
-            int x = xMin + size * col;
+            int x = x0 + size * col;
             g.DrawLine(brettPen, x, yMin, x, yMax);
          }
-         for (int row = 0; row <= N; row += N)
-         {
-            int y = yMin + size * row;
-            g.DrawLine(thickPen, xMin, y, xMax, y);
-         }
-         for (int col = 0; col <= N; col += N)
-         {
-            int x = xMin + size * col;
-            g.DrawLine(thickPen, x, yMin, x, yMax);
-         }
 
+         g.DrawLine(thickPen, xMin, yMin, xMax, yMin);
+         g.DrawLine(thickPen, xMin, y0, xMax, y0);
+         g.DrawLine(thickPen, xMin, yMax, xMax, yMax);
+
+         g.DrawLine(thickPen, xMin, yMin, xMin, yMax);
+         g.DrawLine(thickPen, x0, yMin, x0, yMax);
+         g.DrawLine(thickPen, xMax, yMin, xMax, yMax);
       }
 
       public void DrawValue(Graphics g, int x, int y, int size, Brett.Plass plass)
@@ -139,53 +161,44 @@ namespace Bilde
          g.FillRectangle(brush, x, y, size, size);
       }
 
+      public void DrawString(Graphics g, int x0, int y0, int size, string number)
+      {
+         int x = x0 + 1;
+         int y = y0 + 1;
+         float fontsize = size / 2;
+         if (fontsize > 3)
+         {
+            Font font = new Font(this.Font.Name, fontsize);
+            Brush brush = Brushes.Black;
+            g.DrawString(number, font, brush, x, y);
+         }
+      }
+
       private void OnMouseClick(object sender, MouseEventArgs e)
       {
          timer.Stop();
          timer.Interval = 100;
 
-         int x0 = (e.X - xMin);
-         int y0 = (e.Y - yMin);
+         int x = (e.X - x0);
+         int y = (e.Y - y0);
 
-         int i = x0 / size;
-         int j = y0 / size;
-
-         Brett.Plass plass = brett[i, j];
-         if (plass == null) return;
-
-         if (e.Button == MouseButtons.Left)
+         if (x > 0 && y >= 0)
          {
-            plass.SetVerdi(-1);
+            int j = x / size;
+            int i = y / size;
+
+            Brett.Plass plass = brett[i, j];
+            if (plass == null) return;
+
+            if (e.Button == MouseButtons.Left)
+            {
+               plass.SetVerdi(-1);
+            }
+            else if (e.Button == MouseButtons.Right)
+            {
+               plass.SetVerdi(1);
+            }
          }
-         else if (e.Button == MouseButtons.Right)
-         {
-            plass.SetVerdi(1);
-         }
-         Invalidate();
-         timer.Start();
-      }
-
-      private void BrettControl_KeyDown(object sender, KeyEventArgs e)
-      {
-         timer.Stop();
-         timer.Interval = 100;
-
-         int x0 = (mouseX - xMin);
-         int y0 = (mouseY - yMin);
-
-         int i = x0 / size;
-         int j = y0 / size;
-
-         if (i < 0) return;
-         if (j < 0) return;
-         if (i >= brett.size) return;
-         if (j >= brett.size) return;
-
-         var k = e.KeyData;
-         if (k.ToString().ToUpper() == "X")
-            brett[i, j].SetVerdi(-1);
-         if (k.ToString().ToUpper() == "O")
-            brett[i, j].SetVerdi(1);
          Invalidate();
          timer.Start();
       }
@@ -236,5 +249,35 @@ namespace Bilde
          }
       }
 
+      private void BrettControl_KeyPress(object sender, KeyPressEventArgs e)
+      {
+         timer.Stop();
+         timer.Interval = 100;
+
+         int x = (mouseX - x0);
+         int y = (mouseY - y0);
+
+         if (x < 0)
+         {
+            if (y > 0)
+            {
+               int i = (mouseY - y0) / size;
+               if (i < brett.grupperPrLinje.Count)
+               {
+                  brett.grupperPrLinje[i].Add(e.KeyChar);
+               }
+            }
+         }
+         else if (y < 0)
+         {
+            int j = (mouseX - x0) / size;
+            if (j < brett.grupperPrKolonne.Count)
+            {
+               brett.grupperPrKolonne[j].Add(e.KeyChar);
+            }
+         }
+         Invalidate();
+         timer.Start();
+      }
    }
 }

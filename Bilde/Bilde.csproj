@@ -70,6 +70,9 @@
     <EmbeddedResource Include="AboutBox.resx">
       <DependentUpon>AboutBox.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="BrettControl.resx">
+      <DependentUpon>BrettControl.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CanvasForm.resx">
       <DependentUpon>CanvasForm.cs</DependentUpon>
     </EmbeddedResource>

@@ -30,22 +30,22 @@ namespace Bilde
         /// </summary>
         private void InitializeComponent()
         {
-            this.SuspendLayout();
-            // 
-            // BrettControl
-            // 
-            this.AccessibleName = "";
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
-            this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.White;
-            this.DoubleBuffered = true;
-            this.Name = "BrettControl";
-            this.Size = new System.Drawing.Size(302, 240);
-            this.Paint += new System.Windows.Forms.PaintEventHandler(this.OnPaint);
-            this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.BrettControl_MouseMove);
-            this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.OnMouseClick);
-            this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.BrettControl_KeyDown);
-            this.ResumeLayout(false);
+         this.SuspendLayout();
+         // 
+         // BrettControl
+         // 
+         this.AccessibleName = "";
+         this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+         this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
+         this.BackColor = System.Drawing.Color.White;
+         this.DoubleBuffered = true;
+         this.Name = "BrettControl";
+         this.Size = new System.Drawing.Size(302, 240);
+         this.Paint += new System.Windows.Forms.PaintEventHandler(this.OnPaint);
+         this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.BrettControl_KeyPress);
+         this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.OnMouseClick);
+         this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.BrettControl_MouseMove);
+         this.ResumeLayout(false);
 
         }
 

@@ -39,17 +39,6 @@ namespace Bilde
          var aboutBox = new AboutBox();
          aboutBox.Show();
       }
-      private void clear14ToolStripMenuItem_Click(object sender, EventArgs e)
-      {
-         brettControl.Clear(14);
-         Invalidate();
-      }
-      private void clear10ToolStripMenuItem_Click(object sender, EventArgs e)
-      {
-         brettControl.Clear(10);
-         Invalidate();
-      }
-
 
       private void stepToolStripMenuItem_Click(object sender, EventArgs e)
       {
@@ -111,5 +100,37 @@ namespace Bilde
          }
       }
 
+      private void Clear_3x3_Click(object sender, EventArgs e)
+      {
+         brettControl.Clear(15, 15);
+         Invalidate();
+      }
+
+      private void Clear_3x4_Click(object sender, EventArgs e)
+      {
+         brettControl.Clear(20, 15);
+         Invalidate();
+
+      }
+
+      private void Clear_4x3_Click(object sender, EventArgs e)
+      {
+         brettControl.Clear(15, 20);
+         Invalidate();
+
+      }
+
+      private void Clear_4x4_Click(object sender, EventArgs e)
+      {
+
+         brettControl.Clear(20, 20);
+         Invalidate();
+      }
+
+      private void Clear_5x7_Click(object sender, EventArgs e)
+      {
+         brettControl.Clear(35, 25);
+         Invalidate();
+      }
    }
 }

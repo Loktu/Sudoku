@@ -29,9 +29,16 @@ namespace Bilde
         private void InitializeComponent()
         {
          this.menuStrip = new System.Windows.Forms.MenuStrip();
+         this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+         this.loadToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
+         this.skrivFilToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+         this.skrivSomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          this.clearMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-         this.normalToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-         this.size10ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+         this.Clear_3x3 = new System.Windows.Forms.ToolStripMenuItem();
+         this.Clear_3x4 = new System.Windows.Forms.ToolStripMenuItem();
+         this.Clear_4x3 = new System.Windows.Forms.ToolStripMenuItem();
+         this.Clear_4x4 = new System.Windows.Forms.ToolStripMenuItem();
+         this.Clear_5x7 = new System.Windows.Forms.ToolStripMenuItem();
          this.setupMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          this.hintSingelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -42,10 +49,6 @@ namespace Bilde
          this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          this.brettControl = new Bilde.BrettControl();
-         this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-         this.loadToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
-         this.skrivFilToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-         this.skrivSomToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          this.menuStrip.SuspendLayout();
          this.SuspendLayout();
          // 
@@ -64,28 +67,83 @@ namespace Bilde
          this.menuStrip.TabIndex = 0;
          this.menuStrip.Text = "menuStrip1";
          // 
+         // fileToolStripMenuItem
+         // 
+         this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.loadToolStripMenuItem1,
+            this.skrivFilToolStripMenuItem,
+            this.skrivSomToolStripMenuItem});
+         this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+         this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+         this.fileToolStripMenuItem.Text = "File";
+         // 
+         // loadToolStripMenuItem1
+         // 
+         this.loadToolStripMenuItem1.Name = "loadToolStripMenuItem1";
+         this.loadToolStripMenuItem1.Size = new System.Drawing.Size(125, 22);
+         this.loadToolStripMenuItem1.Text = "Les fil";
+         this.loadToolStripMenuItem1.Click += new System.EventHandler(this.loadMenu_Click);
+         // 
+         // skrivFilToolStripMenuItem
+         // 
+         this.skrivFilToolStripMenuItem.Name = "skrivFilToolStripMenuItem";
+         this.skrivFilToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+         this.skrivFilToolStripMenuItem.Text = "Skriv fil";
+         this.skrivFilToolStripMenuItem.Click += new System.EventHandler(this.skrivFilMenu_Click);
+         // 
+         // skrivSomToolStripMenuItem
+         // 
+         this.skrivSomToolStripMenuItem.Name = "skrivSomToolStripMenuItem";
+         this.skrivSomToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+         this.skrivSomToolStripMenuItem.Text = "Skriv som";
+         this.skrivSomToolStripMenuItem.Click += new System.EventHandler(this.skrivSomMenu_Click);
+         // 
          // clearMenuItem
          // 
          this.clearMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.normalToolStripMenuItem,
-            this.size10ToolStripMenuItem});
+            this.Clear_3x3,
+            this.Clear_3x4,
+            this.Clear_4x3,
+            this.Clear_4x4,
+            this.Clear_5x7});
          this.clearMenuItem.Name = "clearMenuItem";
          this.clearMenuItem.Size = new System.Drawing.Size(46, 20);
          this.clearMenuItem.Text = "Clear";
          // 
-         // normalToolStripMenuItem
+         // Clear_3x3
          // 
-         this.normalToolStripMenuItem.Name = "normalToolStripMenuItem";
-         this.normalToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
-         this.normalToolStripMenuItem.Text = "Size 14";
-         this.normalToolStripMenuItem.Click += new System.EventHandler(this.clear14ToolStripMenuItem_Click);
+         this.Clear_3x3.Name = "Clear_3x3";
+         this.Clear_3x3.Size = new System.Drawing.Size(152, 22);
+         this.Clear_3x3.Text = "3x3";
+         this.Clear_3x3.Click += new System.EventHandler(this.Clear_3x3_Click);
          // 
-         // size10ToolStripMenuItem
+         // Clear_3x4
          // 
-         this.size10ToolStripMenuItem.Name = "size10ToolStripMenuItem";
-         this.size10ToolStripMenuItem.Size = new System.Drawing.Size(109, 22);
-         this.size10ToolStripMenuItem.Text = "Size 10";
-         this.size10ToolStripMenuItem.Click += new System.EventHandler(this.clear10ToolStripMenuItem_Click);
+         this.Clear_3x4.Name = "Clear_3x4";
+         this.Clear_3x4.Size = new System.Drawing.Size(152, 22);
+         this.Clear_3x4.Text = "3x4";
+         this.Clear_3x4.Click += new System.EventHandler(this.Clear_3x4_Click);
+         // 
+         // Clear_4x3
+         // 
+         this.Clear_4x3.Name = "Clear_4x3";
+         this.Clear_4x3.Size = new System.Drawing.Size(152, 22);
+         this.Clear_4x3.Text = "4x3";
+         this.Clear_4x3.Click += new System.EventHandler(this.Clear_4x3_Click);
+         // 
+         // Clear_4x4
+         // 
+         this.Clear_4x4.Name = "Clear_4x4";
+         this.Clear_4x4.Size = new System.Drawing.Size(152, 22);
+         this.Clear_4x4.Text = "4x4";
+         this.Clear_4x4.Click += new System.EventHandler(this.Clear_4x4_Click);
+         // 
+         // Clear_5x7
+         // 
+         this.Clear_5x7.Name = "Clear_5x7";
+         this.Clear_5x7.Size = new System.Drawing.Size(152, 22);
+         this.Clear_5x7.Text = "5x7";
+         this.Clear_5x7.Click += new System.EventHandler(this.Clear_5x7_Click);
          // 
          // setupMenuItem
          // 
@@ -167,37 +225,6 @@ namespace Bilde
          this.brettControl.Step = false;
          this.brettControl.TabIndex = 2;
          // 
-         // fileToolStripMenuItem
-         // 
-         this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.loadToolStripMenuItem1,
-            this.skrivFilToolStripMenuItem,
-            this.skrivSomToolStripMenuItem});
-         this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
-         this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
-         this.fileToolStripMenuItem.Text = "File";
-         // 
-         // loadToolStripMenuItem1
-         // 
-         this.loadToolStripMenuItem1.Name = "loadToolStripMenuItem1";
-         this.loadToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
-         this.loadToolStripMenuItem1.Text = "Les fil";
-         this.loadToolStripMenuItem1.Click += new System.EventHandler(this.loadMenu_Click);
-         // 
-         // skrivFilToolStripMenuItem
-         // 
-         this.skrivFilToolStripMenuItem.Name = "skrivFilToolStripMenuItem";
-         this.skrivFilToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-         this.skrivFilToolStripMenuItem.Text = "Skriv fil";
-         this.skrivFilToolStripMenuItem.Click += new System.EventHandler(this.skrivFilMenu_Click);
-         // 
-         // skrivSomToolStripMenuItem
-         // 
-         this.skrivSomToolStripMenuItem.Name = "skrivSomToolStripMenuItem";
-         this.skrivSomToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-         this.skrivSomToolStripMenuItem.Text = "Skriv som";
-         this.skrivSomToolStripMenuItem.Click += new System.EventHandler(this.skrivSomMenu_Click);
-         // 
          // canvasForm
          // 
          this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -229,13 +256,16 @@ namespace Bilde
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem hintSingelToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem autoSettingsToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem normalToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem Clear_3x3;
         private System.Windows.Forms.ToolStripMenuItem stepToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem size10ToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem Clear_3x4;
       private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
       private System.Windows.Forms.ToolStripMenuItem loadToolStripMenuItem1;
       private System.Windows.Forms.ToolStripMenuItem skrivFilToolStripMenuItem;
       private System.Windows.Forms.ToolStripMenuItem skrivSomToolStripMenuItem;
+      private System.Windows.Forms.ToolStripMenuItem Clear_4x3;
+      private System.Windows.Forms.ToolStripMenuItem Clear_4x4;
+      private System.Windows.Forms.ToolStripMenuItem Clear_5x7;
    }
 }
 

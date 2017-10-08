@@ -1,15 +1,88 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Xml;
+using System.Xml.Schema;
 using System.Xml.Serialization;
 
 namespace Bilde
 {
    public class Brett
    {
+      public class GruppeListe: IEnumerable<int>
+      {
+         public GruppeListe()
+         {
+            stringListe = "";
+            liste = new List<int>();
+         }
+
+         public string stringListe;
+         [XmlIgnore]
+         List<int> liste;
+
+         [XmlIgnore]
+         public string Liste
+         {
+            get { return stringListe; }
+            set
+            {
+               stringListe = value;
+               StringToListe();
+            }
+         }
+         [XmlIgnore]
+         public int Count { get { return liste.Count; } }
+
+         public void StringToListe()
+         {
+            liste.Clear();
+            var grupper = stringListe.Split(',');
+            foreach (string gruppe in grupper)
+            {
+               int antall;
+               if (int.TryParse(gruppe, out antall))
+               {
+                  liste.Add(antall);
+               }
+            }
+         }
+
+         [XmlIgnore]
+         public int this[int i]
+         {
+            get { return liste[i]; }
+         }
+
+         public IEnumerator<int> GetEnumerator()
+         {
+            return ((IEnumerable<int>)liste).GetEnumerator();
+         }
+
+         IEnumerator IEnumerable.GetEnumerator()
+         {
+            return ((IEnumerable<int>)liste).GetEnumerator();
+         }
+
+         public void Add(char key)
+         {
+            var c = (char)key;
+            if (key == '-')
+            {
+               if (stringListe.Length > 0)
+                  stringListe = stringListe.Remove(stringListe.Length - 1);
+            }
+            else
+            {
+               stringListe += c;
+            }
+            StringToListe();
+         }
+      }
+
       public class Plass
       {
          public int verdi { get; set; } = 0;
-         public bool auto { get; set; } = false;
  
          public Plass()
          {
@@ -18,7 +91,6 @@ namespace Bilde
          public void Clear()
          {
             verdi = 0;
-            auto = false;
          }
 
          internal void SetVerdi(int v)
@@ -30,37 +102,98 @@ namespace Bilde
          }
       }
 
-      public int size { get; set; }
+      public int nLines;
+      public int nColumns;
+
       [XmlIgnore]
       public Plass[,] brett;
       public List<Plass> plassListe;
+
+      [XmlIgnore]
+      public List<GruppeListe> grupperPrLinje;
+      [XmlIgnore]
+      public List<GruppeListe> grupperPrKolonne;
+
+      public List<string> linjeListe;
+      public List<string> kolonneListe;
+
+      public int GruppeBredde()
+      {
+         int n = 1;
+         foreach(var liste in grupperPrLinje)
+         {
+            n = Math.Max(liste.Count, n);
+         }
+         return n;
+      }
+      public int GruppeHoyde()
+      {
+         int n = 1;
+         foreach (var liste in grupperPrKolonne)
+         {
+            n = Math.Max(liste.Count, n);
+         }
+         return n;
+      }
 
       public void ListeFromArray()
       {
          plassListe = new List<Plass>();
          foreach (var plass in brett)
             plassListe.Add(plass);
+
+         linjeListe = new List<string>();
+         foreach (var gruppeliste in this.grupperPrLinje)
+         {
+            linjeListe.Add(gruppeliste.stringListe);
+         }
+         kolonneListe = new List<string>();
+         foreach (var gruppeliste in this.grupperPrKolonne)
+         {
+            kolonneListe.Add(gruppeliste.stringListe);
+         }
+
       }
       public void ArrayFromListe()
       {
-         brett = new Plass[size, size];
+         brett = new Plass[nLines, nColumns];
          int n = 0;
-         for (int x = 0; x < size; ++x)
+         for (int x = 0; x < nLines; ++x)
          {
-            for (int y = 0; y < size; ++y)
+            for (int y = 0; y < nColumns; ++y)
             {
                brett[x, y] = plassListe[n++];
             }
          }
+         grupperPrLinje = new List<GruppeListe>();
+         n = 0;
+         grupperPrLinje = new List<GruppeListe>();
+         foreach (var gruppe in linjeListe)
+         {
+            var grupper = new GruppeListe();
+            grupper.stringListe = gruppe;
+            grupper.StringToListe();
+            grupperPrLinje.Add(grupper);
+         }
+         n = 0;
+         grupperPrKolonne = new List<GruppeListe>();
+         foreach (var gruppe in kolonneListe)
+         {
+            var grupper = new GruppeListe();
+            grupper.stringListe = gruppe;
+            grupper.StringToListe();
+            grupperPrKolonne.Add(grupper);
+         }
+
       }
 
-      public Plass this[int x, int y]
+      public Plass this[int l, int c]
       {
          get
          {
-            if (x < 0 || x >= size) return null;
-            if (y < 0 || y >= size) return null;
-            return brett[x, y];
+            if (l < 0 || l >= nLines) return null;
+            if (c < 0 || c >= nColumns) return null;
+            return brett[l, c];
          }
       }
 
@@ -69,31 +202,39 @@ namespace Bilde
       {
       }
 
-      public Brett(int brettSize=14)
+      public Brett(int nl, int nc)
       {
-         InitBrett(brettSize);
+         Clear(nl, nc);
       }
 
-      public void InitBrett(int brettSize)
+      internal void Clear(int n, int m)
       {
-         size = System.Math.Max(4, (2 * (brettSize / 2)));
-         brett = new Plass[size, size];
+         nLines = n;
+         nColumns = m;
+         InitBrett();
+      }
 
-         for (int x = 0; x < size; ++x)
+      public void InitBrett()
+      {
+         brett = new Plass[nLines, nColumns];
+
+         for (int x = 0; x < nLines; ++x)
          {
-            for (int y = 0; y < size; ++y)
+            for (int y = 0; y < nColumns; ++y)
             {
                brett[x, y] = new Plass();
             }
          }
-      }
 
-      public void Clear(int n)
-      {
-         InitBrett(n);
-         foreach (Plass plass in brett)
+         grupperPrLinje = new List<GruppeListe>();
+         grupperPrKolonne = new List<GruppeListe>();
+         for (int l = 0; l < nLines; ++l)
          {
-            plass.Clear();
+            grupperPrLinje.Add(new GruppeListe());
+         }
+         for (int c = 0; c < nColumns; ++c)
+         {
+            grupperPrKolonne.Add(new GruppeListe());
          }
       }
 
