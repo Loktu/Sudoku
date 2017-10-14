@@ -48,7 +48,6 @@ namespace Bilde
          this.ResumeLayout(false);
 
         }
-
       #endregion
    }
 }

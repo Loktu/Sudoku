@@ -28,13 +28,11 @@ namespace Bilde
 
       Timer timer = new Timer();
       public bool Auto { get; set; }
-      public bool Step { get; set; }
       public bool Hint { get; set; }
 
       public BrettControl()
       {
          Auto = false;
-         Step = false;
          Hint = true;
 
          InitializeComponent();
@@ -53,10 +51,6 @@ namespace Bilde
             {
                timer.Start();
             }
-         }
-         else if (Step)
-         {
-            brett.Step();
          }
          Invalidate();
       }
@@ -143,11 +137,19 @@ namespace Bilde
          }
 
          g.DrawLine(thickPen, xMin, yMin, xMax, yMin);
-         g.DrawLine(thickPen, xMin, y0, xMax, y0);
+         for (int row = 0; row < nl; row+=5)
+         {
+            int y = y0 + size * row;
+            g.DrawLine(thickPen, xMin, y, xMax, y);
+         }
          g.DrawLine(thickPen, xMin, yMax, xMax, yMax);
 
          g.DrawLine(thickPen, xMin, yMin, xMin, yMax);
-         g.DrawLine(thickPen, x0, yMin, x0, yMax);
+         for (int col = 0; col < nc; col+=5)
+         {
+            int x = x0 + size * col;
+            g.DrawLine(thickPen, x, yMin, x, yMax);
+         }
          g.DrawLine(thickPen, xMax, yMin, xMax, yMax);
       }
 
@@ -279,5 +281,18 @@ namespace Bilde
          Invalidate();
          timer.Start();
       }
+      public void Restart()
+      {
+         brett.Restart();
+         Invalidate();
+      }
+
+      public void Step()
+      {
+         brett.Step();
+         Invalidate();
+      }
+
+
    }
 }

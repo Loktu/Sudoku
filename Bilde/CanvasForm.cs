@@ -42,7 +42,7 @@ namespace Bilde
 
       private void stepToolStripMenuItem_Click(object sender, EventArgs e)
       {
-         brettControl.Step = this.stepToolStripMenuItem.Checked;
+         brettControl.Step();
          brettControl.Invalidate();
       }
 
@@ -131,6 +131,11 @@ namespace Bilde
       {
          brettControl.Clear(35, 25);
          Invalidate();
+      }
+
+      private void restartToolStripMenuItem_Click(object sender, EventArgs e)
+      {
+         brettControl.Restart();
       }
    }
 }
