@@ -313,11 +313,17 @@ namespace Bilde
 
       class Rom
       {
-
          public int start;
          public int slutt;
          public int Size() { return slutt - start + 1; }
          public List<Gruppe> muligeGrupper = new List<Gruppe>();
+         public List<Gruppe> erFørsteMuligeForGruppe = new List<Gruppe>();
+         public int Restplass()
+         {
+            int o = erFørsteMuligeForGruppe.Count;
+            foreach (var gruppe in erFørsteMuligeForGruppe) o += gruppe.size;
+            return Size() - o;
+         }
       }
       class Gruppe
       {
@@ -326,29 +332,107 @@ namespace Bilde
          public int index;
       }
 
-      private bool Step2(GruppeListe gruppeListe, Plass[] plass)
+      private bool Step(GruppeListe gruppeListe, Plass[] plass)
       {
          bool funnet = false;
+
+         // Lag Grupper
          List<Gruppe> grupper = new List<Gruppe>();
          int index = 0;
          foreach (var gruppe in gruppeListe)
          {
-               grupper.Add(new Gruppe() { size = gruppe, index = index++ });
+            grupper.Add(new Gruppe() { size = gruppe, index = index++ });
          }
-         List<Rom> romListe = new List<Rom>();
+         if (grupper.Count == 0) goto Feil;
 
          int i = 0;
-         int s = 0;
-         romListe.Add(new Rom() { start = i, slutt = s });
+         int s = plass.Length - 1;
+
+         // Siste ledige
+         while (s > i && plass[s].verdi == 1) { --s; }
+         // Første ledige
+         while (i < s && plass[i].verdi == 1) { ++i; }
+
+         //Finn rom
+         List<Rom> romListe = new List<Rom>();
          int h = i;
+         romListe.Add(new Rom() { start = h, slutt = s });
          while (FinnHvit(plass, ref h, s))
          {
             romListe[romListe.Count - 1].slutt = h - 1;
             while (h < s && plass[h].verdi == 1) { ++h; }
             romListe.Add(new Rom() { start = h, slutt = s });
          }
+         if (romListe.Count == 0) goto Feil;
 
+         // Finn mulige rom forfra, ingen kan være foran sin forgjenger
+         int irom = 0;
+         foreach (var gruppe in grupper)
+         {
+            while (romListe[irom].Restplass() < gruppe.size)
+            {
+               ++irom;
+               if (irom >= romListe.Count) goto Feil; // Feil
+            }
+            for (int jrom= irom; jrom<romListe.Count; ++jrom)
+            {
+               var rom = romListe[jrom];
+               if (rom.Size() >= gruppe.size)
+               {
+                  gruppe.muligeRom.Add(rom);
+                  rom.muligeGrupper.Add(gruppe);
+               }
+            }
+            if (gruppe.muligeRom.Count == 0) goto Feil; //Feil
+            romListe[irom].erFørsteMuligeForGruppe.Add(gruppe);
+            irom = romListe.IndexOf(gruppe.muligeRom[0]);
+         }
 
+         // Ingen kan være bak sin etterkommer
+         irom = romListe.Count - 1;
+         romListe[irom].erFørsteMuligeForGruppe.Clear();
+         grupper.Reverse();
+         foreach (var gruppe in grupper)
+         {
+            while (romListe[irom].Restplass() < gruppe.size)
+            {
+               --irom;
+               if (irom < 0) goto Feil; // Feil
+            }
+
+            var rom = gruppe.muligeRom[gruppe.muligeRom.Count - 1];
+            while (romListe.IndexOf(rom) > irom)
+            {
+               gruppe.muligeRom.Remove(rom);
+               rom.muligeGrupper.Remove(gruppe);
+               rom = gruppe.muligeRom[gruppe.muligeRom.Count - 1];
+            }
+            irom = romListe.IndexOf(rom);
+            romListe[irom].erFørsteMuligeForGruppe.Add(gruppe);
+         }
+         grupper.Reverse();
+
+         // Fjern ubrukelige rom
+         List<Rom> ubrukte = new List<Rom>();
+         foreach(var rom in romListe)
+         {
+            if (rom.muligeGrupper.Count == 0)
+               ubrukte.Add(rom);
+         }
+         foreach (var rom in ubrukte)
+         {
+            for (int j = romListe[0].start; j <= romListe[0].slutt; ++j) plass[j].verdi = 1;
+            romListe.Remove(rom);
+            funnet = true;
+            if (romListe.Count == 0) goto Feil;
+         }
+
+         goto End;
+         Feil:
+         funnet = false;
+
+         End:
+         funnet = Step2(gruppeListe, plass);
          return funnet;
       }
 
@@ -364,7 +448,7 @@ namespace Bilde
 
 
 
-      private bool Step(GruppeListe gruppeListe, Plass[] plass)
+      private bool Step2(GruppeListe gruppeListe, Plass[] plass)
       {
          bool done = false;
          int i = 0;
@@ -390,7 +474,7 @@ namespace Bilde
             int rom = s-i+1 - restBehov;
             int ns = rom - gruppeListe[g];
 
-            if (ns < 0) break; // Ikke plass, feil
+            if (ns < 0) break; // Feil, ikke plass
 
             int nt = gruppeListe[g] - ns;
             if (nt > 0)
