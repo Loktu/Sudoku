@@ -1,4 +1,4 @@
-﻿namespace Soduku
+﻿namespace XO
 {
     partial class AboutBox
     {

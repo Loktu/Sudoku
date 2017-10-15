@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Windows.Forms;
 using System.Configuration;
 
-namespace Soduku
+namespace Bilde
 {
     partial class AboutBox : Form
     {

@@ -7,7 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 
-namespace Sudoku
+namespace Soduku
 {
     public partial class EndreForm : Form
     {

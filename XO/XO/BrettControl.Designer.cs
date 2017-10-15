@@ -1,6 +1,6 @@
-namespace Soduku
+namespace XO
 {
-    partial class EndreControl
+    partial class BrettControl
     {
         /// <summary> 
         /// Required designer variable.
@@ -41,6 +41,7 @@ namespace Soduku
             this.Size = new System.Drawing.Size(302, 240);
             this.Paint += new System.Windows.Forms.PaintEventHandler(this.OnPaint);
             this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.BrettControl_MouseMove);
+            this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.OnMouseClick);
             this.KeyDown += new System.Windows.Forms.KeyEventHandler(this.BrettControl_KeyDown);
             this.ResumeLayout(false);
 

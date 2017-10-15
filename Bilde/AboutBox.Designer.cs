@@ -1,4 +1,4 @@
-﻿namespace Soduku
+﻿namespace Bilde
 {
     partial class AboutBox
     {
