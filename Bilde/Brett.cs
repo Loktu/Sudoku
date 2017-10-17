@@ -325,11 +325,23 @@ namespace Bilde
             return Size() - o;
          }
       }
+
       class Gruppe
       {
          public List<Rom> muligeRom = new List<Rom>();
          public int size;
          public int index;
+      }
+
+      private int BruktePlasser(Rom rom, ref Plass[] plasser)
+      {
+         int n = 0;
+         for (int i = rom.start; i <= rom.slutt; ++i)
+         {
+            if (plasser[i].verdi < 0)
+               ++n;
+         }
+         return n;
       }
 
       private bool Step(GruppeListe gruppeListe, Plass[] plass)
@@ -412,9 +424,54 @@ namespace Bilde
          }
          grupper.Reverse();
 
+         // Sjekk første og siste er besatt
+         foreach (var gruppe in grupper)
+         {
+            var førsteRom = gruppe.muligeRom[0];
+            if (BruktePlasser(førsteRom, ref plass) > 0)
+            {
+               if (førsteRom.muligeGrupper[0] == gruppe)
+               {
+                  // Må være i dette rommet
+                  //Fjern andre rom
+                  while (gruppe.muligeRom.Count > 1)
+                  {
+                     gruppe.muligeRom[1].muligeGrupper.Remove(gruppe);
+                     gruppe.muligeRom.RemoveAt(1);
+                  }
+               }
+            }
+            var sisteRom = gruppe.muligeRom[gruppe.muligeRom.Count-1];
+            if (BruktePlasser(sisteRom, ref plass) > 0)
+            {
+               if (sisteRom.muligeGrupper[sisteRom.muligeGrupper.Count-1] == gruppe)
+               {
+                  // Må være i dette rommet
+                  //Fjern andre rom
+                  while (gruppe.muligeRom.Count > 1)
+                  {
+                     gruppe.muligeRom[0].muligeGrupper.Remove(gruppe);
+                     gruppe.muligeRom.RemoveAt(0);
+                  }
+               }
+            }
+         }
+
+         foreach (var gruppe in grupper)
+         {
+            if (gruppe.muligeRom.Count == 1)
+            {
+               var rom = gruppe.muligeRom[0];
+               if (rom.muligeGrupper[0] == gruppe || rom.muligeGrupper[rom.muligeGrupper.Count-1] == gruppe)
+               {
+                  funnet |= SjekkRom(gruppe.muligeRom[0], ref plass);
+               }
+            }
+         }
+
          // Fjern ubrukelige rom
          List<Rom> ubrukte = new List<Rom>();
-         foreach(var rom in romListe)
+         foreach (var rom in romListe)
          {
             if (rom.muligeGrupper.Count == 0)
                ubrukte.Add(rom);
@@ -432,7 +489,7 @@ namespace Bilde
          funnet = false;
 
          End:
-         funnet = Step2(gruppeListe, plass);
+         //funnet = Step2(gruppeListe, plass);
          return funnet;
       }
 
@@ -447,36 +504,29 @@ namespace Bilde
       }
 
 
-
-      private bool Step2(GruppeListe gruppeListe, Plass[] plass)
+      bool SjekkRom(Rom rom, ref Plass[] plass)
       {
          bool done = false;
-         int i = 0;
-         int np = plass.Length;
-         int ng = gruppeListe.Count;
-         int restBehov = ng-1;
-         for (int g=0; g<ng; ++g)
+         int i = rom.start;
+         int s = rom.slutt;
+         int np = rom.Size();
+
+         int restBehov = rom.muligeGrupper.Count-1;
+         foreach (var gruppe in rom.muligeGrupper)
          {
-            restBehov += gruppeListe[g];
+            restBehov += gruppe.size;
          }
-         int s = np - 1;
-         // Siste ledige
-         while (s > i && plass[s].verdi == 1) { --s; }
 
-         for (int g = 0; g < ng; ++g)
+         foreach (var gruppe in rom.muligeGrupper)
          {
-            restBehov -= gruppeListe[g];
+            restBehov -= gruppe.size;
 
-            // Neste ledige
-            while (i < s && plass[i].verdi == 1) { ++i; }
-
-
-            int rom = s-i+1 - restBehov;
-            int ns = rom - gruppeListe[g];
+            int ledige = rom.Size() - restBehov;
+            int ns = ledige - gruppe.size;
 
             if (ns < 0) break; // Feil, ikke plass
 
-            int nt = gruppeListe[g] - ns;
+            int nt = gruppe.size - ns;
             if (nt > 0)
             {
                i += ns;
@@ -485,12 +535,57 @@ namespace Bilde
             }
             else
             {
-               i += gruppeListe[g];
+               i += gruppe.size;
             }
             restBehov -= 1;
             i += 1;
          }
          return done;
       }
+
+      //private bool Step2(GruppeListe gruppeListe, Plass[] plass)
+      //{
+      //   bool done = false;
+      //   int i = 0;
+      //   int np = plass.Length;
+      //   int ng = gruppeListe.Count;
+      //   int restBehov = ng-1;
+      //   for (int g=0; g<ng; ++g)
+      //   {
+      //      restBehov += gruppeListe[g];
+      //   }
+      //   int s = np - 1;
+      //   // Siste ledige
+      //   while (s > i && plass[s].verdi == 1) { --s; }
+
+      //   for (int g = 0; g < ng; ++g)
+      //   {
+      //      restBehov -= gruppeListe[g];
+
+      //      // Neste ledige
+      //      while (i < s && plass[i].verdi == 1) { ++i; }
+
+
+      //      int rom = s-i+1 - restBehov;
+      //      int ns = rom - gruppeListe[g];
+
+      //      if (ns < 0) break; // Feil, ikke plass
+
+      //      int nt = gruppeListe[g] - ns;
+      //      if (nt > 0)
+      //      {
+      //         i += ns;
+      //         for (int j = 0; j < nt; ++j) { plass[i++].verdi = -1; }
+      //         done = true;
+      //      }
+      //      else
+      //      {
+      //         i += gruppeListe[g];
+      //      }
+      //      restBehov -= 1;
+      //      i += 1;
+      //   }
+      //   return done;
+      //}
    }
 }

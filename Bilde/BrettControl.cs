@@ -90,8 +90,8 @@ namespace Bilde
 
          size = Math.Min(sizel, sizek);
 
-         xMin = 0; //sizeX - (sizek * numberOfPositionsK) / 2;
-         yMin = 0; //sizeY - (sizel * numberOfPositionsL) / 2;
+         xMin = 0;
+         yMin = 0;
 
          xMax = xMin + numberOfPositionsK * size;
          yMax = yMin + numberOfPositionsL * size;
@@ -107,7 +107,7 @@ namespace Bilde
                int x1 = x0 + size * col;
                DrawValue(g, x1, y, size, brett[row, col]);
             }
-            int x = xMin;
+            int x = x0 - size* brett.grupperPrLinje[row].Count;
             foreach (var gruppe in brett.grupperPrLinje[row])
             {
                DrawString(g, x, y, size, gruppe.ToString());
@@ -117,7 +117,7 @@ namespace Bilde
          for (int col = 0; col < nc; ++col)
          {
             int x = x0 + size * col;
-            int y = yMin;
+            int y = y0 - size * brett.grupperPrKolonne[col].Count;
             foreach (var gruppe in brett.grupperPrKolonne[col])
             {
                DrawString(g, x, y, size, gruppe.ToString());
