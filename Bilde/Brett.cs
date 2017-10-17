@@ -321,7 +321,10 @@ namespace Bilde
          public int Restplass()
          {
             int o = erFørsteMuligeForGruppe.Count;
-            foreach (var gruppe in erFørsteMuligeForGruppe) o += gruppe.size;
+            foreach (var gruppe in erFørsteMuligeForGruppe)
+            {
+               o += gruppe.size;
+            }
             return Size() - o;
          }
       }
@@ -398,35 +401,8 @@ namespace Bilde
             if (gruppe.muligeRom.Count == 0) goto Feil; //Feil
             romListe[irom].erFørsteMuligeForGruppe.Add(gruppe);
             irom = romListe.IndexOf(gruppe.muligeRom[0]);
-         }
 
-         // Ingen kan være bak sin etterkommer
-         irom = romListe.Count - 1;
-         romListe[irom].erFørsteMuligeForGruppe.Clear();
-         grupper.Reverse();
-         foreach (var gruppe in grupper)
-         {
-            while (romListe[irom].Restplass() < gruppe.size)
-            {
-               --irom;
-               if (irom < 0) goto Feil; // Feil
-            }
-
-            var rom = gruppe.muligeRom[gruppe.muligeRom.Count - 1];
-            while (romListe.IndexOf(rom) > irom)
-            {
-               gruppe.muligeRom.Remove(rom);
-               rom.muligeGrupper.Remove(gruppe);
-               rom = gruppe.muligeRom[gruppe.muligeRom.Count - 1];
-            }
-            irom = romListe.IndexOf(rom);
-            romListe[irom].erFørsteMuligeForGruppe.Add(gruppe);
-         }
-         grupper.Reverse();
-
-         // Sjekk første og siste er besatt
-         foreach (var gruppe in grupper)
-         {
+            // Sjekk om denne gruppa må være her
             var førsteRom = gruppe.muligeRom[0];
             if (BruktePlasser(førsteRom, ref plass) > 0)
             {
@@ -441,10 +417,34 @@ namespace Bilde
                   }
                }
             }
-            var sisteRom = gruppe.muligeRom[gruppe.muligeRom.Count-1];
+         }
+
+         // Ingen kan være bak sin etterkommer
+         irom = romListe.Count - 1;
+         romListe[irom].erFørsteMuligeForGruppe.Clear();
+         grupper.Reverse();
+         foreach (var gruppe in grupper)
+         {
+            while (romListe[irom] != gruppe.muligeRom[0] && romListe[irom].Restplass() < gruppe.size)
+            {
+               --irom;
+               if (irom < 0) goto Feil; // Feil
+            }
+
+            var rom = gruppe.muligeRom[gruppe.muligeRom.Count - 1];
+            while (romListe.IndexOf(rom) > irom)
+            {
+               gruppe.muligeRom.Remove(rom);
+               rom.muligeGrupper.Remove(gruppe);
+               rom = gruppe.muligeRom[gruppe.muligeRom.Count - 1];
+            }
+            irom = romListe.IndexOf(rom);
+            romListe[irom].erFørsteMuligeForGruppe.Add(gruppe);
+
+            var sisteRom = gruppe.muligeRom[gruppe.muligeRom.Count - 1];
             if (BruktePlasser(sisteRom, ref plass) > 0)
             {
-               if (sisteRom.muligeGrupper[sisteRom.muligeGrupper.Count-1] == gruppe)
+               if (sisteRom.muligeGrupper[sisteRom.muligeGrupper.Count - 1] == gruppe)
                {
                   // Må være i dette rommet
                   //Fjern andre rom
@@ -455,7 +455,43 @@ namespace Bilde
                   }
                }
             }
+
          }
+         grupper.Reverse();
+
+         // @Todo Flytt inn i løkka over
+         // Sjekk første og siste er besatt
+         //foreach (var gruppe in grupper)
+         //{
+         //   var førsteRom = gruppe.muligeRom[0];
+         //   if (BruktePlasser(førsteRom, ref plass) > 0)
+         //   {
+         //      if (førsteRom.muligeGrupper[0] == gruppe)
+         //      {
+         //         // Må være i dette rommet
+         //         //Fjern andre rom
+         //         while (gruppe.muligeRom.Count > 1)
+         //         {
+         //            gruppe.muligeRom[1].muligeGrupper.Remove(gruppe);
+         //            gruppe.muligeRom.RemoveAt(1);
+         //         }
+         //      }
+         //   }
+         //   var sisteRom = gruppe.muligeRom[gruppe.muligeRom.Count-1];
+         //   if (BruktePlasser(sisteRom, ref plass) > 0)
+         //   {
+         //      if (sisteRom.muligeGrupper[sisteRom.muligeGrupper.Count-1] == gruppe)
+         //      {
+         //         // Må være i dette rommet
+         //         //Fjern andre rom
+         //         while (gruppe.muligeRom.Count > 1)
+         //         {
+         //            gruppe.muligeRom[0].muligeGrupper.Remove(gruppe);
+         //            gruppe.muligeRom.RemoveAt(0);
+         //         }
+         //      }
+         //   }
+         //}
 
          foreach (var gruppe in grupper)
          {
