@@ -94,9 +94,18 @@ namespace Bilde
          }
       }
 
+      public enum Verdi { Sort=-1, Ledig=0, Hvit=1}
+
       public class Plass
       {
-         public int verdi { get; set; } = 0;
+         [XmlIgnore]
+         public Verdi verdi { get; set; } = Verdi.Ledig;
+         [XmlElement(ElementName = "verdi")]
+         public int xmlverdi
+         {
+            get { return (int)verdi; }
+            set { verdi = (Verdi)value; }
+         }
 
          public Plass()
          {
@@ -104,13 +113,13 @@ namespace Bilde
 
          public void Clear()
          {
-            verdi = 0;
+            verdi = Verdi.Ledig;
          }
 
-         public void SetVerdi(int v)
+         public void SetVerdi(Verdi v)
          {
             if (verdi == v)
-               verdi = 0;
+               verdi = Verdi.Ledig;
             else
                verdi = v;
          }
@@ -275,6 +284,7 @@ namespace Bilde
             plass.Clear();
          }
       }
+
       private void LagLinjerOgKollonner()
       {
          linjer = new Plass[nLines][];
@@ -341,11 +351,21 @@ namespace Bilde
          int n = 0;
          for (int i = rom.start; i <= rom.slutt; ++i)
          {
-            if (plasser[i].verdi < 0)
+            if (plasser[i].verdi == Verdi.Sort)
                ++n;
          }
          return n;
       }
+      private int ForsteBrukte(Rom rom, ref Plass[] plasser)
+      {
+         for (int i = rom.start; i <= rom.slutt; ++i)
+         {
+            if (plasser[i].verdi < Verdi.Sort)
+               return i;
+         }
+         return -1;
+      }
+
 
       private bool Step(GruppeListe gruppeListe, Plass[] plass)
       {
@@ -364,9 +384,9 @@ namespace Bilde
          int s = plass.Length - 1;
 
          // Siste ledige
-         while (s > i && plass[s].verdi == 1) { --s; }
+         while (s > i && plass[s].verdi == Verdi.Hvit) { --s; }
          // Første ledige
-         while (i < s && plass[i].verdi == 1) { ++i; }
+         while (i < s && plass[i].verdi == Verdi.Hvit) { ++i; }
 
          //Finn rom
          List<Rom> romListe = new List<Rom>();
@@ -375,7 +395,7 @@ namespace Bilde
          while (FinnHvit(plass, ref h, s))
          {
             romListe[romListe.Count - 1].slutt = h - 1;
-            while (h < s && plass[h].verdi == 1) { ++h; }
+            while (h < s && plass[h].verdi == Verdi.Hvit) { ++h; }
             romListe.Add(new Rom() { start = h, slutt = s });
          }
          if (romListe.Count == 0) goto Feil;
@@ -441,6 +461,7 @@ namespace Bilde
             irom = romListe.IndexOf(rom);
             romListe[irom].erFørsteMuligeForGruppe.Add(gruppe);
 
+            // Sjekk om denne gruppa må være her
             var sisteRom = gruppe.muligeRom[gruppe.muligeRom.Count - 1];
             if (BruktePlasser(sisteRom, ref plass) > 0)
             {
@@ -455,77 +476,60 @@ namespace Bilde
                   }
                }
             }
-
          }
          grupper.Reverse();
 
          // @Todo Flytt inn i løkka over
          // Sjekk første og siste er besatt
-         //foreach (var gruppe in grupper)
-         //{
-         //   var førsteRom = gruppe.muligeRom[0];
-         //   if (BruktePlasser(førsteRom, ref plass) > 0)
-         //   {
-         //      if (førsteRom.muligeGrupper[0] == gruppe)
-         //      {
-         //         // Må være i dette rommet
-         //         //Fjern andre rom
-         //         while (gruppe.muligeRom.Count > 1)
-         //         {
-         //            gruppe.muligeRom[1].muligeGrupper.Remove(gruppe);
-         //            gruppe.muligeRom.RemoveAt(1);
-         //         }
-         //      }
-         //   }
-         //   var sisteRom = gruppe.muligeRom[gruppe.muligeRom.Count-1];
-         //   if (BruktePlasser(sisteRom, ref plass) > 0)
-         //   {
-         //      if (sisteRom.muligeGrupper[sisteRom.muligeGrupper.Count-1] == gruppe)
-         //      {
-         //         // Må være i dette rommet
-         //         //Fjern andre rom
-         //         while (gruppe.muligeRom.Count > 1)
-         //         {
-         //            gruppe.muligeRom[0].muligeGrupper.Remove(gruppe);
-         //            gruppe.muligeRom.RemoveAt(0);
-         //         }
-         //      }
-         //   }
-         //}
-
          foreach (var gruppe in grupper)
          {
-            if (gruppe.muligeRom.Count == 1)
+            var førsteRom = gruppe.muligeRom[0];
+            if (BruktePlasser(førsteRom, ref plass) > 0)
             {
-               var rom = gruppe.muligeRom[0];
-               if (rom.muligeGrupper[0] == gruppe || rom.muligeGrupper[rom.muligeGrupper.Count-1] == gruppe)
+               if (førsteRom.muligeGrupper[0] == gruppe)
                {
-                  funnet |= SjekkRom(gruppe.muligeRom[0], ref plass);
+                  // Må være i dette rommet
+                  //Fjern andre rom
+                  while (gruppe.muligeRom.Count > 1)
+                  {
+                     gruppe.muligeRom[1].muligeGrupper.Remove(gruppe);
+                     gruppe.muligeRom.RemoveAt(1);
+                  }
+               }
+            }
+            var sisteRom = gruppe.muligeRom[gruppe.muligeRom.Count - 1];
+            if (BruktePlasser(sisteRom, ref plass) > 0)
+            {
+               if (sisteRom.muligeGrupper[sisteRom.muligeGrupper.Count - 1] == gruppe)
+               {
+                  // Må være i dette rommet
+                  //Fjern andre rom
+                  while (gruppe.muligeRom.Count > 1)
+                  {
+                     gruppe.muligeRom[0].muligeGrupper.Remove(gruppe);
+                     gruppe.muligeRom.RemoveAt(0);
+                  }
                }
             }
          }
 
-         // Fjern ubrukelige rom
-         List<Rom> ubrukte = new List<Rom>();
+         // Fyll ubrukelige rom med hvit
          foreach (var rom in romListe)
          {
             if (rom.muligeGrupper.Count == 0)
-               ubrukte.Add(rom);
-         }
-         foreach (var rom in ubrukte)
-         {
-            for (int j = romListe[0].start; j <= romListe[0].slutt; ++j) plass[j].verdi = 1;
-            romListe.Remove(rom);
-            funnet = true;
-            if (romListe.Count == 0) goto Feil;
+            {
+               for (int j = rom.start; j <= rom.slutt; ++j) plass[j].verdi = Verdi.Hvit;
+               funnet = true;
+            }
+            else
+               funnet |= SjekkRom(rom, ref plass);
          }
 
          goto End;
          Feil:
-         funnet = false;
+         funnet = true;
 
          End:
-         //funnet = Step2(gruppeListe, plass);
          return funnet;
       }
 
@@ -533,7 +537,7 @@ namespace Bilde
       {
          while (++h < s)
          {
-            if (plass[h].verdi == 1)
+            if (plass[h].verdi == Verdi.Hvit)
                return true;
          }
          return false;
@@ -547,81 +551,49 @@ namespace Bilde
          int s = rom.slutt;
          int np = rom.Size();
 
-         int restBehov = rom.muligeGrupper.Count-1;
+         var grupper = new List<Gruppe>();
          foreach (var gruppe in rom.muligeGrupper)
+         {
+            if (gruppe.muligeRom.Count == 1)
+               grupper.Add(gruppe);
+         }
+         if (grupper.Count < 1)
+            return false;
+
+         int restBehov = grupper.Count-1;
+         foreach (var gruppe in grupper)
          {
             restBehov += gruppe.size;
          }
+         int ledige = rom.Size() - restBehov;
 
-         foreach (var gruppe in rom.muligeGrupper)
+         if (ledige < 0)
+            return true; // Feil
+
+
+
+         foreach (var gruppe in grupper)
          {
-            restBehov -= gruppe.size;
-
-            int ledige = rom.Size() - restBehov;
-            int ns = ledige - gruppe.size;
-
-            if (ns < 0) break; // Feil, ikke plass
-
-            int nt = gruppe.size - ns;
-            if (nt > 0)
+            if (gruppe.size > ledige)
             {
-               i += ns;
-               for (int j = 0; j < nt; ++j) { plass[i++].verdi = -1; }
+               for (int j = 0; j < gruppe.size - ledige; ++j)
+               {
+                  plass[i + j + ledige].verdi = Verdi.Sort;
+               }
                done = true;
             }
-            else
+            if (ledige == 0)
             {
-               i += gruppe.size;
+               if (i > 0)
+                  plass[i - 1].verdi = Verdi.Hvit;
+               if (i + gruppe.size < plass.Length)
+                  plass[i + gruppe.size].verdi = Verdi.Hvit;
+               done = true;
             }
-            restBehov -= 1;
-            i += 1;
+            i += gruppe.size + 1;
          }
          return done;
       }
 
-      //private bool Step2(GruppeListe gruppeListe, Plass[] plass)
-      //{
-      //   bool done = false;
-      //   int i = 0;
-      //   int np = plass.Length;
-      //   int ng = gruppeListe.Count;
-      //   int restBehov = ng-1;
-      //   for (int g=0; g<ng; ++g)
-      //   {
-      //      restBehov += gruppeListe[g];
-      //   }
-      //   int s = np - 1;
-      //   // Siste ledige
-      //   while (s > i && plass[s].verdi == 1) { --s; }
-
-      //   for (int g = 0; g < ng; ++g)
-      //   {
-      //      restBehov -= gruppeListe[g];
-
-      //      // Neste ledige
-      //      while (i < s && plass[i].verdi == 1) { ++i; }
-
-
-      //      int rom = s-i+1 - restBehov;
-      //      int ns = rom - gruppeListe[g];
-
-      //      if (ns < 0) break; // Feil, ikke plass
-
-      //      int nt = gruppeListe[g] - ns;
-      //      if (nt > 0)
-      //      {
-      //         i += ns;
-      //         for (int j = 0; j < nt; ++j) { plass[i++].verdi = -1; }
-      //         done = true;
-      //      }
-      //      else
-      //      {
-      //         i += gruppeListe[g];
-      //      }
-      //      restBehov -= 1;
-      //      i += 1;
-      //   }
-      //   return done;
-      //}
    }
 }

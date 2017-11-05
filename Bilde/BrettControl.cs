@@ -156,9 +156,9 @@ namespace Bilde
       public void DrawValue(Graphics g, int x, int y, int size, Brett.Plass plass)
       {
          Brush brush = Brushes.LightGray;
-         if (plass.verdi < 0)
+         if (plass.verdi == Brett.Verdi.Sort)
             brush = Brushes.Black;
-         if (plass.verdi > 0)
+         if (plass.verdi == Brett.Verdi.Hvit)
             brush = Brushes.White;
          g.FillRectangle(brush, x, y, size, size);
       }
@@ -194,11 +194,11 @@ namespace Bilde
 
             if (e.Button == MouseButtons.Left)
             {
-               plass.SetVerdi(-1);
+               plass.SetVerdi(Brett.Verdi.Sort);
             }
             else if (e.Button == MouseButtons.Right)
             {
-               plass.SetVerdi(1);
+               plass.SetVerdi(Brett.Verdi.Hvit);
             }
          }
          Invalidate();
