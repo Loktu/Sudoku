@@ -137,5 +137,11 @@ namespace Bilde
       {
          brettControl.Restart();
       }
+
+      private void OnTellevennlig(object sender, EventArgs e)
+      {
+         brettControl.Tellevennlig = !brettControl.Tellevennlig;
+         Invalidate();
+      }
    }
 }

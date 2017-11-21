@@ -29,6 +29,7 @@ namespace Bilde
       Timer timer = new Timer();
       public bool Auto { get; set; }
       public bool Hint { get; set; }
+      public bool Tellevennlig { get; set; } = false;
 
       public BrettControl()
       {
@@ -156,11 +157,25 @@ namespace Bilde
       public void DrawValue(Graphics g, int x, int y, int size, Brett.Plass plass)
       {
          Brush brush = Brushes.LightGray;
+         Pen pen = Pens.Black;
          if (plass.verdi == Brett.Verdi.Sort)
+         {
             brush = Brushes.Black;
+            pen = Pens.White;
+         }
          if (plass.verdi == Brett.Verdi.Hvit)
+         {
             brush = Brushes.White;
-         g.FillRectangle(brush, x, y, size, size);
+         }
+         if (Tellevennlig)
+         {
+            g.FillRectangle(brush, x + 1, y + 1, size - 2, size - 2);
+            g.DrawRectangle(pen, x, y, size, size);
+         }
+         else
+         {
+            g.FillRectangle(brush, x, y, size, size);
+         }
       }
 
       public void DrawString(Graphics g, int x0, int y0, int size, string number)
