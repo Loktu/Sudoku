@@ -63,6 +63,7 @@ namespace Bilde
          {
             fileName = openFileDialog.FileName;
             brettControl.Read(fileName);
+            this.Text = "Bilde: " + fileName;
          }
       }
 
@@ -97,6 +98,7 @@ namespace Bilde
          {
             fileName = saveFileDialog.FileName;
             brettControl.Save(saveFileDialog.FileName);
+            this.Text = "Bilde: " + fileName;
          }
       }
 
