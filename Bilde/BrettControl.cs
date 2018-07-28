@@ -100,6 +100,7 @@ namespace Bilde
          x0 = xMin + ngk * size;
          y0 = yMin + ngl * size;
 
+         int sum = 0;
          for (int row = 0; row < nl; ++row)
          {
             int y = y0 + size * row;
@@ -113,6 +114,7 @@ namespace Bilde
             {
                DrawString(g, x, y, size, gruppe.ToString());
                x += size;
+               sum += gruppe;
             }
          }
          for (int col = 0; col < nc; ++col)
@@ -123,8 +125,11 @@ namespace Bilde
             {
                DrawString(g, x, y, size, gruppe.ToString());
                y += size;
+               sum -= gruppe;
             }
          }
+
+         DrawString(g, x0-size, y0-size, size, sum.ToString());
 
          for (int row = 0; row <= nl; ++row)
          {
