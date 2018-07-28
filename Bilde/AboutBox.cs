@@ -16,7 +16,7 @@ namespace Bilde
             InitializeComponent();
             this.Text = String.Format("About {0} {0}", AssemblyTitle);
             this.labelProductName.Text = AssemblyProduct;
-            this.labelVersion.Text = String.Format("Version {0} {0}", AssemblyVersion);
+            this.labelVersion.Text = String.Format("Version {0}", BuildTimeString);
             this.labelCopyright.Text = AssemblyCopyright;
             this.labelCompanyName.Text = AssemblyCompany;
             this.textBoxDescription.Text = AssemblyDescription;
@@ -49,7 +49,31 @@ namespace Bilde
             }
         }
 
-        public string AssemblyDescription
+      public string BuildTimeString
+      {
+         get
+         {
+            var buildTime = BuildTime;
+            var text = buildTime.ToShortDateString() + " " + buildTime.ToShortTimeString();
+            return text;
+         }
+      }
+
+      private DateTime BuildTime
+      {
+         get
+         {
+            var version = Assembly.GetExecutingAssembly().GetName().Version;
+            DateTime buildTime = new DateTime(2000, 1, 1)
+                .AddDays(version.Build)
+                .AddSeconds(version.Revision * 2);
+            return buildTime;
+         }
+      }
+
+
+
+      public string AssemblyDescription
         {
             get
             {

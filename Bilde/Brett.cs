@@ -440,8 +440,10 @@ namespace Bilde
          }
 
          // Ingen kan være bak sin etterkommer
+         foreach (Rom rom in romListe)
+            rom.erFørsteMuligeForGruppe.Clear();
          irom = romListe.Count - 1;
-         romListe[irom].erFørsteMuligeForGruppe.Clear();
+
          grupper.Reverse();
          foreach (var gruppe in grupper)
          {
