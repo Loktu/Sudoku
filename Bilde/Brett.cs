@@ -119,9 +119,26 @@ namespace Bilde
          public void SetVerdi(Verdi v)
          {
             if (verdi == v)
-               verdi = Verdi.Ledig;
+               Clear();
             else
                verdi = v;
+         }
+
+         [XmlIgnore]
+         private Verdi fasit { get; set; } = Verdi.Ledig;
+         [XmlElement(ElementName = "fasit")]
+         public int xmlfasit
+         {
+            get { return (int)fasit; }
+            set { fasit = (Verdi)value; }
+         }
+
+         public void SetFasit() { fasit = verdi; }
+         public void CheckFasit()
+         {
+            if (fasit != Verdi.Ledig)
+               if (verdi != fasit)
+                  Clear();
          }
       }
 
@@ -303,6 +320,28 @@ namespace Bilde
             for (int x = 0; x < nLines; ++x)
             {
                kolonner[y][x] = brett[x, y];
+            }
+         }
+      }
+
+      public void SetFasit()
+      {
+         for (int x = 0; x < nLines; ++x)
+         {
+            for (int y = 0; y < nColumns; ++y)
+            {
+               brett[x, y].SetFasit();
+            }
+         }
+      }
+
+      public void CheckFasit()
+      {
+         for (int x = 0; x < nLines; ++x)
+         {
+            for (int y = 0; y < nColumns; ++y)
+            {
+               brett[x, y].CheckFasit();
             }
          }
       }

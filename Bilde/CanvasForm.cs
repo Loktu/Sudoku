@@ -145,5 +145,16 @@ namespace Bilde
          brettControl.Tellevennlig = !brettControl.Tellevennlig;
          Invalidate();
       }
+
+      private void setFasitToolStripMenuItem_Click(object sender, EventArgs e)
+      {
+         brettControl.brett.SetFasit();
+      }
+
+      private void checkToolStripMenuItem_Click(object sender, EventArgs e)
+      {
+         brettControl.brett.CheckFasit();
+         brettControl.Invalidate();
+      }
    }
 }
