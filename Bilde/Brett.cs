@@ -348,6 +348,7 @@ namespace Bilde
 
       public bool Step()
       {
+         CheckFasit();
          bool done = false;
          for (int x = 0; x < nLines; ++x)
          {

@@ -8,7 +8,7 @@ using System.Runtime.InteropServices;
 [assembly: AssemblyTitle("Bilde")]
 [assembly: AssemblyDescription("")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("Arve")]
+[assembly: AssemblyCompany("Loktu")]
 [assembly: AssemblyProduct("Bilde")]
 [assembly: AssemblyCopyright("Copyright © Arve 2017")]
 [assembly: AssemblyTrademark("")]
