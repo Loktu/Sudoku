@@ -174,24 +174,6 @@ namespace Bilde
          this.optionsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
          this.optionsToolStripMenuItem.Text = "Options";
          // 
-         // hintSingelToolStripMenuItem
-         // 
-         this.hintSingelToolStripMenuItem.Checked = true;
-         this.hintSingelToolStripMenuItem.CheckOnClick = true;
-         this.hintSingelToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-         this.hintSingelToolStripMenuItem.Name = "hintSingelToolStripMenuItem";
-         this.hintSingelToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-         this.hintSingelToolStripMenuItem.Text = "Hint";
-         this.hintSingelToolStripMenuItem.Click += new System.EventHandler(this.OnHint);
-         // 
-         // autoSettingsToolStripMenuItem
-         // 
-         this.autoSettingsToolStripMenuItem.CheckOnClick = true;
-         this.autoSettingsToolStripMenuItem.Name = "autoSettingsToolStripMenuItem";
-         this.autoSettingsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-         this.autoSettingsToolStripMenuItem.Text = "Auto";
-         this.autoSettingsToolStripMenuItem.Click += new System.EventHandler(this.OnAuto);
-         // 
          // tellevennligToolStripMenuItem
          // 
          this.tellevennligToolStripMenuItem.Name = "tellevennligToolStripMenuItem";
@@ -244,10 +226,8 @@ namespace Bilde
          // brettControl
          // 
          this.brettControl.AccessibleName = "";
-         this.brettControl.Auto = true;
          this.brettControl.BackColor = System.Drawing.Color.White;
          this.brettControl.Dock = System.Windows.Forms.DockStyle.Fill;
-         this.brettControl.Hint = true;
          this.brettControl.Location = new System.Drawing.Point(0, 24);
          this.brettControl.Name = "brettControl";
          this.brettControl.Size = new System.Drawing.Size(565, 530);

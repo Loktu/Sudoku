@@ -13,6 +13,7 @@ namespace Bilde
 {
    public partial class BrettControl : UserControl
    {
+      private string fileName;
       public Brett brett;
       private Color brettColor = Color.Black;
       private Color safeColor = Color.Red;
@@ -27,43 +28,29 @@ namespace Bilde
       int yMax = 300;
 
       Timer timer = new Timer();
-      public bool Auto { get; set; }
-      public bool Hint { get; set; }
       public bool Tellevennlig { get; set; } = false;
 
       public BrettControl()
       {
-         Auto = false;
-         Hint = true;
-
          InitializeComponent();
-         brett = new Brett(15,10);
+         brett = new Brett(15, 10);
          timer.Tick += new EventHandler(timer_Tick);
-         timer.Interval = 10;
+         timer.Interval = 1000;
       }
 
       void timer_Tick(object sender, EventArgs e)
       {
          timer.Stop();
-         timer.Interval = Math.Max(2, (int)(timer.Interval - 1));
-         if (Auto)
-         {
-            if (brett.Step())
-            {
-               timer.Start();
-            }
-         }
+         TimeSpan interval = new TimeSpan(0, 0, 0, 0, timer.Interval);
+         brett.soFar += interval;
+         timer.Start();
          Invalidate();
       }
 
       public void Clear(int n, int m)
       {
-         brett.Clear(n,m);
-         Invalidate();
-      }
-      public void SnuHint()
-      {
-         Hint = !Hint;
+         fileName = null;
+         brett.Clear(n, m);
          Invalidate();
       }
 
@@ -109,7 +96,7 @@ namespace Bilde
                int x1 = x0 + size * col;
                DrawValue(g, x1, y, size, brett[row, col]);
             }
-            int x = x0 - size* brett.grupperPrLinje[row].Count;
+            int x = x0 - size * brett.grupperPrLinje[row].Count;
             foreach (var gruppe in brett.grupperPrLinje[row])
             {
                DrawString(g, x, y, size, gruppe.ToString());
@@ -129,7 +116,9 @@ namespace Bilde
             }
          }
 
-         DrawString(g, x0-size, y0-size, size, sum.ToString());
+         DrawString(g, x0 - size * 2, y0 - size, size, sum.ToString());
+         DrawString(g, 0, 0, size, "Rek:" + brett.record.ToString());
+         DrawString(g, 0, size, size, "Tid:" + brett.soFar.ToString());
 
          for (int row = 0; row <= nl; ++row)
          {
@@ -143,7 +132,7 @@ namespace Bilde
          }
 
          g.DrawLine(thickPen, xMin, yMin, xMax, yMin);
-         for (int row = 0; row < nl; row+=5)
+         for (int row = 0; row < nl; row += 5)
          {
             int y = y0 + size * row;
             g.DrawLine(thickPen, xMin, y, xMax, y);
@@ -151,7 +140,7 @@ namespace Bilde
          g.DrawLine(thickPen, xMin, yMax, xMax, yMax);
 
          g.DrawLine(thickPen, xMin, yMin, xMin, yMax);
-         for (int col = 0; col < nc; col+=5)
+         for (int col = 0; col < nc; col += 5)
          {
             int x = x0 + size * col;
             g.DrawLine(thickPen, x, yMin, x, yMax);
@@ -198,9 +187,6 @@ namespace Bilde
 
       private void OnMouseClick(object sender, MouseEventArgs e)
       {
-         timer.Stop();
-         timer.Interval = 100;
-
          int x = (e.X - x0);
          int y = (e.Y - y0);
 
@@ -221,8 +207,8 @@ namespace Bilde
                plass.SetVerdi(Brett.Verdi.Hvit);
             }
          }
+         sjekkRekord();
          Invalidate();
-         timer.Start();
       }
 
       int mouseX = 0;
@@ -243,6 +229,7 @@ namespace Bilde
                brett.ListeFromArray();
                XmlSerializer serializer = new XmlSerializer(typeof(Brett));
                serializer.Serialize(streamWriter, brett);
+               this.fileName = fileName;
             }
             catch (Exception ex)
             {
@@ -262,7 +249,10 @@ namespace Bilde
                XmlSerializer serializer = new XmlSerializer(typeof(Brett));
                brett = (Brett)serializer.Deserialize(reader);
                brett.ArrayFromListe();
+               this.fileName = fileName;
                Invalidate();
+               if (!brett.Ferdig())
+                  timer.Start();
             }
             catch (Exception ex)
             {
@@ -273,9 +263,6 @@ namespace Bilde
 
       private void BrettControl_KeyPress(object sender, KeyPressEventArgs e)
       {
-         timer.Stop();
-         timer.Interval = 100;
-
          int x = (mouseX - x0);
          int y = (mouseY - y0);
 
@@ -299,20 +286,40 @@ namespace Bilde
             }
          }
          Invalidate();
-         timer.Start();
       }
       public void Restart()
       {
          brett.Restart();
          Invalidate();
+
+         if (brett.HarFasit())
+            timer.Start();
       }
 
       public void Step()
       {
          brett.Step();
+         sjekkRekord();
          Invalidate();
       }
 
-
+      private void sjekkRekord()
+      {
+         if (timer.Enabled)
+         {
+            if (brett.Ferdig())
+            {
+               timer.Stop();
+               if ((brett.soFar < brett.record) || (brett.record.Seconds < 1))
+               {
+                  brett.record = brett.soFar;
+                  if (!string.IsNullOrEmpty(fileName))
+                  {
+                     Save(fileName);
+                  }
+               }
+            }
+         }
+      }
    }
 }

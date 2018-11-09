@@ -15,23 +15,11 @@ namespace Bilde
       public canvasForm()
       {
          InitializeComponent();
-
-         brettControl.Auto = this.autoSettingsToolStripMenuItem.Checked;
       }
 
       private void OnResize(object sender, EventArgs e)
       {
          Invalidate(true);
-      }
-      private void OnAuto(object sender, EventArgs e)
-      {
-         brettControl.Auto = this.autoSettingsToolStripMenuItem.Checked;
-         brettControl.Invalidate();
-      }
-
-      private void OnHint(object sender, EventArgs e)
-      {
-         brettControl.SnuHint();
       }
 
       private void OnAbout(object sender, EventArgs e)

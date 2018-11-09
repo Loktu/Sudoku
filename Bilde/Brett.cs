@@ -9,6 +9,26 @@ namespace Bilde
 {
    public class Brett
    {
+      [XmlIgnore]
+      public TimeSpan record { get; set; }
+      [XmlElement(ElementName = "record")]
+      public long xmlrecord
+      {
+         get { return record.Ticks; }
+         set { record = new TimeSpan(value); }
+      }
+
+      [XmlIgnore]
+      public TimeSpan soFar { get; set; }
+
+      [XmlElement(ElementName = "soFar")]
+      public long xmlsofar
+      {
+         get { return soFar.Ticks; }
+         set { soFar = new TimeSpan(value); }
+      }
+
+
       public class GruppeListe : IEnumerable<int>
       {
          public GruppeListe()
@@ -125,7 +145,7 @@ namespace Bilde
          }
 
          [XmlIgnore]
-         private Verdi fasit { get; set; } = Verdi.Ledig;
+         public Verdi fasit { get; private set; } = Verdi.Ledig;
          [XmlElement(ElementName = "fasit")]
          public int xmlfasit
          {
@@ -333,6 +353,34 @@ namespace Bilde
                brett[x, y].SetFasit();
             }
          }
+      }
+
+      internal bool HarFasit()
+      {
+         for (int x = 0; x < nLines; ++x)
+         {
+            for (int y = 0; y < nColumns; ++y)
+            {
+               if (brett[x, y].fasit == Verdi.Ledig)
+                  return false; ;
+            }
+         }
+         return true;
+      }
+
+      internal bool Ferdig()
+      {
+         for (int x = 0; x < nLines; ++x)
+         {
+            for (int y = 0; y < nColumns; ++y)
+            {
+               if (brett[x, y].fasit == Verdi.Ledig)
+                  return false; ;
+               if (brett[x, y].verdi != brett[x, y].fasit)
+                  return false; ;
+            }
+         }
+         return true;
       }
 
       public void CheckFasit()
