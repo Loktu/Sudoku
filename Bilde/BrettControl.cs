@@ -117,8 +117,12 @@ namespace Bilde
          }
 
          DrawString(g, x0 - size * 2, y0 - size, size, sum.ToString());
-         DrawString(g, 0, 0, size, "Rek:" + brett.record.ToString());
-         DrawString(g, 0, size, size, "Tid:" + brett.soFar.ToString());
+
+         if (brett.HarFasit())
+         {
+            DrawString(g, 0, 0, size, "Rek:" + brett.record.ToString());
+            DrawString(g, 0, size, size, "Tid:" + brett.soFar.ToString());
+         }
 
          for (int row = 0; row <= nl; ++row)
          {
