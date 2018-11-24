@@ -144,5 +144,11 @@ namespace Bilde
          brettControl.brett.CheckFasit();
          brettControl.Invalidate();
       }
+
+      private void setRekodToolStripMenuItem_Click(object sender, EventArgs e)
+      {
+         brettControl.setRekord();
+         brettControl.Invalidate();
+      }
    }
 }

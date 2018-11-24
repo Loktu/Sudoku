@@ -325,5 +325,13 @@ namespace Bilde
             }
          }
       }
+
+      public void setRekord()
+      {
+         if (brett.Ferdig())
+         {
+            brett.record = brett.soFar;
+         }
+      }
    }
 }
