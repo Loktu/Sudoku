@@ -286,6 +286,7 @@ namespace Bilde
       {
          foreach (var plass in brett)
             plass.Clear();
+         soFar = TimeSpan.Zero;
       }
 
 
