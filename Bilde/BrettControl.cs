@@ -331,6 +331,10 @@ namespace Bilde
          if (brett.Ferdig())
          {
             brett.record = brett.soFar;
+            if (!string.IsNullOrEmpty(fileName))
+            {
+               Save(fileName);
+            }
          }
       }
    }
