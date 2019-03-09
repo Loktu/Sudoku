@@ -337,5 +337,10 @@ namespace Bilde
             }
          }
       }
+
+      public void Tell()
+      {
+         brett.Tell();
+      }
    }
 }

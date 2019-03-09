@@ -112,6 +112,24 @@ namespace Bilde
             }
             StringToListe();
          }
+
+         public void Tell(Plass[] plass)
+         {
+            stringListe = "";
+            int i = 0;
+            while (i < plass.Length)
+            {
+               while (i < plass.Length && plass[i].verdi != Verdi.Sort) { ++i; }
+               if (i < plass.Length)
+               {
+                  int s = i;
+                  while (i < plass.Length && plass[i].verdi == Verdi.Sort) { ++i; }
+                  int n = i - s;
+                  stringListe += n.ToString() + " ";
+               }
+            }
+            StringToListe();
+         }
       }
 
       public enum Verdi { Sort=-1, Ledig=0, Hvit=1}
@@ -405,7 +423,7 @@ namespace Bilde
          }
          for (int y = 0; y < nColumns; ++y)
          {
-            done |= Step(this.grupperPrKolonne[y], kolonner[y]);
+            done |= Step(grupperPrKolonne[y], kolonner[y]);
          }
          return done;
       }
@@ -684,6 +702,18 @@ namespace Bilde
             i += gruppe.size + 1;
          }
          return done;
+      }
+
+      public void Tell()
+      {
+         for (int x = 0; x < nLines; ++x)
+         {
+            grupperPrLinje[x].Tell(linjer[x]);
+         }
+         for (int y = 0; y < nColumns; ++y)
+         {
+            grupperPrKolonne[y].Tell(kolonner[y]);
+         }
       }
 
    }

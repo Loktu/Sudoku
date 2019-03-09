@@ -150,5 +150,11 @@ namespace Bilde
          brettControl.setRekord();
          brettControl.Invalidate();
       }
+
+      private void tellToolStripMenuItem_Click(object sender, EventArgs e)
+      {
+         brettControl.Tell();
+         brettControl.Invalidate();
+      }
    }
 }

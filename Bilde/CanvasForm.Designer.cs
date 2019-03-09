@@ -45,13 +45,14 @@ namespace Bilde
          this.tellevennligToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          this.setFasitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          this.checkFasitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+         this.setRekodToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          this.stepToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          this.brettControl = new Bilde.BrettControl();
-         this.setRekodToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+         this.tellToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          this.menuStrip.SuspendLayout();
          this.SuspendLayout();
          // 
@@ -167,7 +168,8 @@ namespace Bilde
             this.tellevennligToolStripMenuItem,
             this.setFasitToolStripMenuItem,
             this.checkFasitToolStripMenuItem,
-            this.setRekodToolStripMenuItem});
+            this.setRekodToolStripMenuItem,
+            this.tellToolStripMenuItem});
          this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
          this.optionsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
          this.optionsToolStripMenuItem.Text = "Options";
@@ -192,6 +194,13 @@ namespace Bilde
          this.checkFasitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
          this.checkFasitToolStripMenuItem.Text = "Sjekk fasit";
          this.checkFasitToolStripMenuItem.Click += new System.EventHandler(this.checkToolStripMenuItem_Click);
+         // 
+         // setRekodToolStripMenuItem
+         // 
+         this.setRekodToolStripMenuItem.Name = "setRekodToolStripMenuItem";
+         this.setRekodToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+         this.setRekodToolStripMenuItem.Text = "Set rekod";
+         this.setRekodToolStripMenuItem.Click += new System.EventHandler(this.setRekodToolStripMenuItem_Click);
          // 
          // aboutToolStripMenuItem
          // 
@@ -239,12 +248,12 @@ namespace Bilde
          this.brettControl.TabIndex = 2;
          this.brettControl.Tellevennlig = false;
          // 
-         // setRekodToolStripMenuItem
+         // tellToolStripMenuItem
          // 
-         this.setRekodToolStripMenuItem.Name = "setRekodToolStripMenuItem";
-         this.setRekodToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-         this.setRekodToolStripMenuItem.Text = "Set rekod";
-         this.setRekodToolStripMenuItem.Click += new System.EventHandler(this.setRekodToolStripMenuItem_Click);
+         this.tellToolStripMenuItem.Name = "tellToolStripMenuItem";
+         this.tellToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+         this.tellToolStripMenuItem.Text = "Tell";
+         this.tellToolStripMenuItem.Click += new System.EventHandler(this.tellToolStripMenuItem_Click);
          // 
          // canvasForm
          // 
@@ -290,6 +299,7 @@ namespace Bilde
       private System.Windows.Forms.ToolStripMenuItem setFasitToolStripMenuItem;
       private System.Windows.Forms.ToolStripMenuItem checkFasitToolStripMenuItem;
       private System.Windows.Forms.ToolStripMenuItem setRekodToolStripMenuItem;
+      private System.Windows.Forms.ToolStripMenuItem tellToolStripMenuItem;
    }
 }
 
