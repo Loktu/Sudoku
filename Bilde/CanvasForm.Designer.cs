@@ -42,15 +42,17 @@ namespace Bilde
          this.Clear_5x7 = new System.Windows.Forms.ToolStripMenuItem();
          this.setupMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          this.optionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-         this.hintSingelToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-         this.autoSettingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+         this.tellevennligToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+         this.setFasitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+         this.checkFasitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+         this.setRekodToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          this.stepToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          this.brettControl = new Bilde.BrettControl();
-         this.tellevennligToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+         this.tellToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          this.menuStrip.SuspendLayout();
          this.SuspendLayout();
          // 
@@ -123,35 +125,35 @@ namespace Bilde
          // Clear_3x3
          // 
          this.Clear_3x3.Name = "Clear_3x3";
-         this.Clear_3x3.Size = new System.Drawing.Size(152, 22);
+         this.Clear_3x3.Size = new System.Drawing.Size(91, 22);
          this.Clear_3x3.Text = "3x3";
          this.Clear_3x3.Click += new System.EventHandler(this.Clear_3x3_Click);
          // 
          // Clear_3x4
          // 
          this.Clear_3x4.Name = "Clear_3x4";
-         this.Clear_3x4.Size = new System.Drawing.Size(152, 22);
+         this.Clear_3x4.Size = new System.Drawing.Size(91, 22);
          this.Clear_3x4.Text = "3x4";
          this.Clear_3x4.Click += new System.EventHandler(this.Clear_3x4_Click);
          // 
          // Clear_4x3
          // 
          this.Clear_4x3.Name = "Clear_4x3";
-         this.Clear_4x3.Size = new System.Drawing.Size(152, 22);
+         this.Clear_4x3.Size = new System.Drawing.Size(91, 22);
          this.Clear_4x3.Text = "4x3";
          this.Clear_4x3.Click += new System.EventHandler(this.Clear_4x3_Click);
          // 
          // Clear_4x4
          // 
          this.Clear_4x4.Name = "Clear_4x4";
-         this.Clear_4x4.Size = new System.Drawing.Size(152, 22);
+         this.Clear_4x4.Size = new System.Drawing.Size(91, 22);
          this.Clear_4x4.Text = "4x4";
          this.Clear_4x4.Click += new System.EventHandler(this.Clear_4x4_Click);
          // 
          // Clear_5x7
          // 
          this.Clear_5x7.Name = "Clear_5x7";
-         this.Clear_5x7.Size = new System.Drawing.Size(152, 22);
+         this.Clear_5x7.Size = new System.Drawing.Size(91, 22);
          this.Clear_5x7.Text = "5x7";
          this.Clear_5x7.Click += new System.EventHandler(this.Clear_5x7_Click);
          // 
@@ -163,30 +165,42 @@ namespace Bilde
          // optionsToolStripMenuItem
          // 
          this.optionsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.hintSingelToolStripMenuItem,
-            this.autoSettingsToolStripMenuItem,
-            this.tellevennligToolStripMenuItem});
+            this.tellevennligToolStripMenuItem,
+            this.setFasitToolStripMenuItem,
+            this.checkFasitToolStripMenuItem,
+            this.setRekodToolStripMenuItem,
+            this.tellToolStripMenuItem});
          this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
          this.optionsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
          this.optionsToolStripMenuItem.Text = "Options";
          // 
-         // hintSingelToolStripMenuItem
+         // tellevennligToolStripMenuItem
          // 
-         this.hintSingelToolStripMenuItem.Checked = true;
-         this.hintSingelToolStripMenuItem.CheckOnClick = true;
-         this.hintSingelToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
-         this.hintSingelToolStripMenuItem.Name = "hintSingelToolStripMenuItem";
-         this.hintSingelToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-         this.hintSingelToolStripMenuItem.Text = "Hint";
-         this.hintSingelToolStripMenuItem.Click += new System.EventHandler(this.OnHint);
+         this.tellevennligToolStripMenuItem.Name = "tellevennligToolStripMenuItem";
+         this.tellevennligToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+         this.tellevennligToolStripMenuItem.Text = "Tellevennlig";
+         this.tellevennligToolStripMenuItem.Click += new System.EventHandler(this.OnTellevennlig);
          // 
-         // autoSettingsToolStripMenuItem
+         // setFasitToolStripMenuItem
          // 
-         this.autoSettingsToolStripMenuItem.CheckOnClick = true;
-         this.autoSettingsToolStripMenuItem.Name = "autoSettingsToolStripMenuItem";
-         this.autoSettingsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-         this.autoSettingsToolStripMenuItem.Text = "Auto";
-         this.autoSettingsToolStripMenuItem.Click += new System.EventHandler(this.OnAuto);
+         this.setFasitToolStripMenuItem.Name = "setFasitToolStripMenuItem";
+         this.setFasitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+         this.setFasitToolStripMenuItem.Text = "Set fasit";
+         this.setFasitToolStripMenuItem.Click += new System.EventHandler(this.setFasitToolStripMenuItem_Click);
+         // 
+         // checkFasitToolStripMenuItem
+         // 
+         this.checkFasitToolStripMenuItem.Name = "checkFasitToolStripMenuItem";
+         this.checkFasitToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+         this.checkFasitToolStripMenuItem.Text = "Sjekk fasit";
+         this.checkFasitToolStripMenuItem.Click += new System.EventHandler(this.checkToolStripMenuItem_Click);
+         // 
+         // setRekodToolStripMenuItem
+         // 
+         this.setRekodToolStripMenuItem.Name = "setRekodToolStripMenuItem";
+         this.setRekodToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+         this.setRekodToolStripMenuItem.Text = "Set rekod";
+         this.setRekodToolStripMenuItem.Click += new System.EventHandler(this.setRekodToolStripMenuItem_Click);
          // 
          // aboutToolStripMenuItem
          // 
@@ -226,22 +240,20 @@ namespace Bilde
          // brettControl
          // 
          this.brettControl.AccessibleName = "";
-         this.brettControl.Auto = true;
          this.brettControl.BackColor = System.Drawing.Color.White;
          this.brettControl.Dock = System.Windows.Forms.DockStyle.Fill;
-         this.brettControl.Hint = true;
          this.brettControl.Location = new System.Drawing.Point(0, 24);
          this.brettControl.Name = "brettControl";
          this.brettControl.Size = new System.Drawing.Size(565, 530);
          this.brettControl.TabIndex = 2;
          this.brettControl.Tellevennlig = false;
          // 
-         // tellevennligToolStripMenuItem
+         // tellToolStripMenuItem
          // 
-         this.tellevennligToolStripMenuItem.Name = "tellevennligToolStripMenuItem";
-         this.tellevennligToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
-         this.tellevennligToolStripMenuItem.Text = "Tellevennlig";
-         this.tellevennligToolStripMenuItem.Click += new System.EventHandler(this.OnTellevennlig);
+         this.tellToolStripMenuItem.Name = "tellToolStripMenuItem";
+         this.tellToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+         this.tellToolStripMenuItem.Text = "Tell";
+         this.tellToolStripMenuItem.Click += new System.EventHandler(this.tellToolStripMenuItem_Click);
          // 
          // canvasForm
          // 
@@ -272,8 +284,6 @@ namespace Bilde
         private System.Windows.Forms.ToolStripMenuItem clearMenuItem;
         private System.Windows.Forms.ToolStripMenuItem optionsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem hintSingelToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem autoSettingsToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem Clear_3x3;
         private System.Windows.Forms.ToolStripMenuItem stepToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem Clear_3x4;
@@ -286,6 +296,10 @@ namespace Bilde
       private System.Windows.Forms.ToolStripMenuItem Clear_5x7;
       private System.Windows.Forms.ToolStripMenuItem restartToolStripMenuItem;
       private System.Windows.Forms.ToolStripMenuItem tellevennligToolStripMenuItem;
+      private System.Windows.Forms.ToolStripMenuItem setFasitToolStripMenuItem;
+      private System.Windows.Forms.ToolStripMenuItem checkFasitToolStripMenuItem;
+      private System.Windows.Forms.ToolStripMenuItem setRekodToolStripMenuItem;
+      private System.Windows.Forms.ToolStripMenuItem tellToolStripMenuItem;
    }
 }
 

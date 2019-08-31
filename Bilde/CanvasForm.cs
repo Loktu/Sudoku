@@ -15,23 +15,11 @@ namespace Bilde
       public canvasForm()
       {
          InitializeComponent();
-
-         brettControl.Auto = this.autoSettingsToolStripMenuItem.Checked;
       }
 
       private void OnResize(object sender, EventArgs e)
       {
          Invalidate(true);
-      }
-      private void OnAuto(object sender, EventArgs e)
-      {
-         brettControl.Auto = this.autoSettingsToolStripMenuItem.Checked;
-         brettControl.Invalidate();
-      }
-
-      private void OnHint(object sender, EventArgs e)
-      {
-         brettControl.SnuHint();
       }
 
       private void OnAbout(object sender, EventArgs e)
@@ -144,6 +132,29 @@ namespace Bilde
       {
          brettControl.Tellevennlig = !brettControl.Tellevennlig;
          Invalidate();
+      }
+
+      private void setFasitToolStripMenuItem_Click(object sender, EventArgs e)
+      {
+         brettControl.brett.SetFasit();
+      }
+
+      private void checkToolStripMenuItem_Click(object sender, EventArgs e)
+      {
+         brettControl.brett.CheckFasit();
+         brettControl.Invalidate();
+      }
+
+      private void setRekodToolStripMenuItem_Click(object sender, EventArgs e)
+      {
+         brettControl.setRekord();
+         brettControl.Invalidate();
+      }
+
+      private void tellToolStripMenuItem_Click(object sender, EventArgs e)
+      {
+         brettControl.Tell();
+         brettControl.Invalidate();
       }
    }
 }

@@ -9,6 +9,26 @@ namespace Bilde
 {
    public class Brett
    {
+      [XmlIgnore]
+      public TimeSpan record { get; set; }
+      [XmlElement(ElementName = "record")]
+      public long xmlrecord
+      {
+         get { return record.Ticks; }
+         set { record = new TimeSpan(value); }
+      }
+
+      [XmlIgnore]
+      public TimeSpan soFar { get; set; }
+
+      [XmlElement(ElementName = "soFar")]
+      public long xmlsofar
+      {
+         get { return soFar.Ticks; }
+         set { soFar = new TimeSpan(value); }
+      }
+
+
       public class GruppeListe : IEnumerable<int>
       {
          public GruppeListe()
@@ -92,6 +112,24 @@ namespace Bilde
             }
             StringToListe();
          }
+
+         public void Tell(Plass[] plass)
+         {
+            stringListe = "";
+            int i = 0;
+            while (i < plass.Length)
+            {
+               while (i < plass.Length && plass[i].verdi != Verdi.Sort) { ++i; }
+               if (i < plass.Length)
+               {
+                  int s = i;
+                  while (i < plass.Length && plass[i].verdi == Verdi.Sort) { ++i; }
+                  int n = i - s;
+                  stringListe += n.ToString() + " ";
+               }
+            }
+            StringToListe();
+         }
       }
 
       public enum Verdi { Sort=-1, Ledig=0, Hvit=1}
@@ -119,9 +157,26 @@ namespace Bilde
          public void SetVerdi(Verdi v)
          {
             if (verdi == v)
-               verdi = Verdi.Ledig;
+               Clear();
             else
                verdi = v;
+         }
+
+         [XmlIgnore]
+         public Verdi fasit { get; private set; } = Verdi.Ledig;
+         [XmlElement(ElementName = "fasit")]
+         public int xmlfasit
+         {
+            get { return (int)fasit; }
+            set { fasit = (Verdi)value; }
+         }
+
+         public void SetFasit() { fasit = verdi; }
+         public void CheckFasit()
+         {
+            if (fasit != Verdi.Ledig)
+               if (verdi != fasit)
+                  Clear();
          }
       }
 
@@ -249,6 +304,7 @@ namespace Bilde
       {
          foreach (var plass in brett)
             plass.Clear();
+         soFar = TimeSpan.Zero;
       }
 
 
@@ -307,8 +363,59 @@ namespace Bilde
          }
       }
 
+      public void SetFasit()
+      {
+         for (int x = 0; x < nLines; ++x)
+         {
+            for (int y = 0; y < nColumns; ++y)
+            {
+               brett[x, y].SetFasit();
+            }
+         }
+      }
+
+      internal bool HarFasit()
+      {
+         for (int x = 0; x < nLines; ++x)
+         {
+            for (int y = 0; y < nColumns; ++y)
+            {
+               if (brett[x, y].fasit == Verdi.Ledig)
+                  return false; ;
+            }
+         }
+         return true;
+      }
+
+      internal bool Ferdig()
+      {
+         for (int x = 0; x < nLines; ++x)
+         {
+            for (int y = 0; y < nColumns; ++y)
+            {
+               if (brett[x, y].fasit == Verdi.Ledig)
+                  return false; ;
+               if (brett[x, y].verdi != brett[x, y].fasit)
+                  return false; ;
+            }
+         }
+         return true;
+      }
+
+      public void CheckFasit()
+      {
+         for (int x = 0; x < nLines; ++x)
+         {
+            for (int y = 0; y < nColumns; ++y)
+            {
+               brett[x, y].CheckFasit();
+            }
+         }
+      }
+
       public bool Step()
       {
+         CheckFasit();
          bool done = false;
          for (int x = 0; x < nLines; ++x)
          {
@@ -316,7 +423,7 @@ namespace Bilde
          }
          for (int y = 0; y < nColumns; ++y)
          {
-            done |= Step(this.grupperPrKolonne[y], kolonner[y]);
+            done |= Step(grupperPrKolonne[y], kolonner[y]);
          }
          return done;
       }
@@ -440,8 +547,10 @@ namespace Bilde
          }
 
          // Ingen kan være bak sin etterkommer
+         foreach (Rom rom in romListe)
+            rom.erFørsteMuligeForGruppe.Clear();
          irom = romListe.Count - 1;
-         romListe[irom].erFørsteMuligeForGruppe.Clear();
+
          grupper.Reverse();
          foreach (var gruppe in grupper)
          {
@@ -593,6 +702,18 @@ namespace Bilde
             i += gruppe.size + 1;
          }
          return done;
+      }
+
+      public void Tell()
+      {
+         for (int x = 0; x < nLines; ++x)
+         {
+            grupperPrLinje[x].Tell(linjer[x]);
+         }
+         for (int y = 0; y < nColumns; ++y)
+         {
+            grupperPrKolonne[y].Tell(kolonner[y]);
+         }
       }
 
    }

@@ -4,16 +4,16 @@
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
-    <ProjectGuid>{6D3D3B00-3401-44E4-8435-12A44B2557E1}</ProjectGuid>
+    <ProjectGuid>{321DAAE5-760A-471E-965F-4187274CCD7C}</ProjectGuid>
     <OutputType>WinExe</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>Bilde</RootNamespace>
-    <AssemblyName>Bilde</AssemblyName>
+    <RootNamespace>Kakuro</RootNamespace>
+    <AssemblyName>Kakuro</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
     <IsWebBootstrapper>false</IsWebBootstrapper>
-    <PublishUrl>C:\Users\arve\OneDrive\Offentlig\Bilde\</PublishUrl>
+    <PublishUrl>C:\Users\arve\OneDrive\Offentlig\Kakuro\</PublishUrl>
     <Install>true</Install>
     <InstallFrom>Disk</InstallFrom>
     <UpdateEnabled>false</UpdateEnabled>
@@ -23,9 +23,7 @@
     <UpdatePeriodically>false</UpdatePeriodically>
     <UpdateRequired>false</UpdateRequired>
     <MapFileExtensions>true</MapFileExtensions>
-    <TargetCulture>nb</TargetCulture>
-    <PublisherName>Loktu</PublisherName>
-    <ApplicationRevision>15</ApplicationRevision>
+    <ApplicationRevision>1</ApplicationRevision>
     <ApplicationVersion>1.0.0.%2a</ApplicationVersion>
     <UseApplicationTrust>false</UseApplicationTrust>
     <PublishWizardCompleted>true</PublishWizardCompleted>
@@ -51,23 +49,16 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestCertificateThumbprint>53CD64BCD0017F5F845FFC714BA0FC5C705A9D66</ManifestCertificateThumbprint>
+    <ManifestCertificateThumbprint>F36B76BE11B0309301B3BED20E4DB5CF3A05A078</ManifestCertificateThumbprint>
   </PropertyGroup>
   <PropertyGroup>
-    <ManifestKeyFile>
-    </ManifestKeyFile>
+    <ManifestKeyFile>Kakuro_TemporaryKey.pfx</ManifestKeyFile>
   </PropertyGroup>
   <PropertyGroup>
     <GenerateManifests>true</GenerateManifests>
   </PropertyGroup>
   <PropertyGroup>
-    <SignManifests>false</SignManifests>
-  </PropertyGroup>
-  <PropertyGroup>
-    <TargetZone>LocalIntranet</TargetZone>
-  </PropertyGroup>
-  <PropertyGroup>
-    <ApplicationManifest>Properties\app.manifest</ApplicationManifest>
+    <SignManifests>true</SignManifests>
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
@@ -83,35 +74,16 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="AboutBox.cs">
+    <Compile Include="KakuroForm.cs">
       <SubType>Form</SubType>
     </Compile>
-    <Compile Include="AboutBox.Designer.cs">
-      <DependentUpon>AboutBox.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Brett.cs" />
-    <Compile Include="BrettControl.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="BrettControl.Designer.cs">
-      <DependentUpon>BrettControl.cs</DependentUpon>
-    </Compile>
-    <Compile Include="CanvasForm.cs">
-      <SubType>Form</SubType>
-    </Compile>
-    <Compile Include="CanvasForm.Designer.cs">
-      <DependentUpon>CanvasForm.cs</DependentUpon>
+    <Compile Include="KakuroForm.Designer.cs">
+      <DependentUpon>KakuroForm.cs</DependentUpon>
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <EmbeddedResource Include="AboutBox.resx">
-      <DependentUpon>AboutBox.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="BrettControl.resx">
-      <DependentUpon>BrettControl.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="CanvasForm.resx">
-      <DependentUpon>CanvasForm.cs</DependentUpon>
+    <EmbeddedResource Include="KakuroForm.resx">
+      <DependentUpon>KakuroForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -122,8 +94,7 @@
       <AutoGen>True</AutoGen>
       <DependentUpon>Resources.resx</DependentUpon>
     </Compile>
-    <None Include="Bilde_TemporaryKey.pfx" />
-    <None Include="Properties\app.manifest" />
+    <None Include="Kakuro_TemporaryKey.pfx" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
