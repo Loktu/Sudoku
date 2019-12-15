@@ -44,7 +44,6 @@ namespace Bilde
          this.Paint += new System.Windows.Forms.PaintEventHandler(this.OnPaint);
          this.KeyPress += new System.Windows.Forms.KeyPressEventHandler(this.BrettControl_KeyPress);
          this.MouseClick += new System.Windows.Forms.MouseEventHandler(this.OnMouseClick);
-         this.MouseMove += new System.Windows.Forms.MouseEventHandler(this.BrettControl_MouseMove);
          this.ResumeLayout(false);
 
         }

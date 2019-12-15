@@ -10,22 +10,22 @@ namespace Bilde
    public class Brett
    {
       [XmlIgnore]
-      public TimeSpan record { get; set; }
+      public TimeSpan Record { get; set; }
       [XmlElement(ElementName = "record")]
-      public long xmlrecord
+      public long Xmlrecord
       {
-         get { return record.Ticks; }
-         set { record = new TimeSpan(value); }
+         get { return Record.Ticks; }
+         set { Record = new TimeSpan(value); }
       }
 
       [XmlIgnore]
-      public TimeSpan soFar { get; set; }
+      public TimeSpan SoFar { get; set; }
 
       [XmlElement(ElementName = "soFar")]
-      public long xmlsofar
+      public long Xmlsofar
       {
-         get { return soFar.Ticks; }
-         set { soFar = new TimeSpan(value); }
+         get { return SoFar.Ticks; }
+         set { SoFar = new TimeSpan(value); }
       }
 
 
@@ -39,7 +39,7 @@ namespace Bilde
 
          public string stringListe;
          [XmlIgnore]
-         List<int> liste;
+         readonly List<int> liste;
 
          [XmlIgnore]
          public string Liste
@@ -60,8 +60,7 @@ namespace Bilde
             var grupper = stringListe.Split(' ');
             foreach (string gruppe in grupper)
             {
-               int antall;
-               if (int.TryParse(gruppe, out antall))
+               if (int.TryParse(gruppe, out int antall))
                {
                   liste.Add(antall);
                }
@@ -119,11 +118,11 @@ namespace Bilde
             int i = 0;
             while (i < plass.Length)
             {
-               while (i < plass.Length && plass[i].verdi != Verdi.Sort) { ++i; }
+               while (i < plass.Length && plass[i].Verdi != Verdi.Sort) { ++i; }
                if (i < plass.Length)
                {
                   int s = i;
-                  while (i < plass.Length && plass[i].verdi == Verdi.Sort) { ++i; }
+                  while (i < plass.Length && plass[i].Verdi == Verdi.Sort) { ++i; }
                   int n = i - s;
                   stringListe += n.ToString() + " ";
                }
@@ -137,12 +136,12 @@ namespace Bilde
       public class Plass
       {
          [XmlIgnore]
-         public Verdi verdi { get; set; } = Verdi.Ledig;
+         public Verdi Verdi { get; set; } = Verdi.Ledig;
          [XmlElement(ElementName = "verdi")]
-         public int xmlverdi
+         public int Xmlverdi
          {
-            get { return (int)verdi; }
-            set { verdi = (Verdi)value; }
+            get { return (int)Verdi; }
+            set { Verdi = (Verdi)value; }
          }
 
          public Plass()
@@ -151,31 +150,31 @@ namespace Bilde
 
          public void Clear()
          {
-            verdi = Verdi.Ledig;
+            Verdi = Verdi.Ledig;
          }
 
          public void SetVerdi(Verdi v)
          {
-            if (verdi == v)
+            if (Verdi == v)
                Clear();
             else
-               verdi = v;
+               Verdi = v;
          }
 
          [XmlIgnore]
-         public Verdi fasit { get; private set; } = Verdi.Ledig;
+         public Verdi Fasit { get; private set; } = Verdi.Ledig;
          [XmlElement(ElementName = "fasit")]
-         public int xmlfasit
+         public int Xmlfasit
          {
-            get { return (int)fasit; }
-            set { fasit = (Verdi)value; }
+            get { return (int)Fasit; }
+            set { Fasit = (Verdi)value; }
          }
 
-         public void SetFasit() { fasit = verdi; }
+         public void SetFasit() { Fasit = Verdi; }
          public void CheckFasit()
          {
-            if (fasit != Verdi.Ledig)
-               if (verdi != fasit)
+            if (Fasit != Verdi.Ledig)
+               if (Verdi != Fasit)
                   Clear();
          }
       }
@@ -252,21 +251,23 @@ namespace Bilde
             }
          }
          grupperPrLinje = new List<GruppeListe>();
-         n = 0;
          grupperPrLinje = new List<GruppeListe>();
-         foreach (var gruppe in linjeListe)
+         foreach (string gruppe in linjeListe)
          {
-            var grupper = new GruppeListe();
-            grupper.stringListe = gruppe;
+            GruppeListe grupper = new GruppeListe
+            {
+               stringListe = gruppe
+            };
             grupper.StringToListe();
             grupperPrLinje.Add(grupper);
          }
-         n = 0;
          grupperPrKolonne = new List<GruppeListe>();
          foreach (var gruppe in kolonneListe)
          {
-            var grupper = new GruppeListe();
-            grupper.stringListe = gruppe;
+            var grupper = new GruppeListe
+            {
+               stringListe = gruppe
+            };
             grupper.StringToListe();
             grupperPrKolonne.Add(grupper);
          }
@@ -304,7 +305,7 @@ namespace Bilde
       {
          foreach (var plass in brett)
             plass.Clear();
-         soFar = TimeSpan.Zero;
+         SoFar = TimeSpan.Zero;
       }
 
 
@@ -380,7 +381,7 @@ namespace Bilde
          {
             for (int y = 0; y < nColumns; ++y)
             {
-               if (brett[x, y].fasit == Verdi.Ledig)
+               if (brett[x, y].Fasit == Verdi.Ledig)
                   return false; ;
             }
          }
@@ -393,9 +394,9 @@ namespace Bilde
          {
             for (int y = 0; y < nColumns; ++y)
             {
-               if (brett[x, y].fasit == Verdi.Ledig)
+               if (brett[x, y].Fasit == Verdi.Ledig)
                   return false; ;
-               if (brett[x, y].verdi != brett[x, y].fasit)
+               if (brett[x, y].Verdi != brett[x, y].Fasit)
                   return false; ;
             }
          }
@@ -458,21 +459,11 @@ namespace Bilde
          int n = 0;
          for (int i = rom.start; i <= rom.slutt; ++i)
          {
-            if (plasser[i].verdi == Verdi.Sort)
+            if (plasser[i].Verdi == Verdi.Sort)
                ++n;
          }
          return n;
       }
-      private int ForsteBrukte(Rom rom, ref Plass[] plasser)
-      {
-         for (int i = rom.start; i <= rom.slutt; ++i)
-         {
-            if (plasser[i].verdi < Verdi.Sort)
-               return i;
-         }
-         return -1;
-      }
-
 
       private bool Step(GruppeListe gruppeListe, Plass[] plass)
       {
@@ -491,9 +482,9 @@ namespace Bilde
          int s = plass.Length - 1;
 
          // Siste ledige
-         while (s > i && plass[s].verdi == Verdi.Hvit) { --s; }
+         while (s > i && plass[s].Verdi == Verdi.Hvit) { --s; }
          // Første ledige
-         while (i < s && plass[i].verdi == Verdi.Hvit) { ++i; }
+         while (i < s && plass[i].Verdi == Verdi.Hvit) { ++i; }
 
          //Finn rom
          List<Rom> romListe = new List<Rom>();
@@ -502,7 +493,7 @@ namespace Bilde
          while (FinnHvit(plass, ref h, s))
          {
             romListe[romListe.Count - 1].slutt = h - 1;
-            while (h < s && plass[h].verdi == Verdi.Hvit) { ++h; }
+            while (h < s && plass[h].Verdi == Verdi.Hvit) { ++h; }
             romListe.Add(new Rom() { start = h, slutt = s });
          }
          if (romListe.Count == 0) goto Feil;
@@ -627,7 +618,7 @@ namespace Bilde
          {
             if (rom.muligeGrupper.Count == 0)
             {
-               for (int j = rom.start; j <= rom.slutt; ++j) plass[j].verdi = Verdi.Hvit;
+               for (int j = rom.start; j <= rom.slutt; ++j) plass[j].Verdi = Verdi.Hvit;
                funnet = true;
             }
             else
@@ -646,7 +637,7 @@ namespace Bilde
       {
          while (++h < s)
          {
-            if (plass[h].verdi == Verdi.Hvit)
+            if (plass[h].Verdi == Verdi.Hvit)
                return true;
          }
          return false;
@@ -657,8 +648,6 @@ namespace Bilde
       {
          bool done = false;
          int i = rom.start;
-         int s = rom.slutt;
-         int np = rom.Size();
 
          var grupper = new List<Gruppe>();
          foreach (var gruppe in rom.muligeGrupper)
@@ -687,16 +676,16 @@ namespace Bilde
             {
                for (int j = 0; j < gruppe.size - ledige; ++j)
                {
-                  plass[i + j + ledige].verdi = Verdi.Sort;
+                  plass[i + j + ledige].Verdi = Verdi.Sort;
                }
                done = true;
             }
             if (ledige == 0)
             {
                if (i > 0)
-                  plass[i - 1].verdi = Verdi.Hvit;
+                  plass[i - 1].Verdi = Verdi.Hvit;
                if (i + gruppe.size < plass.Length)
-                  plass[i + gruppe.size].verdi = Verdi.Hvit;
+                  plass[i + gruppe.size].Verdi = Verdi.Hvit;
                done = true;
             }
             i += gruppe.size + 1;
