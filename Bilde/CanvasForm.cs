@@ -147,7 +147,7 @@ namespace Bilde
 
       private void setRekodToolStripMenuItem_Click(object sender, EventArgs e)
       {
-         brettControl.setRekord();
+         brettControl.SetRekord();
          brettControl.Invalidate();
       }
 

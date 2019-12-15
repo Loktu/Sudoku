@@ -15,9 +15,7 @@ namespace Bilde
    {
       private string fileName;
       public Brett brett;
-      private Color brettColor = Color.Black;
-      private Color safeColor = Color.Red;
-      private Color tryColor = Color.Blue;
+      private readonly Color brettColor = Color.Black;
 
       int size = 10;
       int x0 = 0;
@@ -26,23 +24,25 @@ namespace Bilde
       int yMin = 10;
       int xMax = 300;
       int yMax = 300;
-
-      Timer timer = new Timer();
+      readonly Timer timer = new Timer();
       public bool Tellevennlig { get; set; } = false;
+
+      int currentRow = -1;
+      int currentCol = -1;
 
       public BrettControl()
       {
          InitializeComponent();
          brett = new Brett(15, 10);
-         timer.Tick += new EventHandler(timer_Tick);
+         timer.Tick += new EventHandler(Timer_Tick);
          timer.Interval = 1000;
       }
 
-      void timer_Tick(object sender, EventArgs e)
+      void Timer_Tick(object sender, EventArgs e)
       {
          timer.Stop();
          TimeSpan interval = new TimeSpan(0, 0, 0, 0, timer.Interval);
-         brett.soFar += interval;
+         brett.SoFar += interval;
          timer.Start();
          Invalidate();
       }
@@ -60,6 +60,8 @@ namespace Bilde
          Graphics g = e.Graphics;
          Pen brettPen = new Pen(brettColor, 1);
          Pen thickPen = new Pen(brettColor, 3);
+
+         Brush brush = Brushes.LightGray;
 
          int sizeX = r.Width;
          int sizeY = r.Height;
@@ -87,6 +89,15 @@ namespace Bilde
          x0 = xMin + ngk * size;
          y0 = yMin + ngl * size;
 
+         if (currentRow > -1 && currentRow < nl)
+         {
+            g.FillRectangle(brush, xMin, y0 + size * currentRow, ngk*size, size);
+         }
+         if (currentCol > -1 && currentCol < nc)
+         {
+            g.FillRectangle(brush, x0+size*currentCol, yMin, size, ngl*size);
+         }
+
          int sum = 0;
          for (int row = 0; row < nl; ++row)
          {
@@ -99,6 +110,9 @@ namespace Bilde
             int x = x0 - size * brett.grupperPrLinje[row].Count;
             foreach (var gruppe in brett.grupperPrLinje[row])
             {
+               if (row == currentRow)
+               {
+               }
                DrawString(g, x, y, size, gruppe.ToString());
                x += size;
                sum += gruppe;
@@ -120,8 +134,8 @@ namespace Bilde
 
          if (brett.HarFasit())
          {
-            DrawString(g, 0, 0, size, "Rek:" + brett.record.ToString());
-            DrawString(g, 0, size, size, "Tid:" + brett.soFar.ToString());
+            DrawString(g, 0, 0, size, "Rek:" + brett.Record.ToString());
+            DrawString(g, 0, size, size, "Tid:" + brett.SoFar.ToString());
          }
 
          for (int row = 0; row <= nl; ++row)
@@ -156,12 +170,12 @@ namespace Bilde
       {
          Brush brush = Brushes.LightGray;
          Pen pen = Pens.Black;
-         if (plass.verdi == Brett.Verdi.Sort)
+         if (plass.Verdi == Brett.Verdi.Sort)
          {
             brush = Brushes.Black;
             pen = Pens.White;
          }
-         if (plass.verdi == Brett.Verdi.Hvit)
+         if (plass.Verdi == Brett.Verdi.Hvit)
          {
             brush = Brushes.White;
          }
@@ -194,11 +208,14 @@ namespace Bilde
          int x = (e.X - x0);
          int y = (e.Y - y0);
 
+         int j = x / size;
+         int i = y / size;
+
+         currentRow = -1;
+         currentCol = -1;
+
          if (x > 0 && y >= 0)
          {
-            int j = x / size;
-            int i = y / size;
-
             Brett.Plass plass = brett[i, j];
             if (plass == null) return;
 
@@ -210,18 +227,52 @@ namespace Bilde
             {
                plass.SetVerdi(Brett.Verdi.Hvit);
             }
+            SjekkRekord();
          }
-         sjekkRekord();
+         else if (x > 0 && x < xMax)
+         {
+            currentCol = j;
+         }
+         else if (y > 0 && y < yMax)
+         {
+            currentRow = i;
+         }
+
          Invalidate();
       }
 
-      int mouseX = 0;
-      int mouseY = 0;
-
-      private void BrettControl_MouseMove(object sender, MouseEventArgs e)
+      private void BrettControl_KeyPress(object sender, KeyPressEventArgs e)
       {
-         mouseX = e.X;
-         mouseY = e.Y;
+         if (e.KeyChar == '\r')
+         {
+            if (currentRow > -1)
+            {
+               ++currentRow;
+               if (currentRow >= brett.grupperPrLinje.Count)
+               {
+                  currentRow=-1;
+                  currentCol=0;
+               }
+            }
+            else if (currentCol > -1)
+            {
+               ++currentCol;
+               if (currentCol >= brett.grupperPrKolonne.Count)
+               {
+                  currentCol=-1;
+                  currentRow=0;
+               }
+            }
+         }
+         if (currentRow > -1 && currentRow < brett.grupperPrLinje.Count)
+         {
+            brett.grupperPrLinje[currentRow].Add(e.KeyChar);
+         }
+         if (currentCol > -1 && currentCol < brett.grupperPrKolonne.Count)
+         {
+             brett.grupperPrKolonne[currentCol].Add(e.KeyChar);
+         }
+         Invalidate();
       }
 
       public void Save(string fileName)
@@ -265,32 +316,6 @@ namespace Bilde
          }
       }
 
-      private void BrettControl_KeyPress(object sender, KeyPressEventArgs e)
-      {
-         int x = (mouseX - x0);
-         int y = (mouseY - y0);
-
-         if (x < 0)
-         {
-            if (y > 0)
-            {
-               int i = (mouseY - y0) / size;
-               if (i < brett.grupperPrLinje.Count)
-               {
-                  brett.grupperPrLinje[i].Add(e.KeyChar);
-               }
-            }
-         }
-         else if (y < 0)
-         {
-            int j = (mouseX - x0) / size;
-            if (j < brett.grupperPrKolonne.Count)
-            {
-               brett.grupperPrKolonne[j].Add(e.KeyChar);
-            }
-         }
-         Invalidate();
-      }
       public void Restart()
       {
          brett.Restart();
@@ -303,20 +328,20 @@ namespace Bilde
       public void Step()
       {
          brett.Step();
-         sjekkRekord();
+         SjekkRekord();
          Invalidate();
       }
 
-      private void sjekkRekord()
+      private void SjekkRekord()
       {
          if (timer.Enabled)
          {
             if (brett.Ferdig())
             {
                timer.Stop();
-               if ((brett.soFar < brett.record) || (brett.record.Seconds < 1))
+               if ((brett.SoFar < brett.Record) || (brett.Record.Seconds < 1))
                {
-                  brett.record = brett.soFar;
+                  brett.Record = brett.SoFar;
                   if (!string.IsNullOrEmpty(fileName))
                   {
                      Save(fileName);
@@ -326,11 +351,11 @@ namespace Bilde
          }
       }
 
-      public void setRekord()
+      public void SetRekord()
       {
          if (brett.Ferdig())
          {
-            brett.record = brett.soFar;
+            brett.Record = brett.SoFar;
             if (!string.IsNullOrEmpty(fileName))
             {
                Save(fileName);
