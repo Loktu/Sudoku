@@ -18,6 +18,8 @@ namespace Bilde
          set { Record = new TimeSpan(value); }
       }
 
+      public History history = new History();
+           
       [XmlIgnore]
       public TimeSpan SoFar { get; set; }
 
@@ -26,6 +28,34 @@ namespace Bilde
       {
          get { return SoFar.Ticks; }
          set { SoFar = new TimeSpan(value); }
+      }
+
+      public class History {
+         public struct Result
+         {
+            public long time;
+            public long used;
+            public Result(DateTime t, TimeSpan s)
+            {
+               time = t.Ticks;
+               used = s.Ticks;
+            }
+         }
+         public List<Result> results = new List<Result>();
+         public void Add(DateTime time, TimeSpan timeUsed)
+         {
+            results.Add(new Result(time, timeUsed));
+            results.Sort(comparer);
+            if (results.Count > 10)
+            {
+               results.RemoveAt(0);
+            }
+         }
+
+         private int comparer(Result x, Result y)
+         {
+            return Convert.ToInt32(x.used - y.used);
+         }
       }
 
 

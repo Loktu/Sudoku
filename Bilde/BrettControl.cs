@@ -166,6 +166,11 @@ namespace Bilde
          g.DrawLine(thickPen, xMax, yMin, xMax, yMax);
       }
 
+      internal void Pause()
+      {
+         timer.Enabled = false;
+      }
+
       public void DrawValue(Graphics g, int x, int y, int size, Brett.Plass plass)
       {
          Brush brush = Brushes.LightGray;
@@ -205,6 +210,8 @@ namespace Bilde
 
       private void OnMouseClick(object sender, MouseEventArgs e)
       {
+         if (!timer.Enabled)
+            timer.Enabled = true;
          int x = (e.X - x0);
          int y = (e.Y - y0);
 
@@ -327,7 +334,10 @@ namespace Bilde
 
       public void Step()
       {
+         if (!timer.Enabled)
+            timer.Enabled = true;
          brett.Step();
+         brett.SoFar += new TimeSpan(0, 0, 0, 0, timer.Interval);
          SjekkRekord();
          Invalidate();
       }
@@ -342,10 +352,11 @@ namespace Bilde
                if ((brett.SoFar < brett.Record) || (brett.Record.Seconds < 1))
                {
                   brett.Record = brett.SoFar;
-                  if (!string.IsNullOrEmpty(fileName))
-                  {
-                     Save(fileName);
-                  }
+               }
+               brett.history.Add(DateTime.Now, brett.SoFar);
+               if (!string.IsNullOrEmpty(fileName))
+               {
+                  Save(fileName);
                }
             }
          }

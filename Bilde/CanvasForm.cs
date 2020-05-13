@@ -156,5 +156,10 @@ namespace Bilde
          brettControl.Tell();
          brettControl.Invalidate();
       }
+
+      private void pauseToolStripMenuItem_Click(object sender, EventArgs e)
+      {
+         brettControl.Pause();
+      }
    }
 }
