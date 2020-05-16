@@ -288,7 +288,7 @@ namespace Bilde
          {
             try
             {
-               brett.ListeFromArray();
+               brett.ForberedXml();
                XmlSerializer serializer = new XmlSerializer(typeof(Brett));
                serializer.Serialize(streamWriter, brett);
                this.fileName = fileName;
@@ -310,7 +310,7 @@ namespace Bilde
             {
                XmlSerializer serializer = new XmlSerializer(typeof(Brett));
                brett = (Brett)serializer.Deserialize(reader);
-               brett.ArrayFromListe();
+               brett.EtterXml();
                this.fileName = fileName;
                Invalidate();
                if (!brett.Ferdig())

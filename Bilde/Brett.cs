@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Schema;
 using System.Xml.Serialization;
@@ -31,6 +32,13 @@ namespace Bilde
       }
 
       public class History {
+
+         [XmlIgnore]
+         public SortedDictionary<DateTime, TimeSpan> results = new SortedDictionary<DateTime, TimeSpan>();
+
+         [XmlElement(ElementName = "results")]
+         public List<Result> resultList;
+
          public struct Result
          {
             public long time;
@@ -41,20 +49,40 @@ namespace Bilde
                used = s.Ticks;
             }
          }
-         public List<Result> results = new List<Result>();
+         public void ForberedXml()
+         {
+            resultList = new List<Result>();
+            foreach (var item in results)
+            {
+               resultList.Add(new Result(item.Key, item.Value));
+            }
+         }
+         public void EtterXml()
+         {
+            results.Clear();
+            foreach (var item in resultList) 
+            {
+               results[new DateTime(item.time)] = new TimeSpan(item.used);
+            }
+         }
+
+
          public void Add(DateTime time, TimeSpan timeUsed)
          {
-            results.Add(new Result(time, timeUsed));
-            results.Sort(comparer);
-            if (results.Count > 10)
-            {
-               results.RemoveAt(0);
-            }
+            // Lagrer bare ett resultat pr time
+            DateTime inHour = new DateTime(time.Year, time.Month, time.Day, time.Hour, 0, 0);
+            if (!results.ContainsKey(inHour))
+              results[inHour] = timeUsed;
+            else
+               if (timeUsed < results[inHour])
+                  results[inHour] = timeUsed;
          }
 
          private int comparer(Result x, Result y)
          {
-            return Convert.ToInt32(x.used - y.used);
+            if (x.used > y.used) return 1;
+            if (x.used < y.used) return -1;
+            return 0;
          }
       }
 
@@ -250,7 +278,7 @@ namespace Bilde
          return n;
       }
 
-      public void ListeFromArray()
+      public void ForberedXml()
       {
          plassListe = new List<Plass>();
          foreach (var plass in brett)
@@ -266,9 +294,9 @@ namespace Bilde
          {
             kolonneListe.Add(gruppeliste.stringListe);
          }
-
+         history.ForberedXml();
       }
-      public void ArrayFromListe()
+      public void EtterXml()
       {
          brett = new Plass[nLines, nColumns];
 
@@ -301,7 +329,8 @@ namespace Bilde
             grupper.StringToListe();
             grupperPrKolonne.Add(grupper);
          }
-         LagLinjerOgKollonner();
+         LagLinjerOgKollonner();        
+         history.EtterXml();
       }
 
       public Plass this[int l, int c]
