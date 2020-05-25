@@ -19,7 +19,16 @@ namespace Bilde
          set { Record = new TimeSpan(value); }
       }
 
-      public History history = new History();
+      public void SetRecord()
+      {
+         if ((SoFar < Record) || (Record.Seconds < 1))
+         {
+            Record = SoFar;
+         }
+         history.Add(DateTime.Now, SoFar);
+      }
+
+      private readonly History history = new History();
            
       [XmlIgnore]
       public TimeSpan SoFar { get; set; }
@@ -31,7 +40,7 @@ namespace Bilde
          set { SoFar = new TimeSpan(value); }
       }
 
-      public class History {
+      private class History {
 
          [XmlIgnore]
          public SortedDictionary<DateTime, TimeSpan> results = new SortedDictionary<DateTime, TimeSpan>();
@@ -60,9 +69,12 @@ namespace Bilde
          public void EtterXml()
          {
             results.Clear();
-            foreach (var item in resultList) 
+            if (resultList  != null)
             {
-               results[new DateTime(item.time)] = new TimeSpan(item.used);
+               foreach (var item in resultList)
+               {
+                  results[new DateTime(item.time)] = new TimeSpan(item.used);
+               }
             }
          }
 
@@ -78,12 +90,13 @@ namespace Bilde
                   results[inHour] = timeUsed;
          }
 
-         private int comparer(Result x, Result y)
-         {
-            if (x.used > y.used) return 1;
-            if (x.used < y.used) return -1;
-            return 0;
-         }
+         // Comarer example
+         //private int Comparer(Result x, Result y)
+         //{
+         //   if (x.used > y.used) return 1;
+         //   if (x.used < y.used) return -1;
+         //   return 0;
+         //}
       }
 
 

@@ -349,11 +349,7 @@ namespace Bilde
             if (brett.Ferdig())
             {
                timer.Stop();
-               if ((brett.SoFar < brett.Record) || (brett.Record.Seconds < 1))
-               {
-                  brett.Record = brett.SoFar;
-               }
-               brett.history.Add(DateTime.Now, brett.SoFar);
+               brett.SetRecord();
                if (!string.IsNullOrEmpty(fileName))
                {
                   Save(fileName);

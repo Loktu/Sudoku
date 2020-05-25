@@ -1,3 +1,4 @@
+using Soduko2013;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -47,7 +48,7 @@ namespace Soduku
             aboutBox.Show();
         }
 
-        private void loadToolStripMenuItem1_Click(object sender, EventArgs e)
+        private void LoadToolStripMenuItem1_Click(object sender, EventArgs e)
         {
             var fd = new OpenFileDialog();
             if (fd.ShowDialog() == DialogResult.OK)
@@ -105,5 +106,39 @@ namespace Soduku
             brettControl.Invalidate();
         }
 
-    }
+      private void connectionsToolStripMenuItem_Click(object sender, EventArgs e)
+      {
+         var connectForm = new ConnectForm(brettControl.serverKanal, brettControl.connections);
+         if (connectForm.ShowDialog() == DialogResult.OK)
+         {
+            brettControl.serverKanal = connectForm.GetServerKanal();
+            brettControl.connections = connectForm.GetConnections();
+         }
+      }
+
+      private void sendToolStripMenuItem_Click(object sender, EventArgs e)
+      {
+         brettControl.Send();
+      }
+
+      private void startServerToolStripMenuItem_Click(object sender, EventArgs e)
+      {
+         brettControl.StartServer();
+      }
+
+      private void stopServerToolStripMenuItem_Click(object sender, EventArgs e)
+      {
+         brettControl.StopServer();
+      }
+
+      private void startClientsToolStripMenuItem_Click(object sender, EventArgs e)
+      {
+         brettControl.StartClients();
+      }
+
+      private void stopClientsToolStripMenuItem_Click(object sender, EventArgs e)
+      {
+         brettControl.StopClients();
+      }
+   }
 }
