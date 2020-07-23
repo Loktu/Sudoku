@@ -1,4 +1,4 @@
-namespace Soduku
+namespace Sudoku
 {
     partial class canvasForm
     {
@@ -52,7 +52,7 @@ namespace Soduku
          this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-         this.brettControl = new Soduku.BrettControl();
+         this.brettControl = new Sudoku.BrettControl();
          this.startServerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          this.stopServerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          this.startClientsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();

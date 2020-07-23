@@ -7,7 +7,7 @@ using System.Reflection;
 using System.Windows.Forms;
 using System.Configuration;
 
-namespace Soduku
+namespace Sudoku
 {
     partial class AboutBox : Form
     {

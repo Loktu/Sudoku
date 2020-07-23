@@ -7,7 +7,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Configuration;
 
-namespace Soduku
+namespace Sudoku
 {
     public partial class EndreControl : UserControl
     {

@@ -1,4 +1,4 @@
-﻿namespace Soduku
+﻿namespace Sudoku
 {
     partial class EndreForm
     {
@@ -32,7 +32,7 @@
             this.bottomLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
             this.buttonOK = new System.Windows.Forms.Button();
             this.buttonCansel = new System.Windows.Forms.Button();
-            this.endreControl = new Soduku.EndreControl();
+            this.endreControl = new Sudoku.EndreControl();
             this.tableLayoutPanel.SuspendLayout();
             this.bottomLayoutPanel.SuspendLayout();
             this.SuspendLayout();

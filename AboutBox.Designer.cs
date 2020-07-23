@@ -1,4 +1,4 @@
-﻿namespace Soduku
+﻿namespace Sudoku
 {
     partial class AboutBox
     {

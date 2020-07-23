@@ -6,7 +6,7 @@ using System.Linq;
 using System.Windows.Forms;
 using TcpConnection;
 
-namespace Soduku
+namespace Sudoku
 {
    public partial class BrettControl : UserControl
    {

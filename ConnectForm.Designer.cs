@@ -1,4 +1,4 @@
-﻿namespace Soduko2013
+﻿namespace Sudoku
 {
    partial class ConnectForm
    {
