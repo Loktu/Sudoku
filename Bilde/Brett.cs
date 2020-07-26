@@ -28,7 +28,7 @@ namespace Bilde
          history.Add(DateTime.Now, SoFar);
       }
 
-      private readonly History history = new History();
+      public History history = new History();
            
       [XmlIgnore]
       public TimeSpan SoFar { get; set; }
@@ -40,7 +40,7 @@ namespace Bilde
          set { SoFar = new TimeSpan(value); }
       }
 
-      private class History {
+      public class History {
 
          [XmlIgnore]
          public SortedDictionary<DateTime, TimeSpan> results = new SortedDictionary<DateTime, TimeSpan>();
@@ -90,13 +90,6 @@ namespace Bilde
                   results[inHour] = timeUsed;
          }
 
-         // Comarer example
-         //private int Comparer(Result x, Result y)
-         //{
-         //   if (x.used > y.used) return 1;
-         //   if (x.used < y.used) return -1;
-         //   return 0;
-         //}
       }
 
 
