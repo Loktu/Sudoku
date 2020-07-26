@@ -12,6 +12,7 @@ namespace Sudoku
 {
    public partial class canvasForm : Form
    {
+      Process proc;
       public canvasForm()
       {
          InitializeComponent();
@@ -22,11 +23,11 @@ namespace Sudoku
          brettControl.Auto3 = this.auto3ToolStripMenuItem.Checked;
 
          // get this running process
-         Process proc = Process.GetCurrentProcess();
+         proc = Process.GetCurrentProcess();
          //get all other (possible) running instances
          Process[] processes = Process.GetProcessesByName(proc.ProcessName);
-
-         this.Text = proc.ProcessName + " - " + processes.Length;
+         brettControl.serverKanal = processes.Length;
+         this.Text = proc.ProcessName + " - " + brettControl.serverKanal;
 
          //if (processes.Length > 1)
          //{
@@ -138,6 +139,7 @@ namespace Sudoku
          {
             brettControl.serverKanal = connectForm.GetServerKanal();
             brettControl.connections = connectForm.GetConnections();
+            this.Text = proc.ProcessName + " - " + brettControl.serverKanal;
          }
       }
 
