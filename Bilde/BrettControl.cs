@@ -69,8 +69,8 @@ namespace Bilde
          int nl = brett.nLines;
          int nc = brett.nColumns;
 
-         int ngk = brett.GruppeBredde();
-         int ngl = brett.GruppeHoyde();
+         int ngk = Math.Max(brett.GruppeBredde(), 6);
+         int ngl = Math.Max(brett.GruppeHoyde(), 6);
 
          int numberOfPositionsL = nl + ngl;
          int numberOfPositionsK = nc + ngk;
@@ -130,12 +130,20 @@ namespace Bilde
             }
          }
 
-         DrawString(g, x0 - size * 2, y0 - size, size, sum.ToString());
+         DrawString(g, x0 - size, y0 - size, size, sum.ToString());
 
          if (brett.HarFasit())
          {
-            DrawString(g, 0, 0, size, "Rek:" + brett.Record.ToString());
-            DrawString(g, 0, size, size, "Tid:" + brett.SoFar.ToString());
+            DrawString(g, 0, 0, size, "0: " + brett.SoFar.ToString());
+
+            int ir = 1;
+            foreach (var tid in brett.history.results)
+            {
+               DrawString(g, 0, size*ir, size, ir.ToString() + ": " + tid.Value.ToString());
+               if (ir > 5) break;
+            }
+
+            //DrawString(g, 0, 0, size, "Rek:" + brett.Record.ToString());
          }
 
          for (int row = 0; row <= nl; ++row)
