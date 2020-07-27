@@ -140,6 +140,7 @@ namespace Bilde
             foreach (var tid in brett.history.results)
             {
                DrawString(g, 0, size*ir, size, ir.ToString() + ": " + tid.Value.ToString());
+               ir++;
                if (ir > 5) break;
             }
 
