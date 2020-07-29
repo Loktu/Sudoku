@@ -1,9 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using System.Windows.Forms;
 using System.Xml;
-using System.Xml.Schema;
 using System.Xml.Serialization;
 
 namespace Bilde
@@ -28,8 +26,11 @@ namespace Bilde
          history.Add(DateTime.Now, SoFar);
       }
 
+      [XmlIgnore]
+      public ICollection<KeyValuePair<DateTime, TimeSpan>> Results => history.results;
+
       public History history = new History();
-           
+
       [XmlIgnore]
       public TimeSpan SoFar { get; set; }
 
@@ -52,18 +53,19 @@ namespace Bilde
          {
             public long time;
             public long used;
-            public Result(DateTime t, TimeSpan s)
+            public Result(long t, long u)
             {
-               time = t.Ticks;
-               used = s.Ticks;
+               time = t;
+               used = u;
             }
+
          }
          public void ForberedXml()
          {
             resultList = new List<Result>();
             foreach (var item in results)
             {
-               resultList.Add(new Result(item.Key, item.Value));
+               resultList.Add(new Result(item.Key.Ticks, item.Value.Ticks));
             }
          }
          public void EtterXml()
@@ -73,7 +75,10 @@ namespace Bilde
             {
                foreach (var item in resultList)
                {
-                  results[new DateTime(item.time)] = new TimeSpan(item.used);
+                  long time = item.time;
+                  long used = item.used;
+                  if (time > 0 && used > 0)
+                     results[new DateTime(time)] = new TimeSpan(used);
                }
             }
          }
