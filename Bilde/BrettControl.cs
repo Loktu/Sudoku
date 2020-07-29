@@ -1,11 +1,6 @@
 using System;
-using System.Collections.Generic;
-using System.ComponentModel;
 using System.Drawing;
-using System.Data;
-using System.Text;
 using System.Windows.Forms;
-using System.Configuration;
 using System.IO;
 using System.Xml.Serialization;
 
@@ -137,14 +132,12 @@ namespace Bilde
             DrawString(g, 0, 0, size, "0: " + brett.SoFar.ToString());
 
             int ir = 1;
-            foreach (var tid in brett.history.results)
+            foreach (var tid in brett.Results)
             {
                DrawString(g, 0, size*ir, size, ir.ToString() + ": " + tid.Value.ToString());
                ir++;
                if (ir > 5) break;
             }
-
-            //DrawString(g, 0, 0, size, "Rek:" + brett.Record.ToString());
          }
 
          for (int row = 0; row <= nl; ++row)
