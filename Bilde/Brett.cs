@@ -41,212 +41,6 @@ namespace Bilde
          set { SoFar = new TimeSpan(value); }
       }
 
-      public class History {
-
-         [XmlIgnore]
-         public SortedDictionary<DateTime, TimeSpan> results = new SortedDictionary<DateTime, TimeSpan>();
-
-         [XmlElement(ElementName = "results")]
-         public List<Result> resultList;
-
-         public struct Result
-         {
-            public long time;
-            public long used;
-            public Result(long t, long u)
-            {
-               time = t;
-               used = u;
-            }
-
-         }
-         public void ForberedXml()
-         {
-            resultList = new List<Result>();
-            foreach (var item in results)
-            {
-               resultList.Add(new Result(item.Key.Ticks, item.Value.Ticks));
-            }
-         }
-         public void EtterXml()
-         {
-            results.Clear();
-            if (resultList  != null)
-            {
-               foreach (var item in resultList)
-               {
-                  long time = item.time;
-                  long used = item.used;
-                  if (time > 0 && used > 0)
-                     results[new DateTime(time)] = new TimeSpan(used);
-               }
-            }
-         }
-
-
-         public void Add(DateTime time, TimeSpan timeUsed)
-         {
-            // Lagrer bare ett resultat pr time
-            DateTime inHour = new DateTime(time.Year, time.Month, time.Day, time.Hour, 0, 0);
-            if (!results.ContainsKey(inHour))
-              results[inHour] = timeUsed;
-            else
-               if (timeUsed < results[inHour])
-                  results[inHour] = timeUsed;
-         }
-
-      }
-
-
-      public class GruppeListe : IEnumerable<int>
-      {
-         public GruppeListe()
-         {
-            stringListe = "";
-            liste = new List<int>();
-         }
-
-         public string stringListe;
-         [XmlIgnore]
-         readonly List<int> liste;
-
-         [XmlIgnore]
-         public string Liste
-         {
-            get { return stringListe; }
-            set
-            {
-               stringListe = value;
-               StringToListe();
-            }
-         }
-         [XmlIgnore]
-         public int Count { get { return liste.Count; } }
-
-         public void StringToListe()
-         {
-            liste.Clear();
-            var grupper = stringListe.Split(' ');
-            foreach (string gruppe in grupper)
-            {
-               if (int.TryParse(gruppe, out int antall))
-               {
-                  liste.Add(antall);
-               }
-            }
-         }
-
-         [XmlIgnore]
-         public int this[int i]
-         {
-            get { return liste[i]; }
-         }
-
-         public IEnumerator<int> GetEnumerator()
-         {
-            return ((IEnumerable<int>)liste).GetEnumerator();
-         }
-
-         IEnumerator IEnumerable.GetEnumerator()
-         {
-            return ((IEnumerable<int>)liste).GetEnumerator();
-         }
-
-         bool noSpaceNext = false;
-         public void Add(char key)
-         {
-            var c = (char)key;
-            if (key == '*' || key == '+')
-               noSpaceNext = true;
-            else
-            {
-               if (key == '-' || key == '\b')
-               {
-                  if (stringListe.Length > 0)
-                     stringListe = stringListe.Remove(stringListe.Length - 1);
-               }
-               else
-               {
-                  if (key >= '0' && key <= '9')
-                  {
-                     if (!noSpaceNext && !stringListe.EndsWith(" ") && stringListe.Length > 0)
-                     {
-                        stringListe += " ";
-                     }
-                     stringListe += c;
-                  }
-               }
-               noSpaceNext = false;
-            }
-            StringToListe();
-         }
-
-         public void Tell(Plass[] plass)
-         {
-            stringListe = "";
-            int i = 0;
-            while (i < plass.Length)
-            {
-               while (i < plass.Length && plass[i].Verdi != Verdi.Sort) { ++i; }
-               if (i < plass.Length)
-               {
-                  int s = i;
-                  while (i < plass.Length && plass[i].Verdi == Verdi.Sort) { ++i; }
-                  int n = i - s;
-                  stringListe += n.ToString() + " ";
-               }
-            }
-            StringToListe();
-         }
-      }
-
-      public enum Verdi { Sort=-1, Ledig=0, Hvit=1}
-
-      public class Plass
-      {
-         [XmlIgnore]
-         public Verdi Verdi { get; set; } = Verdi.Ledig;
-         [XmlElement(ElementName = "verdi")]
-         public int Xmlverdi
-         {
-            get { return (int)Verdi; }
-            set { Verdi = (Verdi)value; }
-         }
-
-         public Plass()
-         {
-         }
-
-         public void Clear()
-         {
-            Verdi = Verdi.Ledig;
-         }
-
-         public void SetVerdi(Verdi v)
-         {
-            if (Verdi == v)
-               Clear();
-            else
-               Verdi = v;
-         }
-
-         [XmlIgnore]
-         public Verdi Fasit { get; private set; } = Verdi.Ledig;
-         [XmlElement(ElementName = "fasit")]
-         public int Xmlfasit
-         {
-            get { return (int)Fasit; }
-            set { Fasit = (Verdi)value; }
-         }
-
-         public void SetFasit() { Fasit = Verdi; }
-         public void CheckFasit()
-         {
-            if (Fasit != Verdi.Ledig)
-               if (Verdi != Fasit)
-                  Clear();
-         }
-      }
 
       public int nLines;
       public int nColumns;
@@ -340,7 +134,7 @@ namespace Bilde
             grupper.StringToListe();
             grupperPrKolonne.Add(grupper);
          }
-         LagLinjerOgKollonner();        
+         LagLinjerOgKollonner();
          history.EtterXml();
       }
 
@@ -402,6 +196,8 @@ namespace Bilde
             grupperPrKolonne.Add(new GruppeListe());
          }
          LagLinjerOgKollonner();
+
+         history.results.Clear();
       }
 
       public void Reset()
@@ -577,7 +373,7 @@ namespace Bilde
                ++irom;
                if (irom >= romListe.Count) goto Feil; // Feil
             }
-            for (int jrom= irom; jrom<romListe.Count; ++jrom)
+            for (int jrom = irom; jrom < romListe.Count; ++jrom)
             {
                var rom = romListe[jrom];
                if (rom.Size() >= gruppe.size)
@@ -696,10 +492,10 @@ namespace Bilde
          }
 
          goto End;
-         Feil:
+      Feil:
          funnet = true;
 
-         End:
+      End:
          return funnet;
       }
 
@@ -728,7 +524,7 @@ namespace Bilde
          if (grupper.Count < 1)
             return false;
 
-         int restBehov = grupper.Count-1;
+         int restBehov = grupper.Count - 1;
          foreach (var gruppe in grupper)
          {
             restBehov += gruppe.size;
@@ -774,6 +570,213 @@ namespace Bilde
             grupperPrKolonne[y].Tell(kolonner[y]);
          }
       }
+   }
+   public class GruppeListe : IEnumerable<int>
+   {
+      public GruppeListe()
+      {
+         stringListe = "";
+         liste = new List<int>();
+      }
+
+      public string stringListe;
+      [XmlIgnore]
+      readonly List<int> liste;
+
+      [XmlIgnore]
+      public string Liste
+      {
+         get { return stringListe; }
+         set
+         {
+            stringListe = value;
+            StringToListe();
+         }
+      }
+      [XmlIgnore]
+      public int Count { get { return liste.Count; } }
+
+      public void StringToListe()
+      {
+         liste.Clear();
+         var grupper = stringListe.Split(' ');
+         foreach (string gruppe in grupper)
+         {
+            if (int.TryParse(gruppe, out int antall))
+            {
+               liste.Add(antall);
+            }
+         }
+      }
+
+      [XmlIgnore]
+      public int this[int i]
+      {
+         get { return liste[i]; }
+      }
+
+      public IEnumerator<int> GetEnumerator()
+      {
+         return ((IEnumerable<int>)liste).GetEnumerator();
+      }
+
+      IEnumerator IEnumerable.GetEnumerator()
+      {
+         return ((IEnumerable<int>)liste).GetEnumerator();
+      }
+
+      bool noSpaceNext = false;
+      public void Add(char key)
+      {
+         var c = (char)key;
+         if (key == '*' || key == '+')
+            noSpaceNext = true;
+         else
+         {
+            if (key == '-' || key == '\b')
+            {
+               if (stringListe.Length > 0)
+                  stringListe = stringListe.Remove(stringListe.Length - 1);
+            }
+            else
+            {
+               if (key >= '0' && key <= '9')
+               {
+                  if (!noSpaceNext && !stringListe.EndsWith(" ") && stringListe.Length > 0)
+                  {
+                     stringListe += " ";
+                  }
+                  stringListe += c;
+               }
+            }
+            noSpaceNext = false;
+         }
+         StringToListe();
+      }
+
+      public void Tell(Plass[] plass)
+      {
+         stringListe = "";
+         int i = 0;
+         while (i < plass.Length)
+         {
+            while (i < plass.Length && plass[i].Verdi != Verdi.Sort) { ++i; }
+            if (i < plass.Length)
+            {
+               int s = i;
+               while (i < plass.Length && plass[i].Verdi == Verdi.Sort) { ++i; }
+               int n = i - s;
+               stringListe += n.ToString() + " ";
+            }
+         }
+         StringToListe();
+      }
 
    }
+
+   public enum Verdi { Sort = -1, Ledig = 0, Hvit = 1 }
+
+   public class Plass
+   {
+      [XmlIgnore]
+      public Verdi Verdi { get; set; } = Verdi.Ledig;
+      [XmlElement(ElementName = "verdi")]
+      public int Xmlverdi
+      {
+         get { return (int)Verdi; }
+         set { Verdi = (Verdi)value; }
+      }
+
+      public Plass()
+      {
+      }
+
+      public void Clear()
+      {
+         Verdi = Verdi.Ledig;
+      }
+
+      public void SetVerdi(Verdi v)
+      {
+         if (Verdi == v)
+            Clear();
+         else
+            Verdi = v;
+      }
+
+      [XmlIgnore]
+      public Verdi Fasit { get; private set; } = Verdi.Ledig;
+      [XmlElement(ElementName = "fasit")]
+      public int Xmlfasit
+      {
+         get { return (int)Fasit; }
+         set { Fasit = (Verdi)value; }
+      }
+
+      public void SetFasit() { Fasit = Verdi; }
+      public void CheckFasit()
+      {
+         if (Fasit != Verdi.Ledig)
+            if (Verdi != Fasit)
+               Clear();
+      }
+   }
+
+   public class History
+   {
+
+      [XmlIgnore]
+      public SortedDictionary<DateTime, TimeSpan> results = new SortedDictionary<DateTime, TimeSpan>();
+
+      [XmlElement(ElementName = "results")]
+      public List<Result> resultList;
+
+      public struct Result
+      {
+         public long time;
+         public long used;
+         public Result(long t, long u)
+         {
+            time = t;
+            used = u;
+         }
+
+      }
+      public void ForberedXml()
+      {
+         resultList = new List<Result>();
+         foreach (var item in results)
+         {
+            resultList.Add(new Result(item.Key.Ticks, item.Value.Ticks));
+         }
+      }
+      public void EtterXml()
+      {
+         results.Clear();
+         if (resultList != null)
+         {
+            foreach (var item in resultList)
+            {
+               long time = item.time;
+               long used = item.used;
+               if (time > 0 && used > 0)
+                  results[new DateTime(time)] = new TimeSpan(used);
+            }
+         }
+      }
+
+
+      public void Add(DateTime time, TimeSpan timeUsed)
+      {
+         // Lagrer bare ett resultat pr time
+         DateTime inHour = new DateTime(time.Year, time.Month, time.Day, time.Hour, 0, 0);
+         if (!results.ContainsKey(inHour))
+            results[inHour] = timeUsed;
+         else
+            if (timeUsed < results[inHour])
+            results[inHour] = timeUsed;
+      }
+
+   }
+
 }

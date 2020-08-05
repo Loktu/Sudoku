@@ -1,11 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace Kakuro
@@ -97,7 +92,7 @@ namespace Kakuro
          int n = liste.Length;
          for (int i = n - 1; i >= 0; i--)
          {
-            if (liste[i] < 10-n+i)
+            if (liste[i] < 10 - n + i)
             {
                ++liste[i];
                for (int j = i + 1; j < n; j++)

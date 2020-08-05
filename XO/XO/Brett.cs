@@ -1,6 +1,3 @@
-using System;
-using System.Collections.Generic;
-
 namespace XO
 {
    public class Brett
@@ -9,7 +6,7 @@ namespace XO
       {
          public int verdi { get; set; } = 0;
          public bool auto { get; set; } = false;
- 
+
          public Plass()
          {
          }
@@ -42,7 +39,7 @@ namespace XO
          }
       }
 
-      public Brett(int brettSize=14)
+      public Brett(int brettSize = 14)
       {
          InitBrett(brettSize);
       }

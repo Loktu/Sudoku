@@ -1,7 +1,7 @@
 using System;
 using System.Drawing;
-using System.Windows.Forms;
 using System.IO;
+using System.Windows.Forms;
 using System.Xml.Serialization;
 
 namespace Bilde
@@ -44,6 +44,8 @@ namespace Bilde
 
       public void Clear(int n, int m)
       {
+         timer.Stop();
+         brett.SoFar = TimeSpan.Zero;
          fileName = null;
          brett.Clear(n, m);
          Invalidate();
@@ -86,11 +88,11 @@ namespace Bilde
 
          if (currentRow > -1 && currentRow < nl)
          {
-            g.FillRectangle(brush, xMin, y0 + size * currentRow, ngk*size, size);
+            g.FillRectangle(brush, xMin, y0 + size * currentRow, ngk * size, size);
          }
          if (currentCol > -1 && currentCol < nc)
          {
-            g.FillRectangle(brush, x0+size*currentCol, yMin, size, ngl*size);
+            g.FillRectangle(brush, x0 + size * currentCol, yMin, size, ngl * size);
          }
 
          int sum = 0;
@@ -125,7 +127,7 @@ namespace Bilde
             }
          }
 
-         DrawString(g, x0 - size, y0 - size, size, sum.ToString());
+         DrawString(g, x0 - size*2, y0 - size, size, sum.ToString());
 
          if (brett.HarFasit())
          {
@@ -134,7 +136,7 @@ namespace Bilde
             int ir = 1;
             foreach (var tid in brett.Results)
             {
-               DrawString(g, 0, size*ir, size, ir.ToString() + ": " + tid.Value.ToString());
+               DrawString(g, 0, size * ir, size, ir.ToString() + ": " + tid.Value.ToString());
                ir++;
                if (ir > 5) break;
             }
@@ -173,16 +175,16 @@ namespace Bilde
          timer.Enabled = false;
       }
 
-      public void DrawValue(Graphics g, int x, int y, int size, Brett.Plass plass)
+      public void DrawValue(Graphics g, int x, int y, int size, Plass plass)
       {
          Brush brush = Brushes.LightGray;
          Pen pen = Pens.Black;
-         if (plass.Verdi == Brett.Verdi.Sort)
+         if (plass.Verdi == Verdi.Sort)
          {
             brush = Brushes.Black;
             pen = Pens.White;
          }
-         if (plass.Verdi == Brett.Verdi.Hvit)
+         if (plass.Verdi == Verdi.Hvit)
          {
             brush = Brushes.White;
          }
@@ -225,16 +227,16 @@ namespace Bilde
 
          if (x > 0 && y >= 0)
          {
-            Brett.Plass plass = brett[i, j];
+            Plass plass = brett[i, j];
             if (plass == null) return;
 
             if (e.Button == MouseButtons.Left)
             {
-               plass.SetVerdi(Brett.Verdi.Sort);
+               plass.SetVerdi(Verdi.Sort);
             }
             else if (e.Button == MouseButtons.Right)
             {
-               plass.SetVerdi(Brett.Verdi.Hvit);
+               plass.SetVerdi(Verdi.Hvit);
             }
             SjekkRekord();
          }
@@ -259,8 +261,8 @@ namespace Bilde
                ++currentRow;
                if (currentRow >= brett.grupperPrLinje.Count)
                {
-                  currentRow=-1;
-                  currentCol=0;
+                  currentRow = -1;
+                  currentCol = 0;
                }
             }
             else if (currentCol > -1)
@@ -268,8 +270,8 @@ namespace Bilde
                ++currentCol;
                if (currentCol >= brett.grupperPrKolonne.Count)
                {
-                  currentCol=-1;
-                  currentRow=0;
+                  currentCol = -1;
+                  currentRow = 0;
                }
             }
          }
@@ -279,7 +281,7 @@ namespace Bilde
          }
          if (currentCol > -1 && currentCol < brett.grupperPrKolonne.Count)
          {
-             brett.grupperPrKolonne[currentCol].Add(e.KeyChar);
+            brett.grupperPrKolonne[currentCol].Add(e.KeyChar);
          }
          Invalidate();
       }
