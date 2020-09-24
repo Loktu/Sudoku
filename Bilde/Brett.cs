@@ -27,7 +27,7 @@ namespace Bilde
       }
 
       [XmlIgnore]
-      public ICollection<KeyValuePair<DateTime, TimeSpan>> Results => history.results;
+      public List<KeyValuePair<DateTime, TimeSpan>> Results => history.results;
 
       public History history = new History();
 
@@ -726,7 +726,7 @@ namespace Bilde
    {
 
       [XmlIgnore]
-      public SortedDictionary<DateTime, TimeSpan> results = new SortedDictionary<DateTime, TimeSpan>();
+      public List<KeyValuePair<DateTime, TimeSpan>> results = new List<KeyValuePair<DateTime, TimeSpan>>();
 
       [XmlElement(ElementName = "results")]
       public List<Result> resultList;
@@ -760,7 +760,7 @@ namespace Bilde
                long time = item.time;
                long used = item.used;
                if (time > 0 && used > 0)
-                  results[new DateTime(time)] = new TimeSpan(used);
+                  results.Add(new KeyValuePair<DateTime, TimeSpan>(new DateTime(time), new TimeSpan(used)));
             }
          }
       }
@@ -769,12 +769,13 @@ namespace Bilde
       public void Add(DateTime time, TimeSpan timeUsed)
       {
          // Lagrer bare ett resultat pr time
-         DateTime inHour = new DateTime(time.Year, time.Month, time.Day, time.Hour, 0, 0);
-         if (!results.ContainsKey(inHour))
-            results[inHour] = timeUsed;
-         else
-            if (timeUsed < results[inHour])
-            results[inHour] = timeUsed;
+         TimeSpan enTime = new TimeSpan(1, 0, 0);
+         int n = results.Count;
+         if (n > 0)
+         {
+            if (time - results[n - 1].Key < enTime) return;
+         }
+         results.Add(new KeyValuePair<DateTime, TimeSpan>(time, timeUsed));
       }
 
    }

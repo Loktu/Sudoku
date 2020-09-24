@@ -134,9 +134,11 @@ namespace Bilde
             DrawString(g, 0, 0, size, "0: " + brett.SoFar.ToString());
 
             int ir = 1;
-            foreach (var tid in brett.Results)
+            int n = brett.Results.Count;
+            for (int i=n; i > 0; --i)
             {
-               DrawString(g, 0, size * ir, size, ir.ToString() + ": " + tid.Value.ToString());
+               var tid = brett.Results[i-1];
+               DrawString(g, 0, size * ir, size, i.ToString() + ": " + tid.Value.ToString());
                ir++;
                if (ir > 5) break;
             }
