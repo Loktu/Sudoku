@@ -25,6 +25,9 @@ namespace Bilde
       int currentRow = -1;
       int currentCol = -1;
 
+      int mouseRow = -1;
+      int mouseCol = -1;
+
       public BrettControl()
       {
          InitializeComponent();
@@ -83,6 +86,15 @@ namespace Bilde
 
          x0 = xMin + ngk * size;
          y0 = yMin + ngl * size;
+
+         if (mouseRow > -1 && mouseRow < nl)
+         {
+            g.FillRectangle(brush, xMin, y0 + size * mouseRow, ngk * size, size);
+         }
+         if (mouseCol > -1 && mouseCol < nc)
+         {
+            g.FillRectangle(brush, x0 + size * mouseCol, yMin, size, ngl * size);
+         }
 
          if (currentRow > -1 && currentRow < nl)
          {
@@ -375,6 +387,20 @@ namespace Bilde
       public void Tell()
       {
          brett.Tell();
+      }
+
+      private void OnMouseMove(object sender, MouseEventArgs e)
+      {
+         int x = (e.X - x0);
+         int y = (e.Y - y0);
+         int j = x / size;
+         int i = y / size;
+         if (i != mouseRow || j != mouseCol)
+         {
+            mouseRow = i;
+            mouseCol = j;
+            Invalidate();
+         }
       }
    }
 }
