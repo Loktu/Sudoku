@@ -147,6 +147,7 @@ namespace Bilde
 
             int ir = 1;
             int n = brett.Results.Count;
+
             for (int i=n; i > 0; --i)
             {
                var tid = brett.Results[i-1];
@@ -191,7 +192,7 @@ namespace Bilde
 
       public void DrawValue(Graphics g, int x, int y, int size, Plass plass)
       {
-         Brush brush = Brushes.LightGray;
+         Brush brush = Brushes.Gray;
          Pen pen = Pens.Black;
          if (plass.Verdi == Verdi.Sort)
          {
