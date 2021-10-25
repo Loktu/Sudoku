@@ -8,10 +8,7 @@ namespace Sudoku
       {
          public Plass()
          {
-            for (int i = 0; i < 9; ++i)
-            {
-               Laast[i] = false;
-            }
+            Laast.ForEach(laast => laast = false);
          }
 
          public int k;
@@ -723,11 +720,8 @@ namespace Sudoku
       /// </summary>
       public void FinnLaaste()
       {
-         foreach (Plass plass in brett)
-         {
-            for (int i = 1; i <= 9; ++i)
-               plass.Laast[i - 1] = false;
-         }
+         brett.ForEach(plass => plass.Laast.ForEach(laast => laast = false));
+
          List<Plass> funnet = new List<Plass>();
          foreach (Kombinasjon kombinasjon in kombinasjoner)
          {

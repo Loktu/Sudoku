@@ -388,7 +388,7 @@ namespace Bilde
       public void SetRekord()
       {
          brett.Record = TimeSpan.MaxValue;
-         foreach (var t in brett.history.results)
+         foreach (var t in brett.Results)
          {
             if (t.Value < brett.Record)
                brett.Record = t.Value; 

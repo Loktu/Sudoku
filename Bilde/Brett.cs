@@ -188,7 +188,7 @@ namespace Bilde
          }
          LagLinjerOgKollonner();
 
-         history.results.Clear();
+         Results.Clear();
       }
 
       public void Reset()
