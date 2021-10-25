@@ -1,6 +1,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
 
@@ -19,7 +20,7 @@ namespace Bilde
 
       public void SetRecord()
       {
-         if ((SoFar < Record) || (Record.Seconds < 1))
+         if ((SoFar < Record) || (Record.TotalSeconds < 1))
          {
             Record = SoFar;
          }
@@ -138,16 +139,7 @@ namespace Bilde
          history.EtterXml();
       }
 
-      public Plass this[int l, int c]
-      {
-         get
-         {
-            if (l < 0 || l >= nLines) return null;
-            if (c < 0 || c >= nColumns) return null;
-            return brett[l, c];
-         }
-      }
-
+      public Plass this[int l, int c] => (l >= 0 && l < nLines && c >= 0 && c < nColumns) ? brett[l, c] : null;
 
       public Brett()
       {
@@ -167,8 +159,7 @@ namespace Bilde
 
       public void Restart()
       {
-         foreach (var plass in brett)
-            plass.Clear();
+         brett.ForEach(plass => plass.Clear());
          SoFar = TimeSpan.Zero;
       }
 
@@ -202,10 +193,7 @@ namespace Bilde
 
       public void Reset()
       {
-         foreach (Plass plass in brett)
-         {
-            plass.Clear();
-         }
+         brett.ForEach(plass => plass.Clear());
       }
 
       private void LagLinjerOgKollonner()
@@ -232,52 +220,22 @@ namespace Bilde
 
       public void SetFasit()
       {
-         for (int x = 0; x < nLines; ++x)
-         {
-            for (int y = 0; y < nColumns; ++y)
-            {
-               brett[x, y].SetFasit();
-            }
-         }
+         brett.ForEach(plass => plass.SetFasit());
       }
 
       internal bool HarFasit()
       {
-         for (int x = 0; x < nLines; ++x)
-         {
-            for (int y = 0; y < nColumns; ++y)
-            {
-               if (brett[x, y].Fasit == Verdi.Ledig)
-                  return false; ;
-            }
-         }
-         return true;
+         return !brett.Exists(plass => plass.Fasit == Verdi.Ledig);
       }
 
       internal bool Ferdig()
       {
-         for (int x = 0; x < nLines; ++x)
-         {
-            for (int y = 0; y < nColumns; ++y)
-            {
-               if (brett[x, y].Fasit == Verdi.Ledig)
-                  return false; ;
-               if (brett[x, y].Verdi != brett[x, y].Fasit)
-                  return false; ;
-            }
-         }
-         return true;
+         return !brett.Exists(plass => plass.Fasit != plass.Verdi || plass.Verdi == Verdi.Ledig);
       }
 
       public void CheckFasit()
       {
-         for (int x = 0; x < nLines; ++x)
-         {
-            for (int y = 0; y < nColumns; ++y)
-            {
-               brett[x, y].CheckFasit();
-            }
-         }
+         brett.ForEach(plass => plass.CheckFasit());
       }
 
       public bool Step()
@@ -776,6 +734,16 @@ namespace Bilde
             if (time - results[n - 1].Key < enTime) return;
          }
          results.Add(new KeyValuePair<DateTime, TimeSpan>(time, timeUsed));
+      }
+
+      public void VisResultater()
+      {
+         string resultater = "Dato: \tTid\n";
+         foreach (var item in results)
+         {
+            resultater += item.Key.ToShortDateString() + "\t" + item.Value.ToString() + "\n";
+         }
+         MessageBox.Show(resultater);
       }
 
    }

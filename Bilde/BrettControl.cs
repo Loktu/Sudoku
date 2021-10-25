@@ -119,9 +119,6 @@ namespace Bilde
             int x = x0 - size * brett.grupperPrLinje[row].Count;
             foreach (var gruppe in brett.grupperPrLinje[row])
             {
-               if (row == currentRow)
-               {
-               }
                DrawString(g, x, y, size, gruppe.ToString());
                x += size;
                sum += gruppe;
@@ -143,15 +140,19 @@ namespace Bilde
 
          if (brett.HarFasit())
          {
-            DrawString(g, 0, 0, size, "0: " + brett.SoFar.ToString());
+            // Rød skrift så lenge den er under rekorden
+            Brush timebrush = (brett.SoFar <= brett.Record) ? Brushes.Red : Brushes.Black;
+            DrawString(g, 0, 0, size, "0: " + brett.SoFar.ToString(), timebrush);
 
             int ir = 1;
             int n = brett.Results.Count;
 
             for (int i=n; i > 0; --i)
             {
-               var tid = brett.Results[i-1];
-               DrawString(g, 0, size * ir, size, i.ToString() + ": " + tid.Value.ToString());
+               var tid = brett.Results[i - 1];
+               timebrush = (tid.Value <= brett.Record) ? Brushes.Red : Brushes.Black;
+
+               DrawString(g, 0, size * ir, size, i.ToString() + ": " + tid.Value.ToString(), timebrush);
                ir++;
                if (ir > 5) break;
             }
@@ -216,13 +217,16 @@ namespace Bilde
 
       public void DrawString(Graphics g, int x0, int y0, int size, string number)
       {
+         DrawString(g, x0, y0, size, number, Brushes.Black);
+      }
+      public void DrawString(Graphics g, int x0, int y0, int size, string number, Brush brush)
+      {
          int x = x0 + 1;
          int y = y0 + 1;
          float fontsize = size / 2;
          if (fontsize > 3)
          {
             Font font = new Font(this.Font.Name, fontsize);
-            Brush brush = Brushes.Black;
             g.DrawString(number, font, brush, x, y);
          }
       }
@@ -353,8 +357,12 @@ namespace Bilde
 
       public void Step()
       {
+         if (brett.Ferdig())
+            return;
+
          if (!timer.Enabled)
             timer.Enabled = true;
+
          brett.Step();
          brett.SoFar += new TimeSpan(0, 0, 0, 0, timer.Interval);
          SjekkRekord();
@@ -379,14 +387,13 @@ namespace Bilde
 
       public void SetRekord()
       {
-         if (brett.Ferdig())
+         brett.Record = TimeSpan.MaxValue;
+         foreach (var t in brett.history.results)
          {
-            brett.Record = brett.SoFar;
-            if (!string.IsNullOrEmpty(fileName))
-            {
-               Save(fileName);
-            }
+            if (t.Value < brett.Record)
+               brett.Record = t.Value; 
          }
+         Save(fileName);
       }
 
       public void Tell()

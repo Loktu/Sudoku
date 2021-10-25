@@ -48,12 +48,13 @@ namespace Bilde
          this.setRekodToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          this.tellToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+         this.pauseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          this.stepToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          this.loadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          this.saveAsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-         this.pauseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          this.brettControl = new Bilde.BrettControl();
+         this.visHistorieToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          this.menuStrip.SuspendLayout();
          this.SuspendLayout();
          // 
@@ -63,6 +64,7 @@ namespace Bilde
             this.fileToolStripMenuItem,
             this.clearMenuItem,
             this.setupMenuItem,
+            this.visHistorieToolStripMenuItem,
             this.optionsToolStripMenuItem,
             this.aboutToolStripMenuItem,
             this.pauseToolStripMenuItem,
@@ -87,28 +89,28 @@ namespace Bilde
          // loadToolStripMenuItem1
          // 
          this.loadToolStripMenuItem1.Name = "loadToolStripMenuItem1";
-         this.loadToolStripMenuItem1.Size = new System.Drawing.Size(125, 22);
+         this.loadToolStripMenuItem1.Size = new System.Drawing.Size(180, 22);
          this.loadToolStripMenuItem1.Text = "Les fil";
          this.loadToolStripMenuItem1.Click += new System.EventHandler(this.loadMenu_Click);
          // 
          // skrivFilToolStripMenuItem
          // 
          this.skrivFilToolStripMenuItem.Name = "skrivFilToolStripMenuItem";
-         this.skrivFilToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+         this.skrivFilToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
          this.skrivFilToolStripMenuItem.Text = "Skriv fil";
          this.skrivFilToolStripMenuItem.Click += new System.EventHandler(this.skrivFilMenu_Click);
          // 
          // skrivSomToolStripMenuItem
          // 
          this.skrivSomToolStripMenuItem.Name = "skrivSomToolStripMenuItem";
-         this.skrivSomToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+         this.skrivSomToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
          this.skrivSomToolStripMenuItem.Text = "Skriv som";
          this.skrivSomToolStripMenuItem.Click += new System.EventHandler(this.skrivSomMenu_Click);
          // 
          // restartToolStripMenuItem
          // 
          this.restartToolStripMenuItem.Name = "restartToolStripMenuItem";
-         this.restartToolStripMenuItem.Size = new System.Drawing.Size(125, 22);
+         this.restartToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
          this.restartToolStripMenuItem.Text = "Restart";
          this.restartToolStripMenuItem.Click += new System.EventHandler(this.restartToolStripMenuItem_Click);
          // 
@@ -127,35 +129,35 @@ namespace Bilde
          // Clear_3x3
          // 
          this.Clear_3x3.Name = "Clear_3x3";
-         this.Clear_3x3.Size = new System.Drawing.Size(92, 22);
+         this.Clear_3x3.Size = new System.Drawing.Size(180, 22);
          this.Clear_3x3.Text = "3x3";
          this.Clear_3x3.Click += new System.EventHandler(this.Clear_3x3_Click);
          // 
          // Clear_3x4
          // 
          this.Clear_3x4.Name = "Clear_3x4";
-         this.Clear_3x4.Size = new System.Drawing.Size(92, 22);
+         this.Clear_3x4.Size = new System.Drawing.Size(180, 22);
          this.Clear_3x4.Text = "3x4";
          this.Clear_3x4.Click += new System.EventHandler(this.Clear_3x4_Click);
          // 
          // Clear_4x3
          // 
          this.Clear_4x3.Name = "Clear_4x3";
-         this.Clear_4x3.Size = new System.Drawing.Size(92, 22);
+         this.Clear_4x3.Size = new System.Drawing.Size(180, 22);
          this.Clear_4x3.Text = "4x3";
          this.Clear_4x3.Click += new System.EventHandler(this.Clear_4x3_Click);
          // 
          // Clear_4x4
          // 
          this.Clear_4x4.Name = "Clear_4x4";
-         this.Clear_4x4.Size = new System.Drawing.Size(92, 22);
+         this.Clear_4x4.Size = new System.Drawing.Size(180, 22);
          this.Clear_4x4.Text = "4x4";
          this.Clear_4x4.Click += new System.EventHandler(this.Clear_4x4_Click);
          // 
          // Clear_5x7
          // 
          this.Clear_5x7.Name = "Clear_5x7";
-         this.Clear_5x7.Size = new System.Drawing.Size(92, 22);
+         this.Clear_5x7.Size = new System.Drawing.Size(180, 22);
          this.Clear_5x7.Text = "5x7";
          this.Clear_5x7.Click += new System.EventHandler(this.Clear_5x7_Click);
          // 
@@ -179,35 +181,35 @@ namespace Bilde
          // tellevennligToolStripMenuItem
          // 
          this.tellevennligToolStripMenuItem.Name = "tellevennligToolStripMenuItem";
-         this.tellevennligToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+         this.tellevennligToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
          this.tellevennligToolStripMenuItem.Text = "Tellevennlig";
          this.tellevennligToolStripMenuItem.Click += new System.EventHandler(this.OnTellevennlig);
          // 
          // setFasitToolStripMenuItem
          // 
          this.setFasitToolStripMenuItem.Name = "setFasitToolStripMenuItem";
-         this.setFasitToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+         this.setFasitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
          this.setFasitToolStripMenuItem.Text = "Set fasit";
          this.setFasitToolStripMenuItem.Click += new System.EventHandler(this.setFasitToolStripMenuItem_Click);
          // 
          // checkFasitToolStripMenuItem
          // 
          this.checkFasitToolStripMenuItem.Name = "checkFasitToolStripMenuItem";
-         this.checkFasitToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+         this.checkFasitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
          this.checkFasitToolStripMenuItem.Text = "Sjekk fasit";
          this.checkFasitToolStripMenuItem.Click += new System.EventHandler(this.checkToolStripMenuItem_Click);
          // 
          // setRekodToolStripMenuItem
          // 
          this.setRekodToolStripMenuItem.Name = "setRekodToolStripMenuItem";
-         this.setRekodToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+         this.setRekodToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
          this.setRekodToolStripMenuItem.Text = "Set rekod";
          this.setRekodToolStripMenuItem.Click += new System.EventHandler(this.setRekodToolStripMenuItem_Click);
          // 
          // tellToolStripMenuItem
          // 
          this.tellToolStripMenuItem.Name = "tellToolStripMenuItem";
-         this.tellToolStripMenuItem.Size = new System.Drawing.Size(136, 22);
+         this.tellToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
          this.tellToolStripMenuItem.Text = "Tell";
          this.tellToolStripMenuItem.Click += new System.EventHandler(this.tellToolStripMenuItem_Click);
          // 
@@ -219,6 +221,13 @@ namespace Bilde
          this.aboutToolStripMenuItem.Text = "About";
          this.aboutToolStripMenuItem.TextAlign = System.Drawing.ContentAlignment.MiddleRight;
          this.aboutToolStripMenuItem.Click += new System.EventHandler(this.OnAbout);
+         // 
+         // pauseToolStripMenuItem
+         // 
+         this.pauseToolStripMenuItem.Name = "pauseToolStripMenuItem";
+         this.pauseToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
+         this.pauseToolStripMenuItem.Text = "Pause";
+         this.pauseToolStripMenuItem.Click += new System.EventHandler(this.pauseToolStripMenuItem_Click);
          // 
          // stepToolStripMenuItem
          // 
@@ -246,13 +255,6 @@ namespace Bilde
          this.saveAsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
          this.saveAsToolStripMenuItem.Text = "Save as...";
          // 
-         // pauseToolStripMenuItem
-         // 
-         this.pauseToolStripMenuItem.Name = "pauseToolStripMenuItem";
-         this.pauseToolStripMenuItem.Size = new System.Drawing.Size(50, 20);
-         this.pauseToolStripMenuItem.Text = "Pause";
-         this.pauseToolStripMenuItem.Click += new System.EventHandler(this.pauseToolStripMenuItem_Click);
-         // 
          // brettControl
          // 
          this.brettControl.AccessibleName = "";
@@ -263,6 +265,13 @@ namespace Bilde
          this.brettControl.Size = new System.Drawing.Size(565, 530);
          this.brettControl.TabIndex = 2;
          this.brettControl.Tellevennlig = false;
+         // 
+         // visHistorieToolStripMenuItem
+         // 
+         this.visHistorieToolStripMenuItem.Name = "visHistorieToolStripMenuItem";
+         this.visHistorieToolStripMenuItem.Size = new System.Drawing.Size(76, 20);
+         this.visHistorieToolStripMenuItem.Text = "Vis historie";
+         this.visHistorieToolStripMenuItem.Click += new System.EventHandler(this.visHistorieToolStripMenuItem_Click);
          // 
          // canvasForm
          // 
@@ -310,6 +319,7 @@ namespace Bilde
       private System.Windows.Forms.ToolStripMenuItem setRekodToolStripMenuItem;
       private System.Windows.Forms.ToolStripMenuItem tellToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem pauseToolStripMenuItem;
-    }
+      private System.Windows.Forms.ToolStripMenuItem visHistorieToolStripMenuItem;
+   }
 }
 

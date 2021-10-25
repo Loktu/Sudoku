@@ -156,5 +156,10 @@ namespace Bilde
       {
          brettControl.Pause();
       }
+
+      private void visHistorieToolStripMenuItem_Click(object sender, EventArgs e)
+      {
+         brettControl.brett.history.VisResultater();
+      }
    }
 }
