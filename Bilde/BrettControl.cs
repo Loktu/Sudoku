@@ -140,8 +140,8 @@ namespace Bilde
 
          if (brett.HarFasit())
          {
-            // Rød skrift så lenge den er under rekorden
-            Brush timebrush = (brett.SoFar <= brett.Record) ? Brushes.Red : Brushes.Black;
+            // Rød skrift så lenge den er under rekorden, grønn når timeren stopper, ellers svart
+            Brush timebrush = (brett.SoFar <= brett.Record) ? Brushes.Red : timer.Enabled ? Brushes.Black: Brushes.Orange;
             DrawString(g, 0, 0, size, "0: " + brett.SoFar.ToString(), timebrush);
 
             int ir = 1;
