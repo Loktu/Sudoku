@@ -137,6 +137,13 @@ namespace Bilde
          }
          LagLinjerOgKollonner();
          history.EtterXml();
+
+         Record = TimeSpan.MaxValue;
+         foreach (var t in Results)
+         {
+            if (t.Value < Record)
+               Record = t.Value;
+         }
       }
 
       public Plass this[int l, int c] => (l >= 0 && l < nLines && c >= 0 && c < nColumns) ? brett[l, c] : null;
@@ -713,12 +720,15 @@ namespace Bilde
          results.Clear();
          if (resultList != null)
          {
-            foreach (var item in resultList)
+            var femSiste = resultList.GetRange(Math.Max(0, resultList.Count-5), Math.Min(resultList.Count, 5));
+            foreach (var item in femSiste)
             {
                long time = item.time;
                long used = item.used;
                if (time > 0 && used > 0)
+               {
                   results.Add(new KeyValuePair<DateTime, TimeSpan>(new DateTime(time), new TimeSpan(used)));
+               }
             }
          }
       }

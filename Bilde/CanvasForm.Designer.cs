@@ -199,13 +199,6 @@ namespace Bilde
          this.checkFasitToolStripMenuItem.Text = "Sjekk fasit";
          this.checkFasitToolStripMenuItem.Click += new System.EventHandler(this.checkToolStripMenuItem_Click);
          // 
-         // setRekodToolStripMenuItem
-         // 
-         this.setRekodToolStripMenuItem.Name = "setRekodToolStripMenuItem";
-         this.setRekodToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-         this.setRekodToolStripMenuItem.Text = "Set rekod";
-         this.setRekodToolStripMenuItem.Click += new System.EventHandler(this.setRekodToolStripMenuItem_Click);
-         // 
          // tellToolStripMenuItem
          // 
          this.tellToolStripMenuItem.Name = "tellToolStripMenuItem";

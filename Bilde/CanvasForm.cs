@@ -140,12 +140,6 @@ namespace Bilde
          brettControl.Invalidate();
       }
 
-      private void setRekodToolStripMenuItem_Click(object sender, EventArgs e)
-      {
-         brettControl.SetRekord();
-         brettControl.Invalidate();
-      }
-
       private void tellToolStripMenuItem_Click(object sender, EventArgs e)
       {
          brettControl.Tell();
