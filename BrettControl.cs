@@ -24,7 +24,7 @@ namespace Sudoku
       public TcpClass server;
       public Dictionary<int, Tuple<TcpClass, List<Tuple<int, int>>>> clients;
 
-      readonly Timer timer = new Timer();
+      readonly Timer timer = new Timer() { Interval = 1};
       public bool Auto { get; set; }
       public bool Step { get; set; }
       public bool Hint { get; set; }
@@ -47,13 +47,13 @@ namespace Sudoku
          InitializeComponent();
          brett = new Brett();
          timer.Tick += new EventHandler(TimerTick);
-         timer.Interval = 10;
+         //timer.Interval = 10;
       }
 
       void TimerTick(object sender, EventArgs e)
       {
          timer.Stop();
-         timer.Interval = Math.Max(2, (int)(timer.Interval - 1));
+         //timer.Interval = Math.Max(2, (int)(timer.Interval - 1));
          if (Auto || Step)
          {
             if (Auto1)
@@ -285,7 +285,7 @@ namespace Sudoku
       private void OnMouseClick(object sender, MouseEventArgs e)
       {
          timer.Stop();
-         timer.Interval = 100;
+//         timer.Interval = 100;
 
          int x0 = (e.X - xMin);
          int y0 = (e.Y - yMin);
@@ -328,7 +328,7 @@ namespace Sudoku
       private void BrettControl_KeyDown(object sender, KeyEventArgs e)
       {
          timer.Stop();
-         timer.Interval = 100;
+//         timer.Interval = 100;
 
          int value = e.KeyValue - 48;
          if (value < 0 || value > 9) return;

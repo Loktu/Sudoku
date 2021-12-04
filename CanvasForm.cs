@@ -23,22 +23,6 @@ namespace Sudoku
          brettControl.serverKanal = processes.Length;
          this.Text = proc.ProcessName + " - " + brettControl.serverKanal;
 
-         //if (processes.Length > 1)
-         //{
-         //   //iterate through all running target applications
-         //   foreach (Process p in processes)
-         //   {
-         //      if (p.Id != proc.Id)
-         //      {
-         //         //now send the RF_TESTMESSAGE to the running instance
-         //         SendMessage(p.MainWindowHandle, RF_TESTMESSAGE, IntPtr.Zero, IntPtr.Zero);
-         //      }
-         //   }
-         //}
-         //else
-         //{
-         //   MessageBox.Show("No other running applications found.");
-         //}
       }
 
       private void OnResize(object sender, EventArgs e)
