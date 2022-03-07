@@ -94,7 +94,6 @@ namespace Sudoku
          if (endreForm.ShowDialog() == DialogResult.OK)
          {
             brettControl.brett = endreForm.endreControl.brett;
-            brettControl.Clear();
          }
          brettControl.Invalidate();
       }
