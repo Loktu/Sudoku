@@ -720,8 +720,10 @@ namespace Bilde
          results.Clear();
          if (resultList != null)
          {
-            var femSiste = resultList.GetRange(Math.Max(0, resultList.Count-5), Math.Min(resultList.Count, 5));
-            foreach (var item in femSiste)
+            resultList.Sort((b, a) => a.used.CompareTo(b.used));
+            //var fem = resultList.GetRange(0, Math.Min(resultList.Count, 5));
+            var fem = resultList.GetRange(Math.Max(0, resultList.Count - 5), Math.Min(resultList.Count, 5));
+            foreach (var item in fem)
             {
                long time = item.time;
                long used = item.used;
