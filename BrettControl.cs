@@ -82,7 +82,7 @@ namespace Sudoku
 
       public void Clear()
       {
-         brett.Clear();
+         brett.InitBrett();
          Invalidate();
       }
 
