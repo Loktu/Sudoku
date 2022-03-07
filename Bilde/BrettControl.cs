@@ -385,17 +385,6 @@ namespace Bilde
          }
       }
 
-      public void SetRekord()
-      {
-         brett.Record = TimeSpan.MaxValue;
-         foreach (var t in brett.Results)
-         {
-            if (t.Value < brett.Record)
-               brett.Record = t.Value; 
-         }
-         Save(fileName);
-      }
-
       public void Tell()
       {
          brett.Tell();
