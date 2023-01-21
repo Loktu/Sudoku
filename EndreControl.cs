@@ -124,6 +124,7 @@ namespace Sudoku
       private void BrettControl_KeyDown(object sender, KeyEventArgs e)
       {
          int value = e.KeyValue - 48;
+         if (value < 0 || value > 9) value = e.KeyValue - 96;  //numpad
          if (value < 0 || value > 9) return;
 
          int x0 = (mouseX - xMin);
