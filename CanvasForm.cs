@@ -96,6 +96,7 @@ namespace Sudoku
             brettControl.brett = endreForm.endreControl.brett;
          }
          brettControl.Invalidate();
+         brettControl.Clear();
       }
 
       private void normalToolStripMenuItem_Click(object sender, EventArgs e)
