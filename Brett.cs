@@ -560,7 +560,6 @@ namespace Sudoku
 
       public void Clear()
       {
-         //InitBrett();
          foreach (Plass plass in brett)
          {
             plass.Clear();

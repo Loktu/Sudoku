@@ -90,13 +90,13 @@ namespace Sudoku
 
       private void irregulærToolStripMenuItem_Click(object sender, EventArgs e)
       {
+         brettControl.brett.Clear();
          var endreForm = new EndreForm(brettControl.brett);
          if (endreForm.ShowDialog() == DialogResult.OK)
          {
             brettControl.brett = endreForm.endreControl.brett;
          }
          brettControl.Invalidate();
-         brettControl.Clear();
       }
 
       private void normalToolStripMenuItem_Click(object sender, EventArgs e)
