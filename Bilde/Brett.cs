@@ -5,7 +5,7 @@ using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace Bilde
+namespace Tallbilde
 {
    public class Brett
    {

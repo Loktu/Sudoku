@@ -20,10 +20,9 @@ namespace Tallbilde
       int xMax = 300;
       int yMax = 300;
       readonly Timer timer = new Timer();
-      public bool Tellevennlig { get; set; } = false;
 
-      int currentRow = -1;
-      int currentCol = -1;
+      int currentRow = 0;
+      int currentCol = 0;
 
       int mouseRow = -1;
       int mouseCol = -1;
@@ -31,7 +30,7 @@ namespace Tallbilde
       public BrettControl()
       {
          InitializeComponent();
-         brett = new Brett(15, 10);
+         brett = new Brett(15, 15);
          timer.Tick += new EventHandler(Timer_Tick);
          timer.Interval = 1000;
       }
@@ -52,6 +51,8 @@ namespace Tallbilde
          fileName = null;
          brett.Clear(n, m);
          Invalidate();
+         currentRow = 0;
+         currentCol = 0;
       }
 
       private void OnPaint(object sender, PaintEventArgs e)
@@ -61,53 +62,26 @@ namespace Tallbilde
          Pen brettPen = new Pen(brettColor, 1);
          Pen thickPen = new Pen(brettColor, 3);
 
-         Brush brush = Brushes.LightGray;
-
          int sizeX = r.Width;
          int sizeY = r.Height;
 
          int nl = brett.nLines;
          int nc = brett.nColumns;
 
-         int ngk = Math.Max(brett.GruppeBredde(), 6);
-         int ngl = Math.Max(brett.GruppeHoyde(), 6);
-
-         int numberOfPositionsL = nl + ngl;
-         int numberOfPositionsK = nc + ngk;
-
-         int sizel = sizeY / numberOfPositionsL;
-         int sizek = sizeX / numberOfPositionsK;
+         int sizel = sizeY / nl;
+         int sizek = sizeX / nc;
 
          size = Math.Min(sizel, sizek);
 
          xMin = 0;
          yMin = 0;
 
-         xMax = xMin + numberOfPositionsK * size;
-         yMax = yMin + numberOfPositionsL * size;
+         xMax = xMin + nc * size;
+         yMax = yMin + nl * size;
 
-         x0 = xMin + ngk * size;
-         y0 = yMin + ngl * size;
+         x0 = xMin;
+         y0 = yMin;
 
-         if (mouseRow > -1 && mouseRow < nl)
-         {
-            g.FillRectangle(brush, xMin, y0 + size * mouseRow, ngk * size, size);
-         }
-         if (mouseCol > -1 && mouseCol < nc)
-         {
-            g.FillRectangle(brush, x0 + size * mouseCol, yMin, size, ngl * size);
-         }
-
-         if (currentRow > -1 && currentRow < nl)
-         {
-            g.FillRectangle(brush, xMin, y0 + size * currentRow, ngk * size, size);
-         }
-         if (currentCol > -1 && currentCol < nc)
-         {
-            g.FillRectangle(brush, x0 + size * currentCol, yMin, size, ngl * size);
-         }
-
-         int sum = 0;
          for (int row = 0; row < nl; ++row)
          {
             int y = y0 + size * row;
@@ -115,46 +89,6 @@ namespace Tallbilde
             {
                int x1 = x0 + size * col;
                DrawValue(g, x1, y, size, brett[row, col]);
-            }
-            int x = x0 - size * brett.grupperPrLinje[row].Count;
-            foreach (var gruppe in brett.grupperPrLinje[row])
-            {
-               DrawString(g, x, y, size, gruppe.ToString());
-               x += size;
-               sum += gruppe;
-            }
-         }
-         for (int col = 0; col < nc; ++col)
-         {
-            int x = x0 + size * col;
-            int y = y0 - size * brett.grupperPrKolonne[col].Count;
-            foreach (var gruppe in brett.grupperPrKolonne[col])
-            {
-               DrawString(g, x, y, size, gruppe.ToString());
-               y += size;
-               sum -= gruppe;
-            }
-         }
-
-         DrawString(g, x0 - size*2, y0 - size, size, sum.ToString());
-
-         if (brett.HarFasit())
-         {
-            // Rød skrift så lenge den er under rekorden, grønn når timeren stopper, ellers svart
-            Brush timebrush = (brett.SoFar <= brett.Record) ? Brushes.Red : timer.Enabled ? Brushes.Black: Brushes.Orange;
-            DrawString(g, 0, 0, size, "0: " + brett.SoFar.ToString(), timebrush);
-
-            int ir = 1;
-            int n = brett.Results.Count;
-
-            for (int i=n; i > 0; --i)
-            {
-               var tid = brett.Results[i - 1];
-               timebrush = (tid.Value <= brett.Record) ? Brushes.Red : Brushes.Black;
-
-               DrawString(g, 0, size * ir, size, i.ToString() + ": " + tid.Value.ToString(), timebrush);
-               ir++;
-               if (ir > 5) break;
             }
          }
 
@@ -170,20 +104,28 @@ namespace Tallbilde
          }
 
          g.DrawLine(thickPen, xMin, yMin, xMax, yMin);
-         for (int row = 0; row < nl; row += 5)
-         {
-            int y = y0 + size * row;
-            g.DrawLine(thickPen, xMin, y, xMax, y);
-         }
          g.DrawLine(thickPen, xMin, yMax, xMax, yMax);
-
          g.DrawLine(thickPen, xMin, yMin, xMin, yMax);
-         for (int col = 0; col < nc; col += 5)
-         {
-            int x = x0 + size * col;
-            g.DrawLine(thickPen, x, yMin, x, yMax);
-         }
          g.DrawLine(thickPen, xMax, yMin, xMax, yMax);
+
+         Brush brush;
+         foreach (var item in brett.tallListe.talliste)
+         {
+            if (brett[item.row, item.col].Verdi == Verdi.Sort)
+            {
+               brush = Brushes.White;
+            }
+            else
+            {
+               brush = Brushes.Black;
+            }
+            int x = x0 + size * item.col;
+            int y = y0 + size * item.row;
+            DrawString(g, x, y, size, item.tall.ToString(), brush);
+         }
+         int xc = x0 + size * currentCol;
+         int yc = y0 + size * currentRow;
+         g.DrawRectangle(thickPen, xc, yc, size, size);
       }
 
       internal void Pause()
@@ -204,21 +146,9 @@ namespace Tallbilde
          {
             brush = Brushes.White;
          }
-         if (Tellevennlig)
-         {
-            g.FillRectangle(brush, x + 1, y + 1, size - 2, size - 2);
-            g.DrawRectangle(pen, x, y, size, size);
-         }
-         else
-         {
-            g.FillRectangle(brush, x, y, size, size);
-         }
+         g.FillRectangle(brush, x, y, size, size);
       }
-
-      public void DrawString(Graphics g, int x0, int y0, int size, string number)
-      {
-         DrawString(g, x0, y0, size, number, Brushes.Black);
-      }
+      
       public void DrawString(Graphics g, int x0, int y0, int size, string number, Brush brush)
       {
          int x = x0 + 1;
@@ -241,8 +171,8 @@ namespace Tallbilde
          int j = x / size;
          int i = y / size;
 
-         currentRow = -1;
-         currentCol = -1;
+         currentRow = i;
+         currentCol = j;
 
          if (x > 0 && y >= 0)
          {
@@ -259,49 +189,29 @@ namespace Tallbilde
             }
             SjekkRekord();
          }
-         else if (x > 0 && x < xMax)
-         {
-            currentCol = j;
-         }
-         else if (y > 0 && y < yMax)
-         {
-            currentRow = i;
-         }
 
          Invalidate();
       }
 
       private void BrettControl_KeyPress(object sender, KeyPressEventArgs e)
       {
-         if (e.KeyChar == '\r')
+         if (e.KeyChar == ' ' || e.KeyChar == '+')
          {
-            if (currentRow > -1)
-            {
-               ++currentRow;
-               if (currentRow >= brett.grupperPrLinje.Count)
-               {
-                  currentRow = -1;
-                  currentCol = 0;
-               }
-            }
-            else if (currentCol > -1)
-            {
-               ++currentCol;
-               if (currentCol >= brett.grupperPrKolonne.Count)
-               {
-                  currentCol = -1;
-                  currentRow = 0;
-               }
-            }
+            brett.ClearValue(currentRow, currentCol);
          }
-         if (currentRow > -1 && currentRow < brett.grupperPrLinje.Count)
+         else if (e.KeyChar >= '0' && e.KeyChar <= '9')
          {
-            brett.grupperPrLinje[currentRow].Add(e.KeyChar);
+            brett.AddValue(e.KeyChar - 48, currentRow, currentCol);
          }
-         if (currentCol > -1 && currentCol < brett.grupperPrKolonne.Count)
+         ++currentCol;
+         if (currentCol >= brett.nColumns)
          {
-            brett.grupperPrKolonne[currentCol].Add(e.KeyChar);
+            currentCol = 0;
+            ++currentRow;
+            if (currentRow >= brett.nLines)
+               currentRow=0;
          }
+         Step();
          Invalidate();
       }
 
@@ -385,11 +295,6 @@ namespace Tallbilde
          }
       }
 
-      public void Tell()
-      {
-         brett.Tell();
-      }
-
       private void OnMouseMove(object sender, MouseEventArgs e)
       {
          int x = (e.X - x0);
@@ -400,6 +305,8 @@ namespace Tallbilde
          {
             mouseRow = i;
             mouseCol = j;
+            currentRow = i;
+            currentCol = j;
             Invalidate();
          }
       }

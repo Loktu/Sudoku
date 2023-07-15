@@ -1,7 +1,7 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
-# Visual Studio 14
-VisualStudioVersion = 14.0.25420.1
+# Visual Studio Version 17
+VisualStudioVersion = 17.7.33808.371
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sudoku", "Sudoku.csproj", "{A6F4B85A-D1AA-4907-B4E6-EF448E915AC7}"
 EndProject
@@ -10,6 +10,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Bilde", "Bilde\Bilde.csproj", "{6D3D3B00-3401-44E4-8435-12A44B2557E1}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Kakuro", "Kakuro\Kakuro.csproj", "{321DAAE5-760A-471E-965F-4187274CCD7C}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Tallbilde", "Tallbilde\Tallbilde.csproj", "{A9991FFD-98DF-478A-AE66-4A88AC099E0A}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,8 +35,15 @@ Global
 		{321DAAE5-760A-471E-965F-4187274CCD7C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{321DAAE5-760A-471E-965F-4187274CCD7C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{321DAAE5-760A-471E-965F-4187274CCD7C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A9991FFD-98DF-478A-AE66-4A88AC099E0A}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A9991FFD-98DF-478A-AE66-4A88AC099E0A}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A9991FFD-98DF-478A-AE66-4A88AC099E0A}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A9991FFD-98DF-478A-AE66-4A88AC099E0A}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {AD84E5A0-E4B2-4CA6-B5CD-B66B5B14AC62}
 	EndGlobalSection
 EndGlobal

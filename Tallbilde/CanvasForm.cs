@@ -85,48 +85,9 @@ namespace Tallbilde
          }
       }
 
-      private void Clear_3x3_Click(object sender, EventArgs e)
-      {
-         brettControl.Clear(15, 15);
-         Invalidate();
-      }
-
-      private void Clear_3x4_Click(object sender, EventArgs e)
-      {
-         brettControl.Clear(20, 15);
-         Invalidate();
-
-      }
-
-      private void Clear_4x3_Click(object sender, EventArgs e)
-      {
-         brettControl.Clear(15, 20);
-         Invalidate();
-
-      }
-
-      private void Clear_4x4_Click(object sender, EventArgs e)
-      {
-
-         brettControl.Clear(20, 20);
-         Invalidate();
-      }
-
-      private void Clear_5x7_Click(object sender, EventArgs e)
-      {
-         brettControl.Clear(35, 25);
-         Invalidate();
-      }
-
       private void restartToolStripMenuItem_Click(object sender, EventArgs e)
       {
          brettControl.Restart();
-      }
-
-      private void OnTellevennlig(object sender, EventArgs e)
-      {
-         brettControl.Tellevennlig = !brettControl.Tellevennlig;
-         Invalidate();
       }
 
       private void setFasitToolStripMenuItem_Click(object sender, EventArgs e)
@@ -140,12 +101,6 @@ namespace Tallbilde
          brettControl.Invalidate();
       }
 
-      private void tellToolStripMenuItem_Click(object sender, EventArgs e)
-      {
-         brettControl.Tell();
-         brettControl.Invalidate();
-      }
-
       private void pauseToolStripMenuItem_Click(object sender, EventArgs e)
       {
          brettControl.Pause();
@@ -155,5 +110,27 @@ namespace Tallbilde
       {
          brettControl.brett.history.VisResultater();
       }
+
+      private void Clear_15x15ToolStripMenuItem_Click(object sender, EventArgs e)
+      {
+         brettControl.Clear(15, 15);
+         Invalidate();
+      }
+      private void Clear_20x20ToolStripMenuItem_Click(object sender, EventArgs e)
+      {
+         brettControl.Clear(20, 20);
+         Invalidate();
+      }
+      private void Clear_20x30ToolStripMenuItem_Click(object sender, EventArgs e)
+      {
+         brettControl.Clear(30, 20);
+         Invalidate();
+      }
+      private void Clear_25x35ToolStripMenuItem_Click(object sender, EventArgs e)
+      {
+         brettControl.Clear(35, 25);
+         Invalidate();
+      }
+
    }
 }
