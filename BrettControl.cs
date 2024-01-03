@@ -372,6 +372,9 @@ namespace Sudoku
 
       internal void StopClients()
       {
+         if (clients != null)
+            return;
+
          foreach (var item in clients)
          {
             item.Value.Item1.StopClient();
@@ -381,7 +384,15 @@ namespace Sudoku
 
       internal void StartClients()
       {
-         clients = new Dictionary<int, Tuple<TcpClass, List<Tuple<int, int>>>>();
+         if (clients == null)
+         {
+            clients = new Dictionary<int, Tuple<TcpClass, List<Tuple<int, int>>>>();
+         }
+         else
+         {
+            StopClients();
+         }
+
          foreach (var item in connections)
          {
             int kanal = item.Item1;
@@ -397,7 +408,9 @@ namespace Sudoku
 
       internal void Send()
       {
-         if (clients == null) return;
+         if (clients == null || clients.Count == 0)
+            StartClients();
+
          foreach (var item in clients)
          {
             TcpClass client = item.Value.Item1;
@@ -418,7 +431,6 @@ namespace Sudoku
             }
          }
       }
-
 
       private void Receiving(object sender, TcpClass.MessageArgs e)
       {
