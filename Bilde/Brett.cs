@@ -705,7 +705,6 @@ namespace Tallbilde
             time = t;
             used = u;
          }
-
       }
       public void ForberedXml()
       {
@@ -720,10 +719,8 @@ namespace Tallbilde
          results.Clear();
          if (resultList != null)
          {
-            resultList.Sort((b, a) => a.used.CompareTo(b.used));
-            //var fem = resultList.GetRange(0, Math.Min(resultList.Count, 5));
-            var fem = resultList.GetRange(Math.Max(0, resultList.Count - 5), Math.Min(resultList.Count, 5));
-            foreach (var item in fem)
+            resultList.Sort((a, b) => a.used.CompareTo(b.used));
+            foreach (var item in resultList)
             {
                long time = item.time;
                long used = item.used;

@@ -1,6 +1,7 @@
 using System;
 using System.Drawing;
 using System.IO;
+using System.Security.Cryptography;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 
@@ -140,21 +141,32 @@ namespace Tallbilde
 
          if (brett.HarFasit())
          {
-            // Rød skrift så lenge den er under rekorden, grønn når timeren stopper, ellers svart
-            Brush timebrush = (brett.SoFar <= brett.Record) ? Brushes.Red : timer.Enabled ? Brushes.Black: Brushes.Orange;
-            DrawString(g, 0, 0, size, "0: " + brett.SoFar.ToString(), timebrush);
+            int ir = 0;
+            int n = Math.Min(brett.Results.Count, ngl-1);
+            bool sofarSkrevet = false;
 
-            int ir = 1;
-            int n = brett.Results.Count;
-
-            for (int i=n; i > 0; --i)
+            for (int i=0; i < n; ++i)
             {
-               var tid = brett.Results[i - 1];
-               timebrush = (tid.Value <= brett.Record) ? Brushes.Red : Brushes.Black;
+               var tid = brett.Results[i];
 
-               DrawString(g, 0, size * ir, size, i.ToString() + ": " + tid.Value.ToString(), timebrush);
+               if (!sofarSkrevet)
+               {
+                  if (brett.SoFar < tid.Value)
+                  {
+                     DrawString(g, 0, size * ir, size, ir.ToString() + ": " + brett.SoFar.ToString(), Brushes.Orange);
+                     sofarSkrevet = true;
+                     ++ir;
+                  }
+               }
+
+               Brush timebrush = (tid.Value <= brett.Record) ? Brushes.Red : Brushes.Black;
+
+               DrawString(g, 0, size * ir, size, ir.ToString() + ": " + tid.Value.ToString(), timebrush);
                ir++;
-               if (ir > 5) break;
+            }
+            if (!sofarSkrevet)
+            {
+               DrawString(g, 0, size * ir, size, ir.ToString() + ": " + brett.SoFar.ToString(), Brushes.Orange);
             }
          }
 
