@@ -151,7 +151,7 @@ namespace Tallbilde
 
                if (!sofarSkrevet)
                {
-                  if (brett.SoFar < tid.Value)
+                  if (brett.SoFar <= tid.Value)
                   {
                      DrawString(g, 0, size * ir, size, ir.ToString() + ": " + brett.SoFar.ToString(), Brushes.Orange);
                      sofarSkrevet = true;
