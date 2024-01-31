@@ -153,7 +153,7 @@ namespace Tallbilde
                {
                   if (brett.SoFar <= tid.Value)
                   {
-                     DrawString(g, 0, size * ir, size, ir.ToString() + ": " + brett.SoFar.ToString(), Brushes.Orange);
+                     DrawString(g, 0, size * ir, size, (ir +1 ).ToString() + ": " + brett.SoFar.ToString(), Brushes.Orange);
                      sofarSkrevet = true;
                      ++ir;
                   }
@@ -161,12 +161,12 @@ namespace Tallbilde
 
                Brush timebrush = (tid.Value <= brett.Record) ? Brushes.Red : Brushes.Black;
 
-               DrawString(g, 0, size * ir, size, ir.ToString() + ": " + tid.Value.ToString(), timebrush);
+               DrawString(g, 0, size * ir, size, (ir + 1).ToString() + ": " + tid.Value.ToString(), timebrush);
                ir++;
             }
             if (!sofarSkrevet)
             {
-               DrawString(g, 0, size * ir, size, ir.ToString() + ": " + brett.SoFar.ToString(), Brushes.Orange);
+               DrawString(g, 0, size * ir, size, (ir + 1).ToString() + ": " + brett.SoFar.ToString(), Brushes.Orange);
             }
          }
 
@@ -375,7 +375,12 @@ namespace Tallbilde
          if (!timer.Enabled)
             timer.Enabled = true;
 
-         brett.Step();
+         int n = 0;
+         while (brett.Step())
+         {
+            ++n;
+         }
+
          brett.SoFar += new TimeSpan(0, 0, 0, 0, timer.Interval);
          SjekkRekord();
          Invalidate();

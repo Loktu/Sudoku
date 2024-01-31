@@ -449,8 +449,14 @@ namespace Tallbilde
          {
             if (rom.muligeGrupper.Count == 0)
             {
-               for (int j = rom.start; j <= rom.slutt; ++j) plass[j].Verdi = Verdi.Hvit;
-               funnet = true;
+               for (int j = rom.start; j <= rom.slutt; ++j)
+               {
+                  if (plass[j].Verdi != Verdi.Hvit)
+                  {
+                     plass[j].Verdi = Verdi.Hvit;
+                     funnet = true;
+                  }
+               }
             }
             else
                funnet |= SjekkRom(rom, ref plass);
@@ -497,7 +503,7 @@ namespace Tallbilde
          int ledige = rom.Size() - restBehov;
 
          if (ledige < 0)
-            return true; // Feil
+            return false; // Feil
 
 
 
@@ -507,17 +513,27 @@ namespace Tallbilde
             {
                for (int j = 0; j < gruppe.size - ledige; ++j)
                {
-                  plass[i + j + ledige].Verdi = Verdi.Sort;
+                  if (plass[i + j + ledige].Verdi != Verdi.Sort)
+                  {
+                     plass[i + j + ledige].Verdi = Verdi.Sort;
+                     done = true;
+                  }
                }
-               done = true;
             }
             if (ledige == 0)
             {
-               if (i > 0)
-                  plass[i - 1].Verdi = Verdi.Hvit;
-               if (i + gruppe.size < plass.Length)
-                  plass[i + gruppe.size].Verdi = Verdi.Hvit;
-               done = true;
+                  if (i > 0)
+                  {
+                     plass[i - 1].Verdi = Verdi.Hvit;
+                     if (i + gruppe.size < plass.Length)
+                     {
+                        if (plass[i + gruppe.size].Verdi != Verdi.Hvit)
+                        {
+                           plass[i + gruppe.size].Verdi = Verdi.Hvit;
+                           done = true;
+                        }
+                     }
+                  }
             }
             i += gruppe.size + 1;
          }
