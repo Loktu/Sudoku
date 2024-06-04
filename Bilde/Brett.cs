@@ -464,7 +464,7 @@ namespace Tallbilde
 
          goto End;
       Feil:
-         funnet = true;
+         funnet = false;
 
       End:
          return funnet;
@@ -705,7 +705,7 @@ namespace Tallbilde
 
    public class History
    {
-
+      const int maxCount = 10;
       [XmlIgnore]
       public List<KeyValuePair<DateTime, TimeSpan>> results = new List<KeyValuePair<DateTime, TimeSpan>>();
 
@@ -735,6 +735,12 @@ namespace Tallbilde
          results.Clear();
          if (resultList != null)
          {
+            resultList.Sort((a, b) => a.time.CompareTo(b.time));
+            if (resultList.Count > maxCount)
+            {
+               resultList.RemoveRange(0, resultList.Count - maxCount);
+            }
+
             resultList.Sort((a, b) => a.used.CompareTo(b.used));
             foreach (var item in resultList)
             {

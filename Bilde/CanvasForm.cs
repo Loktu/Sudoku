@@ -155,5 +155,13 @@ namespace Tallbilde
       {
          brettControl.brett.history.VisResultater();
       }
+
+      private void brettControl_KeyDown(object sender, KeyEventArgs e)
+      {
+         if (e.KeyCode == Keys.S)
+         { 
+            brettControl.Step();
+         }
+      }
    }
 }
