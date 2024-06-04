@@ -1,3 +1,4 @@
+using Bilde;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -769,12 +770,12 @@ namespace Tallbilde
 
       public void VisResultater()
       {
-         string resultater = "Dato: \tTid\n";
-         foreach (var item in results)
+         var historyForm = new HistoryForm(results);
+         if (historyForm.ShowDialog() == DialogResult.OK)
          {
-            resultater += item.Key.ToShortDateString() + "\t" + item.Value.ToString() + "\n";
+            results = historyForm.GetResults();
          }
-         MessageBox.Show(resultater);
+
       }
 
    }
