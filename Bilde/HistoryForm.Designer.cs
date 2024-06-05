@@ -28,6 +28,7 @@
       /// </summary>
       private void InitializeComponent()
       {
+         System.Windows.Forms.DataGridViewCellStyle dataGridViewCellStyle1 = new System.Windows.Forms.DataGridViewCellStyle();
          this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
          this.bottomLayoutPanel = new System.Windows.Forms.FlowLayoutPanel();
          this.okButton = new System.Windows.Forms.Button();
@@ -35,7 +36,6 @@
          this.Nr = new System.Windows.Forms.DataGridViewTextBoxColumn();
          this.Dato = new System.Windows.Forms.DataGridViewTextBoxColumn();
          this.Tid = new System.Windows.Forms.DataGridViewTextBoxColumn();
-         this.Object = new System.Windows.Forms.DataGridViewTextBoxColumn();
          this.tableLayoutPanel1.SuspendLayout();
          this.bottomLayoutPanel.SuspendLayout();
          ((System.ComponentModel.ISupportInitialize)(this.dataGridView)).BeginInit();
@@ -86,8 +86,7 @@
          this.dataGridView.Columns.AddRange(new System.Windows.Forms.DataGridViewColumn[] {
             this.Nr,
             this.Dato,
-            this.Tid,
-            this.Object});
+            this.Tid});
          this.dataGridView.Dock = System.Windows.Forms.DockStyle.Fill;
          this.dataGridView.Location = new System.Drawing.Point(3, 3);
          this.dataGridView.Name = "dataGridView";
@@ -106,6 +105,9 @@
          // Dato
          // 
          this.Dato.AutoSizeMode = System.Windows.Forms.DataGridViewAutoSizeColumnMode.AllCells;
+         dataGridViewCellStyle1.Format = "d";
+         dataGridViewCellStyle1.NullValue = null;
+         this.Dato.DefaultCellStyle = dataGridViewCellStyle1;
          this.Dato.HeaderText = "Dato";
          this.Dato.Name = "Dato";
          this.Dato.ReadOnly = true;
@@ -118,13 +120,6 @@
          this.Tid.Name = "Tid";
          this.Tid.ReadOnly = true;
          this.Tid.Width = 47;
-         // 
-         // Object
-         // 
-         this.Object.HeaderText = "Object";
-         this.Object.Name = "Object";
-         this.Object.ReadOnly = true;
-         this.Object.Visible = false;
          // 
          // HistoryForm
          // 
@@ -151,6 +146,5 @@
       private System.Windows.Forms.DataGridViewTextBoxColumn Nr;
       private System.Windows.Forms.DataGridViewTextBoxColumn Dato;
       private System.Windows.Forms.DataGridViewTextBoxColumn Tid;
-      private System.Windows.Forms.DataGridViewTextBoxColumn Object;
    }
 }

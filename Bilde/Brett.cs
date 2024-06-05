@@ -706,7 +706,7 @@ namespace Tallbilde
 
    public class History
    {
-      const int maxCount = 10;
+      const int maxCount = 20;
       [XmlIgnore]
       public List<KeyValuePair<DateTime, TimeSpan>> results = new List<KeyValuePair<DateTime, TimeSpan>>();
 

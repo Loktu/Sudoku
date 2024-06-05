@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement.TaskbarClock;
 
 namespace Bilde
 {
@@ -17,16 +18,18 @@ namespace Bilde
          InitializeComponent();
 
          dataGridView.Rows.Clear();
+
+         this.dataGridView.Columns["Dato"].DefaultCellStyle.Format = "d";
+
          int i = 0;
          foreach (var item in results)
          {
             int iRow = dataGridView.Rows.Add();
             DataGridViewRow row = dataGridView.Rows[iRow];
             ++i;
-            row.Cells["Object"].Value = item;
-            row.Cells["Nr"].Value = i.ToString();
-            row.Cells["Dato"].Value = item.Key.ToString();
-            row.Cells["Tid"].Value = item.Value.ToString();
+            row.Cells["Nr"].Value = i;
+            row.Cells["Dato"].Value = item.Key;
+            row.Cells["Tid"].Value = item.Value;
          }
        
       }
@@ -41,7 +44,7 @@ namespace Bilde
          List<KeyValuePair<DateTime, TimeSpan>> results = new List<KeyValuePair<DateTime, TimeSpan>>();
          foreach (DataGridViewRow row in dataGridView.Rows)
          {
-            results.Add((KeyValuePair < DateTime, TimeSpan > )row.Cells["Object"].Value);
+            results.Add(new KeyValuePair<DateTime, TimeSpan>((DateTime)row.Cells["Dato"].Value, (TimeSpan)row.Cells["Tid"].Value));
          }
          return results;
       }
