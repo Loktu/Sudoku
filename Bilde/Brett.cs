@@ -766,6 +766,7 @@ namespace Tallbilde
             if (time - results[n - 1].Key < enTime) return;
          }
          results.Add(new KeyValuePair<DateTime, TimeSpan>(time, timeUsed));
+         results.Sort((a, b) => a.Value.CompareTo(b.Value));
       }
 
       public void VisResultater()

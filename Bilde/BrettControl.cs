@@ -160,6 +160,12 @@ namespace Tallbilde
                }
 
                Brush timebrush = (tid.Value <= brett.Record) ? Brushes.Red : Brushes.Black;
+               if (tid.Value <= brett.Record)
+                  timebrush = Brushes.Red;
+               else if (tid.Value == brett.SoFar)
+                  timebrush = Brushes.Orange;
+               else
+                  timebrush = Brushes.Black;
 
                DrawString(g, 0, size * ir, size, (ir + 1).ToString() + ": " + tid.Value.ToString(), timebrush);
                ir++;

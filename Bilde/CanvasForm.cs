@@ -162,6 +162,11 @@ namespace Tallbilde
          { 
             brettControl.Step();
          }
+         else if (e.KeyCode == Keys.P)
+         {
+            brettControl.Pause();
+         }
+
       }
    }
 }
