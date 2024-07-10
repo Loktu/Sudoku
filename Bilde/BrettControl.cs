@@ -70,8 +70,8 @@ namespace Tallbilde
          int nl = brett.nLines;
          int nc = brett.nColumns;
 
-         int ngk = Math.Max(brett.GruppeBredde(), 6);
-         int ngl = Math.Max(brett.GruppeHoyde(), 6);
+         int ngk = Math.Max(brett.GruppeBredde(), 8);
+         int ngl = Math.Max(brett.GruppeHoyde(), 10);
 
          int numberOfPositionsL = nl + ngl;
          int numberOfPositionsK = nc + ngk;
@@ -158,17 +158,17 @@ namespace Tallbilde
                      ++ir;
                   }
                }
+               if (!(tid.Value == brett.SoFar && tid.Key.Date == DateTime.Now.Date))
+               {
+                  Brush timebrush = (tid.Value <= brett.Record) ? Brushes.Red : Brushes.Black;
+                  if (tid.Value <= brett.Record)
+                     timebrush = Brushes.Red;
+                  else
+                     timebrush = Brushes.Black;
 
-               Brush timebrush = (tid.Value <= brett.Record) ? Brushes.Red : Brushes.Black;
-               if (tid.Value <= brett.Record)
-                  timebrush = Brushes.Red;
-               else if (tid.Value == brett.SoFar)
-                  timebrush = Brushes.Orange;
-               else
-                  timebrush = Brushes.Black;
-
-               DrawString(g, 0, size * ir, size, (ir + 1).ToString() + ": " + tid.Value.ToString(), timebrush);
-               ir++;
+                  DrawString(g, 0, size * ir, size, (ir + 1).ToString() + ": " + tid.Value.ToString(), timebrush);
+                  ir++;
+               }
             }
             if (!sofarSkrevet)
             {
