@@ -24,7 +24,7 @@ namespace Sudoku
       public TcpClass server;
       public Dictionary<int, Tuple<TcpClass, List<Tuple<int, int>>>> clients;
 
-      readonly Timer timer = new Timer() { Interval = 1};
+      readonly Timer timer = new Timer() { Interval = 1 };
       public bool Auto { get; set; }
       public bool Step { get; set; }
       public bool Hint { get; set; }
@@ -356,14 +356,17 @@ namespace Sudoku
 
       internal void StopServer()
       {
-         if (server != null)
-            server.StopServer();
+         if (server == null) 
+            return;
+
+         server.StopServer();
          server = null;
       }
 
       internal void StartServer()
       {
-         StopServer();
+         if (server != null)
+            StopServer();
 
          server = new TcpClass();
          server.Receiving += Receiving;
@@ -372,7 +375,7 @@ namespace Sudoku
 
       internal void StopClients()
       {
-         if (clients != null)
+         if (clients == null)
             return;
 
          foreach (var item in clients)
@@ -380,18 +383,15 @@ namespace Sudoku
             item.Value.Item1.StopClient();
          }
          clients.Clear();
-      }
+         clients = null;
+      }  
 
       internal void StartClients()
       {
-         if (clients == null)
-         {
-            clients = new Dictionary<int, Tuple<TcpClass, List<Tuple<int, int>>>>();
-         }
-         else
-         {
+         if (clients != null)
             StopClients();
-         }
+
+         clients = new Dictionary<int, Tuple<TcpClass, List<Tuple<int, int>>>>();
 
          foreach (var item in connections)
          {
@@ -408,8 +408,8 @@ namespace Sudoku
 
       internal void Send()
       {
-         if (clients == null || clients.Count == 0)
-            StartClients();
+         if (clients == null)
+            return;
 
          foreach (var item in clients)
          {

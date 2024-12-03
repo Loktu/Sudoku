@@ -23,6 +23,7 @@ namespace Sudoku
          brettControl.serverKanal = processes.Length;
          this.Text = proc.ProcessName + " - " + brettControl.serverKanal;
 
+         sendToolStripMenuItem.Enabled = false;
       }
 
       private void OnResize(object sender, EventArgs e)
@@ -139,11 +140,21 @@ namespace Sudoku
       private void startClientsToolStripMenuItem_Click(object sender, EventArgs e)
       {
          brettControl.StartClients();
+         sendToolStripMenuItem.Enabled = true;
       }
 
       private void stopClientsToolStripMenuItem_Click(object sender, EventArgs e)
       {
          brettControl.StopClients();
+         sendToolStripMenuItem.Enabled = false;
+      }
+
+      private void menuStrip_MenuActivate(object sender, EventArgs e)
+      {
+         startServerToolStripMenuItem.Enabled = brettControl.server == null;
+         stopServerToolStripMenuItem.Enabled = brettControl.server != null;
+         startClientsToolStripMenuItem.Enabled = brettControl.clients == null;
+         stopClientsToolStripMenuItem.Enabled = brettControl.clients != null;
       }
    }
 }
