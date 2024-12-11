@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Drawing;
 using System.Linq;
+using System.Threading.Tasks;
 using System.Windows.Forms;
 using TcpConnection;
 
@@ -18,7 +19,20 @@ namespace Sudoku
       int xMax = 300;
       int yMax = 300;
 
-      public int serverKanal = 0;
+      private int serverKanal = 0;
+      public int ServerKanal
+      {
+         get { return serverKanal; }
+         set
+         { if (serverKanal != value)
+            {
+               StopServer();
+               serverKanal = value;
+               StartServer();
+            }
+         }
+      }
+
       public List<Tuple<int, int, int>> connections = new List<Tuple<int, int, int>>();
 
       public TcpClass server;
@@ -406,6 +420,24 @@ namespace Sudoku
          }
       }
 
+      internal async void Connect()
+      {
+         if (clients == null)
+            return;
+
+         foreach (var item in clients)
+         {
+            TcpClass client = item.Value.Item1;
+            var connections = item.Value.Item2;
+            foreach (var connection in connections)
+            {
+               string message = "Connect;" + this.ServerKanal + ";" + connection.Item1 + ";" + connection.Item2;
+               await Task.Delay(50);
+               client.Send(message);
+            }
+         }
+      }
+
       internal void Send()
       {
          if (clients == null)
@@ -436,38 +468,59 @@ namespace Sudoku
       {
          var liste = e.message.Split(';');
          if (liste.Length < 10)
-            return;
+         {
+            if (liste.Length < 4) 
+               return;
 
-         int tilRute;
-         if (!Int32.TryParse((string)liste[0], out tilRute))
-         {
-            return;
-         }
-         var rute = brett.GetRute(tilRute);
-         var nyRute = new List<List<int>>();
-         bool endring = false;
-         for (int i = 0; i < 9; i++)
-         {
-            var plass = new List<int>();
-            var mulige = liste[i + 1].Split(',');
-            foreach (int j in rute[i])
+            if (liste[0] == "Connect")
             {
-               if (mulige.Contains<string>(j.ToString()))
+               try
                {
-                  plass.Add(j);
+                  int fraKanal = int.Parse(liste[1]);
+                  int tilRute = int.Parse(liste[2]);
+                  int fraRute = int.Parse(liste[3]);
+                  Tuple<int, int, int> connection = new Tuple<int, int, int>(fraKanal, fraRute, tilRute);
+                  if (!connections.Contains(connection))
+                  {
+                     connections.Add(connection);
+                  }
                }
-               else
-               {
-                  endring = true;
-               }
+               catch { return; }
             }
-            nyRute.Add(plass);
          }
-
-         if (endring)
+         else
          {
-            brett.SetRute(tilRute, nyRute);
-            Invalidate();
+            int tilRute;
+            if (!Int32.TryParse((string)liste[0], out tilRute))
+            {
+               return;
+            }
+            var rute = brett.GetRute(tilRute);
+            var nyRute = new List<List<int>>();
+            bool endring = false;
+            for (int i = 0; i < 9; i++)
+            {
+               var plass = new List<int>();
+               var mulige = liste[i + 1].Split(',');
+               foreach (int j in rute[i])
+               {
+                  if (mulige.Contains<string>(j.ToString()))
+                  {
+                     plass.Add(j);
+                  }
+                  else
+                  {
+                     endring = true;
+                  }
+               }
+               nyRute.Add(plass);
+            }
+
+            if (endring)
+            {
+               brett.SetRute(tilRute, nyRute);
+               Invalidate();
+            }
          }
       }
 

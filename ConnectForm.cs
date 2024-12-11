@@ -27,7 +27,6 @@ namespace Sudoku
          this.Close();
       }
 
-
       public int GetServerKanal()
       {
          if (Int32.TryParse((string)serverKanal.Text, out int kanal))

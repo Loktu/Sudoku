@@ -20,10 +20,9 @@ namespace Sudoku
          proc = Process.GetCurrentProcess();
          //get all other (possible) running instances
          Process[] processes = Process.GetProcessesByName(proc.ProcessName);
-         brettControl.serverKanal = processes.Length;
-         this.Text = proc.ProcessName + " - " + brettControl.serverKanal;
-
-         sendToolStripMenuItem.Enabled = false;
+         brettControl.ServerKanal = processes.Length;
+         this.Text = proc.ProcessName + " - " + brettControl.ServerKanal;
+         brettControl.StartServer();
       }
 
       private void OnResize(object sender, EventArgs e)
@@ -113,48 +112,21 @@ namespace Sudoku
 
       private void connectionsToolStripMenuItem_Click(object sender, EventArgs e)
       {
-         var connectForm = new ConnectForm(brettControl.serverKanal, brettControl.connections);
+         var connectForm = new ConnectForm(brettControl.ServerKanal, brettControl.connections);
          if (connectForm.ShowDialog() == DialogResult.OK)
          {
-            brettControl.serverKanal = connectForm.GetServerKanal();
+            brettControl.ServerKanal = connectForm.GetServerKanal();
             brettControl.connections = connectForm.GetConnections();
-            this.Text = proc.ProcessName + " - " + brettControl.serverKanal;
+            this.Text = proc.ProcessName + " - " + brettControl.ServerKanal;
+            brettControl.StartClients();
+            brettControl.Connect();
          }
       }
 
       private void sendToolStripMenuItem_Click(object sender, EventArgs e)
       {
+         brettControl.Connect();
          brettControl.Send();
-      }
-
-      private void startServerToolStripMenuItem_Click(object sender, EventArgs e)
-      {
-         brettControl.StartServer();
-      }
-
-      private void stopServerToolStripMenuItem_Click(object sender, EventArgs e)
-      {
-         brettControl.StopServer();
-      }
-
-      private void startClientsToolStripMenuItem_Click(object sender, EventArgs e)
-      {
-         brettControl.StartClients();
-         sendToolStripMenuItem.Enabled = true;
-      }
-
-      private void stopClientsToolStripMenuItem_Click(object sender, EventArgs e)
-      {
-         brettControl.StopClients();
-         sendToolStripMenuItem.Enabled = false;
-      }
-
-      private void menuStrip_MenuActivate(object sender, EventArgs e)
-      {
-         startServerToolStripMenuItem.Enabled = brettControl.server == null;
-         stopServerToolStripMenuItem.Enabled = brettControl.server != null;
-         startClientsToolStripMenuItem.Enabled = brettControl.clients == null;
-         stopClientsToolStripMenuItem.Enabled = brettControl.clients != null;
       }
    }
 }

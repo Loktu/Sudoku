@@ -46,10 +46,6 @@ namespace Sudoku
          this.auto2ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          this.auto3ToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          this.connectionsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-         this.startServerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-         this.stopServerToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-         this.startClientsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-         this.stopClientsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          this.stepToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
          this.sendToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -75,7 +71,6 @@ namespace Sudoku
          this.menuStrip.Size = new System.Drawing.Size(565, 24);
          this.menuStrip.TabIndex = 0;
          this.menuStrip.Text = "menuStrip1";
-         this.menuStrip.MenuActivate += new System.EventHandler(this.menuStrip_MenuActivate);
          // 
          // fileToolStripMenuItem
          // 
@@ -142,11 +137,7 @@ namespace Sudoku
             this.hintSingelToolStripMenuItem,
             this.autoSettingsToolStripMenuItem,
             this.autoSingelToolStripMenuItem,
-            this.connectionsToolStripMenuItem,
-            this.startServerToolStripMenuItem,
-            this.stopServerToolStripMenuItem,
-            this.startClientsToolStripMenuItem,
-            this.stopClientsToolStripMenuItem});
+            this.connectionsToolStripMenuItem});
          this.optionsToolStripMenuItem.Name = "optionsToolStripMenuItem";
          this.optionsToolStripMenuItem.Size = new System.Drawing.Size(61, 20);
          this.optionsToolStripMenuItem.Text = "Options";
@@ -223,34 +214,6 @@ namespace Sudoku
          this.connectionsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
          this.connectionsToolStripMenuItem.Text = "Connections";
          this.connectionsToolStripMenuItem.Click += new System.EventHandler(this.connectionsToolStripMenuItem_Click);
-         // 
-         // startServerToolStripMenuItem
-         // 
-         this.startServerToolStripMenuItem.Name = "startServerToolStripMenuItem";
-         this.startServerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-         this.startServerToolStripMenuItem.Text = "Start Server";
-         this.startServerToolStripMenuItem.Click += new System.EventHandler(this.startServerToolStripMenuItem_Click);
-         // 
-         // stopServerToolStripMenuItem
-         // 
-         this.stopServerToolStripMenuItem.Name = "stopServerToolStripMenuItem";
-         this.stopServerToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-         this.stopServerToolStripMenuItem.Text = "Stop server";
-         this.stopServerToolStripMenuItem.Click += new System.EventHandler(this.stopServerToolStripMenuItem_Click);
-         // 
-         // startClientsToolStripMenuItem
-         // 
-         this.startClientsToolStripMenuItem.Name = "startClientsToolStripMenuItem";
-         this.startClientsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-         this.startClientsToolStripMenuItem.Text = "Start clients";
-         this.startClientsToolStripMenuItem.Click += new System.EventHandler(this.startClientsToolStripMenuItem_Click);
-         // 
-         // stopClientsToolStripMenuItem
-         // 
-         this.stopClientsToolStripMenuItem.Name = "stopClientsToolStripMenuItem";
-         this.stopClientsToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
-         this.stopClientsToolStripMenuItem.Text = "Stop clients";
-         this.stopClientsToolStripMenuItem.Click += new System.EventHandler(this.stopClientsToolStripMenuItem_Click);
          // 
          // aboutToolStripMenuItem
          // 
@@ -355,10 +318,6 @@ namespace Sudoku
         private System.Windows.Forms.ToolStripMenuItem stepToolStripMenuItem;
       private System.Windows.Forms.ToolStripMenuItem connectionsToolStripMenuItem;
       private System.Windows.Forms.ToolStripMenuItem sendToolStripMenuItem;
-      private System.Windows.Forms.ToolStripMenuItem startServerToolStripMenuItem;
-      private System.Windows.Forms.ToolStripMenuItem stopServerToolStripMenuItem;
-      private System.Windows.Forms.ToolStripMenuItem startClientsToolStripMenuItem;
-      private System.Windows.Forms.ToolStripMenuItem stopClientsToolStripMenuItem;
    }
 }
 
