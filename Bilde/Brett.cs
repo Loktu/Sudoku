@@ -2,6 +2,7 @@ using Bilde;
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Linq;
 using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
@@ -115,36 +116,25 @@ namespace Tallbilde
                brett[x, y] = plassListe[n++];
             }
          }
-         grupperPrLinje = new List<GruppeListe>();
-         grupperPrLinje = new List<GruppeListe>();
-         foreach (string gruppe in linjeListe)
+
+         grupperPrLinje = linjeListe.ConvertAll(gruppe =>
          {
-            GruppeListe grupper = new GruppeListe
-            {
-               stringListe = gruppe
-            };
+            var grupper = new GruppeListe { stringListe = gruppe };
             grupper.StringToListe();
-            grupperPrLinje.Add(grupper);
-         }
-         grupperPrKolonne = new List<GruppeListe>();
-         foreach (var gruppe in kolonneListe)
+            return grupper;
+         });
+
+         grupperPrKolonne = kolonneListe.ConvertAll(gruppe =>
          {
-            var grupper = new GruppeListe
-            {
-               stringListe = gruppe
-            };
+            var grupper = new GruppeListe { stringListe = gruppe };
             grupper.StringToListe();
-            grupperPrKolonne.Add(grupper);
-         }
+            return grupper;
+         });
+
          LagLinjerOgKollonner();
          history.EtterXml();
 
-         Record = TimeSpan.MaxValue;
-         foreach (var t in Results)
-         {
-            if (t.Value < Record)
-               Record = t.Value;
-         }
+         Record = Results.Min(t => t.Value);
       }
 
       public Plass this[int l, int c] => (l >= 0 && l < nLines && c >= 0 && c < nColumns) ? brett[l, c] : null;
