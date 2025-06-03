@@ -287,6 +287,7 @@ namespace Tallbilde
          }
 
          Invalidate();
+         Step();
       }
 
       private void BrettControl_KeyPress(object sender, KeyPressEventArgs e)
@@ -387,7 +388,7 @@ namespace Tallbilde
             ++n;
          }
 
-         brett.SoFar += new TimeSpan(0, 0, 0, 0, timer.Interval);
+         //brett.SoFar += new TimeSpan(0, 0, 0, 0, timer.Interval);
          SjekkRekord();
          Invalidate();
       }

@@ -159,6 +159,7 @@ namespace Tallbilde
       {
          brett.ForEach(plass => plass.Clear());
          SoFar = TimeSpan.Zero;
+         Step();
       }
 
 
