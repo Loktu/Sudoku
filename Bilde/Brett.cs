@@ -7,7 +7,7 @@ using System.Windows.Forms;
 using System.Xml;
 using System.Xml.Serialization;
 
-namespace Tallbilde
+namespace Bilde
 {
    public class Brett
    {
@@ -514,18 +514,18 @@ namespace Tallbilde
             }
             if (ledige == 0)
             {
-                  if (i > 0)
+               if (i > 0)
+               {
+                  plass[i - 1].Verdi = Verdi.Hvit;
+                  if (i + gruppe.size < plass.Length)
                   {
-                     plass[i - 1].Verdi = Verdi.Hvit;
-                     if (i + gruppe.size < plass.Length)
+                     if (plass[i + gruppe.size].Verdi != Verdi.Hvit)
                      {
-                        if (plass[i + gruppe.size].Verdi != Verdi.Hvit)
-                        {
-                           plass[i + gruppe.size].Verdi = Verdi.Hvit;
-                           done = true;
-                        }
+                        plass[i + gruppe.size].Verdi = Verdi.Hvit;
+                        done = true;
                      }
                   }
+               }
             }
             i += gruppe.size + 1;
          }
@@ -697,7 +697,7 @@ namespace Tallbilde
 
    public class History
    {
-      const int maxCount = 20;
+      const int maxCount = 100;
       [XmlIgnore]
       public List<KeyValuePair<DateTime, TimeSpan>> results = new List<KeyValuePair<DateTime, TimeSpan>>();
 
@@ -767,9 +767,13 @@ namespace Tallbilde
          {
             results = historyForm.GetResults();
          }
+      }
 
+      public void VisGraf()
+      {
+         var historyForm = new HistoryGraphForm(results);
+         historyForm.ShowDialog();
       }
 
    }
-
 }

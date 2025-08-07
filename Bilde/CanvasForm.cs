@@ -2,7 +2,7 @@ using System;
 using System.IO;
 using System.Windows.Forms;
 
-namespace Tallbilde
+namespace Bilde
 {
    public partial class canvasForm : Form
    {
@@ -151,11 +151,6 @@ namespace Tallbilde
          brettControl.Pause();
       }
 
-      private void visHistorieToolStripMenuItem_Click(object sender, EventArgs e)
-      {
-         brettControl.brett.history.VisResultater();
-      }
-
       private void brettControl_KeyDown(object sender, KeyEventArgs e)
       {
          if (e.KeyCode == Keys.S)
@@ -167,6 +162,16 @@ namespace Tallbilde
             brettControl.Pause();
          }
 
+      }
+
+      private void tabellToolStripMenuItem_Click(object sender, EventArgs e)
+      {
+         brettControl.brett.history.VisResultater();
+      }
+
+      private void grafToolStripMenuItem_Click(object sender, EventArgs e)
+      {
+         brettControl.brett.history.VisGraf();
       }
    }
 }

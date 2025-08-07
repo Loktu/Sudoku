@@ -1,6 +1,6 @@
 using System;
 
-namespace Tallbilde
+namespace Bilde
 {
     partial class BrettControl
     {

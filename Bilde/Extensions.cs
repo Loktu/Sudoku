@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace Tallbilde
+namespace Bilde
 {
    public static class Extensions
    {

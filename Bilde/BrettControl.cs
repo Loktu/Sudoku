@@ -5,7 +5,7 @@ using System.Security.Cryptography;
 using System.Windows.Forms;
 using System.Xml.Serialization;
 
-namespace Tallbilde
+namespace Bilde
 {
    public partial class BrettControl : UserControl
    {
@@ -144,6 +144,8 @@ namespace Tallbilde
             int ir = 0;
             int n = Math.Min(brett.Results.Count, ngl-1);
             bool sofarSkrevet = false;
+
+            brett.Results.Sort((x, y) => x.Value.CompareTo(y.Value));
 
             for (int i=0; i < n; ++i)
             {

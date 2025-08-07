@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Tallbilde.Properties {
+namespace Bilde.Properties {
     using System;
     
     

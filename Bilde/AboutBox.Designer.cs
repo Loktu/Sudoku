@@ -1,4 +1,4 @@
-﻿namespace Tallbilde
+﻿namespace Bilde
 {
     partial class AboutBox
     {
