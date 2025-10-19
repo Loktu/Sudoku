@@ -173,5 +173,11 @@ namespace Bilde
       {
          brettControl.brett.history.VisGraf();
       }
+
+      private void autoToolStripMenuItem_Click(object sender, EventArgs e)
+      {
+         brettControl.Auto = this.autoToolStripMenuItem.Checked;
+         brettControl.Invalidate();
+      }
    }
 }

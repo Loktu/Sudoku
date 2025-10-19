@@ -159,7 +159,6 @@ namespace Bilde
       {
          brett.ForEach(plass => plass.Clear());
          SoFar = TimeSpan.Zero;
-         Step();
       }
 
 
@@ -771,8 +770,8 @@ namespace Bilde
 
       public void VisGraf()
       {
-         var historyForm = new HistoryGraphForm(results);
-         historyForm.ShowDialog();
+         var historyGraphForm = new HistoryGraphForm(results);
+         historyGraphForm.Show();
       }
 
    }

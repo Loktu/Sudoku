@@ -17,13 +17,18 @@ namespace Bilde
       public HistoryGraphForm(List<KeyValuePair<DateTime, TimeSpan>> results)
       {
          history = new List<KeyValuePair<DateTime, TimeSpan>>();
+         setResults(results);
+         InitializeComponent();
+      }
 
+      public void setResults(List<KeyValuePair<DateTime, TimeSpan>> results)
+      {
+         history.Clear();
          foreach (var item in results)
          {
             history.Add(item);
          }
          history.Sort((x, y) => x.Key.CompareTo(y.Key));
-         InitializeComponent();
       }
 
       private void graphControl_VisibleChanged(object sender, EventArgs e)
@@ -41,6 +46,13 @@ namespace Bilde
             Color = Color.Green,
             BorderWidth = 2
          };
+         var serie2 = new Series("Point")
+         {
+            ChartType = SeriesChartType.Point,
+            Color = Color.Blue,
+            BorderWidth = 1
+         };
+
 
          // Add data points to the series
          foreach (var kvp in history)
@@ -49,9 +61,12 @@ namespace Bilde
             double totalSeconds = kvp.Value.TotalSeconds;
             double y = kvp.Value.TotalMinutes;
             serie0.Points.AddXY(kvp.Key, y);
+            serie2.Points.AddXY(kvp.Key, y);
          }
+
          serie0.ToolTip = "#SERIESNAME\n#VALX{dd.MMM}\n#VAL{N}";
          graphControl.chart.Series.Add(serie0);
+         graphControl.chart.Series.Add(serie2);
 
          graphControl.SynkroniserYaksene();
 

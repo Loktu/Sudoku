@@ -22,6 +22,7 @@ namespace Bilde
       int yMax = 300;
       readonly Timer timer = new Timer();
       public bool Tellevennlig { get; set; } = false;
+      public bool Auto { get; internal set; } = true;
 
       int currentRow = -1;
       int currentCol = -1;
@@ -289,7 +290,8 @@ namespace Bilde
          }
 
          Invalidate();
-         Step();
+         if (Auto)
+            Step();
       }
 
       private void BrettControl_KeyPress(object sender, KeyPressEventArgs e)
@@ -374,6 +376,8 @@ namespace Bilde
 
          if (brett.HarFasit())
             timer.Start();
+
+         if (Auto) Step();
       }
 
       public void Step()
@@ -384,13 +388,12 @@ namespace Bilde
          if (!timer.Enabled)
             timer.Enabled = true;
 
-         int n = 0;
          while (brett.Step())
          {
-            ++n;
+            if (!Auto)
+               break;
          }
 
-         //brett.SoFar += new TimeSpan(0, 0, 0, 0, timer.Interval);
          SjekkRekord();
          Invalidate();
       }
