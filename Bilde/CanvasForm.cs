@@ -166,7 +166,8 @@ namespace Bilde
 
       private void tabellToolStripMenuItem_Click(object sender, EventArgs e)
       {
-         brettControl.brett.history.VisResultater();
+         if (brettControl.brett.history.VisResultater())
+            brettControl.Save(fileName);
       }
 
       private void grafToolStripMenuItem_Click(object sender, EventArgs e)

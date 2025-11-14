@@ -747,13 +747,16 @@ namespace Bilde
          results.Sort((a, b) => a.Value.CompareTo(b.Value));
       }
 
-      public void VisResultater()
+      public bool VisResultater()
       {
+         bool changed = false;
          var historyForm = new HistoryForm(results);
          if (historyForm.ShowDialog() == DialogResult.OK)
          {
             results = historyForm.GetResults();
+            changed = true;
          }
+         return changed;
       }
 
       public void VisGraf()

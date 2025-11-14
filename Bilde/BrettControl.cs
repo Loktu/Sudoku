@@ -409,6 +409,7 @@ namespace Bilde
                if (!string.IsNullOrEmpty(fileName))
                {
                   Save(fileName);
+                  brett.history.VisGraf();
                }
             }
          }
