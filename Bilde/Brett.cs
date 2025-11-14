@@ -216,25 +216,13 @@ namespace Bilde
          }
       }
 
-      public void SetFasit()
-      {
-         brett.ForEach(plass => plass.SetFasit());
-      }
+      public void SetFasit() => brett.ForEach(plass => plass.SetFasit());
 
-      internal bool HarFasit()
-      {
-         return !brett.Exists(plass => plass.Fasit == Verdi.Ledig);
-      }
+      internal bool HarFasit() => !brett.Exists(plass => plass.Fasit == Verdi.Ledig);
 
-      internal bool Ferdig()
-      {
-         return !brett.Exists(plass => plass.Fasit != plass.Verdi || plass.Verdi == Verdi.Ledig);
-      }
+      internal bool Ferdig() => !brett.Exists(plass => plass.Fasit != plass.Verdi || plass.Verdi == Verdi.Ledig);
 
-      public void CheckFasit()
-      {
-         brett.ForEach(plass => plass.CheckFasit());
-      }
+      public void CheckFasit() => brett.ForEach(plass => plass.CheckFasit());
 
       public bool Step()
       {

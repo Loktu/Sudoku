@@ -414,17 +414,12 @@ namespace Bilde
          }
       }
 
-      public void Tell()
-      {
-         brett.Tell();
-      }
+      public void Tell() => brett.Tell();
 
       private void OnMouseMove(object sender, MouseEventArgs e)
       {
-         int x = (e.X - x0);
-         int y = (e.Y - y0);
-         int j = x / size;
-         int i = y / size;
+         int j = (e.X - x0) / size;
+         int i = (e.Y - y0) / size;
          if (i != mouseRow || j != mouseCol)
          {
             mouseRow = i;
